@@ -97,11 +97,110 @@ describe('Products Route', function () {
                 Product.findById(res.body.id)
                 .then(function (p) {
                     expect(p).to.not.be.null;
-                    expect(res.body).to.eql(toPlainObject(p));
+                    expect(res.body.id).to.eql(toPlainObject(p).id);
                     done();
                 })
                 .catch(done);
             });
+        });
+
+    });
+
+    describe("GET one by ID", function (done) {
+
+        it("gets one product by ID", function (done) {
+            agent.get('/api/products/' + product1.id)
+            .expect(200)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.description).to.equal(product1.description);
+                done()
+            });
+        });
+
+        it("gets one that doesnt exist", function (done) {
+            agent.get('/api/products/123456')
+            .expect(404)
+            .end(done);
+        });
+
+        it("gets one with an invalid ID", function (done) {
+            agent.get('/api/products/hfdjkslhfiul')
+            .expect(500)
+            .end(done);
+        });
+
+    });
+
+    describe("PUT one", function (done) {
+
+        it("updates one existing product", function (done) {
+            agent.put('/api/products/' + product1.id)
+            .send({
+                name : 'Shagel 2'
+            })
+            .expect(200)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.name).to.equal("Shagel 2");
+                expect(res.body.id).to.exist;
+                Product.findById(res.body.id)
+                .then(function (p) {
+                    expect(p).to.not.be.null;
+                    expect(res.body.id).to.eql(toPlainObject(p).id);
+                    done();
+                })
+                .catch(done);
+            });
+        });
+
+        it("updates one that doesnt exist", function (done) {
+            agent.put('/api/products/123456')
+            .send({
+                name : 'Shagel 2'
+            })
+            .expect(404)
+            .end(done);
+        });
+
+        it("updates one with an invalid ID", function (done) {
+            agent.put('/api/products/hfdjkslhfiul')
+            .send({
+                name : 'Shagel 2'
+            })
+            .expect(500)
+            .end(done);
+        });
+
+    });
+
+
+    describe("DELETE one", function (done) {
+
+        it("deletes one existing product", function (done) {
+            agent.delete('/api/products/' + product1.id)
+            .expect(204)
+            .end(function (err, res) {
+                if (err) return done(err);
+                Product.findById(product1.id)
+                .then(function (p) {
+                    expect(p).to.be.null;
+                    done();
+                })
+                .catch(done);
+            });
+        });
+
+        it("deletes one that doesnt exist", function (done) {
+            agent.delete('/api/products/123456')
+            .expect(404)
+            .end(done);
+        });
+
+        it("deletes one with an invalid ID", function (done) {
+            agent.delete('/api/products/hfdjkslhfiul')
+            .expect(500)
+            .end(done);
         });
 
     });
