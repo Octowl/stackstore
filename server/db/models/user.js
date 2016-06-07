@@ -6,11 +6,38 @@ var Sequelize = require('sequelize');
 module.exports = function (db) {
 
     db.define('user', {
+        firstName: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        lastName: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         email: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
+            validate: {
+                isEmail: true
+            }
         },
         password: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        address: {
+            type: Sequelize.STRING,
+        },
+        isAdmin: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
+        },
+        image: {
+            type: Sequelize.STRING,
+            defaultValue: 'http://c.directlyrics.com/img/upload/taylor-swift-apple-music.jpg'
+        },
+        rating: {
+            type: Sequelize.FLOAT
         },
         salt: {
             type: Sequelize.STRING
