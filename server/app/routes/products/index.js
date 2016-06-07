@@ -7,10 +7,11 @@ var db = require('../../../db');
 var Product = db.model('product');
 var router = require('express').Router();
 
+
 module.exports = router;
 
 router.get('/', function(req, res, next){
-    Product.findAll()
+    Product.findAll({})
     .then(function(products){
         res.send(products);
     })

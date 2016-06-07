@@ -2,12 +2,10 @@
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-var dbURI = 'postgres://localhost:5432/testing-cove';
-var db = new Sequelize(dbURI, {
-    logging: false
-});
-require('../../../server/db/models/product')(db);
-require('../../../server/db/models/user')(db);
+
+process.env.NODE_ENV = 'testing';
+
+var db = require('../../../server/db');
 
 var supertest = require('supertest');
 
@@ -44,7 +42,8 @@ describe('Products Route', function () {
             })
             .then(function (p) {
                 product2 = p;
-            });
+            })
+            .catch(console.err);
     });
 
     beforeEach('Create guest agent', function () {
@@ -64,6 +63,7 @@ describe('Products Route', function () {
                 if (err) return done(err);
                 expect(res.body).to.be.instanceof(Array);
                 expect(res.body).to.have.length(2);
+                done();
             });
     });
 
