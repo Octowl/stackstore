@@ -1,3 +1,5 @@
+/* jshint node: true, mocha: true */
+
 // Instantiate all models
 var expect = require('chai').expect;
 
@@ -8,6 +10,12 @@ process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
 
 var supertest = require('supertest');
+
+function toPlainObject(instance) {
+    return instance.get({
+        plain: true
+    });
+}
 
 describe('Products Route', function () {
 
@@ -49,26 +57,54 @@ describe('Products Route', function () {
     beforeEach('Create guest agent', function () {
         agent = supertest.agent(app);
     });
-
+    
     afterEach('Sync DB', function () {
         return db.sync({
             force: true
         });
     });
 
-    it('GET all products', function (done) {
-        agent.get('/api/products')
-            .expect(200)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body).to.be.instanceof(Array);
-                expect(res.body).to.have.length(2);
-                done();
-            });
+    describe("GET all", function () {
+
+        it('gets all products', function (done) {
+            agent.get('/api/products')
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    expect(res.body).to.be.instanceof(Array);
+                    expect(res.body).to.have.length(2);
+                    done();
+                });
+        });
+
     });
 
-    // it("POST creates a new product", function (done) {
-    //
-    // });
+    describe("POST one", function (done) {
+
+        it("creates a new product", function (done) {
+            agent.post('/api/products')
+            .send({
+                name: "Shagel",
+                description: "gel and things",
+                price: 4.5,
+                inventory: 8
+            })
+            .expect(201)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.description).to.equal("gel and things");
+                expect(res.body.id).to.exist;
+                Product.findById(res.body.id)
+                .then(function (p) {
+                    expect(p).to.not.be.null;
+                    expect(res.body).to.eql(toPlainObject(p));
+                    done();
+                })
+                .catch(done);
+            });
+        });
+
+    });
+
 
 });
