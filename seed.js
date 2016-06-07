@@ -20,6 +20,7 @@ name in the environment files.
 var chalk = require('chalk');
 var db = require('./server/db');
 var User = db.model('user');
+var Prodcut = db.model('product');
 var Promise = require('sequelize').Promise;
 
 var seedUsers = function () {

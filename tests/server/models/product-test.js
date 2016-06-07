@@ -2,7 +2,7 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-var dbURI = 'postgres://localhost:5432/testing-fsg';
+var dbURI = 'postgres://localhost:5432/testing-cove';
 var db = new Sequelize(dbURI, {
     logging: false
 });
@@ -15,8 +15,6 @@ describe('Product model', function () {
 
     beforeEach('Sync DB', function () {
        return db.sync({ force: true });
-    });
-
     });
 
 });
