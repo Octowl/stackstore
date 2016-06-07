@@ -28,19 +28,13 @@ module.exports = function (app, db) {
 
     passport.use(new LocalStrategy({usernameField: 'email', passwordField: 'password'}, strategyFn));
 
+
     app.post('/signup', function (req, res, next) {
         console.log('were at signup'); 
         User.create(req.body)
         .then(function(){
             var authCb = function (err, user) {
 
-                if (err) return next(err);
-
-                if (!user) {
-                    var error = new Error('Invalid login credentials.');
-                    error.status = 401;
-                    return next(error);
-                }
 
                 // req.logIn will establish our session.
                 req.logIn(user, function (loginErr) {
@@ -56,7 +50,7 @@ module.exports = function (app, db) {
             passport.authenticate('local', authCb)(req, res, next);
             
         })
-       //.catch(next); 
+       .catch(next); 
 
     });
     // A POST /login route is created to handle login.

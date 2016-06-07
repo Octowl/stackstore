@@ -16,7 +16,10 @@ module.exports = function (db) {
         },
         email: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isEmail: true
+            }
         },
         password: {
             type: Sequelize.STRING,
