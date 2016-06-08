@@ -32,7 +32,7 @@ describe('Products Route', function () {
         Product = db.model('product');
     });
 
-    beforeEach('Create a product', function () {
+    beforeEach('Create a product', function (done) {
         return Product.create({
                 name: 'cigarets',
                 description: 'marlboro',
@@ -50,8 +50,9 @@ describe('Products Route', function () {
             })
             .then(function (p) {
                 product2 = p;
+                done();
             })
-            .catch(console.err);
+            .catch(done);
     });
 
     beforeEach('Create guest agent', function () {
