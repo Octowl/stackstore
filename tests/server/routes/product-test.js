@@ -2,13 +2,9 @@
 
 // Instantiate all models
 var expect = require('chai').expect;
-
 var Sequelize = require('sequelize');
-
 process.env.NODE_ENV = 'testing';
-
 var db = require('../../../server/db');
-
 var supertest = require('supertest');
 
 function toPlainObject(instance) {
@@ -32,7 +28,7 @@ describe('Products Route', function () {
         Product = db.model('product');
     });
 
-    beforeEach('Create a product', function () {
+    beforeEach('Create a product', function (done) {
         return Product.create({
                 name: 'cigarets',
                 description: 'marlboro',
@@ -50,14 +46,15 @@ describe('Products Route', function () {
             })
             .then(function (p) {
                 product2 = p;
+                done();
             })
-            .catch(console.err);
+            .catch(done);
     });
 
     beforeEach('Create guest agent', function () {
         agent = supertest.agent(app);
     });
-    
+
     afterEach('Sync DB', function () {
         return db.sync({
             force: true

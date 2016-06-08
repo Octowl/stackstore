@@ -1,26 +1,24 @@
 /* jshint node:true*/
-
 'use strict';
 
-
 var db = require('../../../db');
-var Product = db.model('product');
+var Location = db.model('location');
 var router = require('express').Router();
 
 module.exports = router;
 
 router.param('id', function (req, res, next, theId) {
-    Product.findById(theId)
-        .then(function (foundProduct) {
-            if (!foundProduct) res.sendStatus(404);
-            else req.productInstance = foundProduct;
+    Location.findById(theId)
+        .then(function (foundLocation) {
+            if (!foundLocation) res.sendStatus(404);
+            else req.productInstance = foundLocation;
             next();
         })
         .catch(next);
 });
 
 router.get('/', function (req, res, next) {
-    Product.findAll({})
+    Location.findAll({})
         .then(function (products) {
             res.send(products);
         })
@@ -28,9 +26,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    Product.create(req.body)
-        .then(function (createdProduct) {
-            res.status(201).send(createdProduct);
+    Location.create(req.body)
+        .then(function (createdLocation) {
+            res.status(201).send(createdLocation);
         })
         .catch(next);
 });
@@ -41,8 +39,8 @@ router.get('/:id', function (req, res, next) {
 
 router.put('/:id', function (req, res, next) {
     req.productInstance.update(req.body)
-        .then(function (updatedProduct) {
-            res.send(updatedProduct);
+        .then(function (updatedLocation) {
+            res.send(updatedLocation);
         })
         .catch(next);
 });
