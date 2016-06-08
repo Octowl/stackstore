@@ -17,7 +17,7 @@ router.param('id', function(req, res, next, theId){
 		next();
 	})
 	.catch(next);
-})
+});
 
 router.get('/', function(req, res, next){
     Reviews.findAll({})
@@ -33,11 +33,11 @@ router.post('/', function(req, res, next){
 		res.status(201).send(createdReview);
 	})
 	.catch(next);
-})
+});
 
 router.get('/:id', function(req, res, next){
 	res.send(req.reviewInstance);
-})
+});
 
 router.put('/:id', function(req, res, next){
 	req.reviewInstance.update(req.body)
@@ -45,7 +45,7 @@ router.put('/:id', function(req, res, next){
 		res.send(updatedReview);
 	})
 	.catch(next);
-})
+});
 
 router.delete('/:id', function(req, res, next){
 	req.reviewInstance.destroy()
@@ -53,4 +53,4 @@ router.delete('/:id', function(req, res, next){
 		res.sendStatus(204);
 	})
 	.catch(next);
-})
+});

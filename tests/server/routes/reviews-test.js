@@ -33,7 +33,7 @@ describe('Reviews Route', function () {
     });
 
 
-    beforeEach('Create a review', function () {
+    beforeEach('Create a review', function (done) {
         return Reviews.create({
                 stars: 1,
                 comment: 'horrible product'
@@ -47,14 +47,15 @@ describe('Reviews Route', function () {
             })
             .then(function (r) {
                 review2 = r;
+                done();
             })
-            .catch(console.err);
+            .catch(done);
     });
 
     beforeEach('Create guest agent', function () {
         agent = supertest.agent(app);
     });
-    
+
     afterEach('Sync DB', function () {
         return db.sync({
             force: true
