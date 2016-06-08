@@ -36,12 +36,11 @@ module.exports = function (db) {
 
     // Error catching endware.
     app.use(function (err, req, res, next) {
-        console.error(err);
-        console.error(err.stack);
+        // console.error(err);
+        // console.error(err.stack);
         res.status(err.status || 500).send(err.message || 'Internal server error.');
     });
 
     return app;
 
 };
-
