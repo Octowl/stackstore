@@ -5,8 +5,8 @@ describe("Product Factory", function () {
 
     var endpoint = '/api/products';
     var Product, $httpBackend;
-    beforeEach(inject(function (_Product_, _$httpBackend_) {
-        Product = _Product_;
+    beforeEach(inject(function (_ProductFactory_, _$httpBackend_) {
+        ProductFactory = _ProductFactory_;
         $httpBackend = _$httpBackend_;
     }));
 
@@ -48,7 +48,7 @@ describe("Product Factory", function () {
         it("gets all the products", function () {
             var products;
             // $httpBackend.expectGET(endpoint);
-            Product.getAll()
+            ProductFactory.getAll()
                 .then(function (foundProducts) {
                     products = foundProducts;
                 })

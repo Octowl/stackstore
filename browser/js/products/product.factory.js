@@ -1,4 +1,4 @@
-app.factory('Product', function ($http) {
+app.factory('ProductFactory', function ($http) {
     var ProductFactory = {};
 
     function resToData(res) {

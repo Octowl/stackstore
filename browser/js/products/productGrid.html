@@ -1,41 +1,22 @@
-<!-- <h1>HI</h1>
-<pre>
-    {{products}}
-</pre>
-<div ng-repeat="product in products">
-    <h1>{{product}}</h1>
-</div> -->
-
-
-<!-- <div class="container">
-    <div class="well well-sm">
-        <strong>Display</strong>
-        <div class="btn-group">
-            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-globe">
-            </span>Map</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
-                class="glyphicon glyphicon-th"></span>Grid</a>
-        </div>
-    </div> -->
-    <div id="products" class="row list-group" >
-        <div class="item  col-xs-4 col-lg-4" ng-repeat="product in products">
-            <div class="thumbnail">
-                <img class="group list-group-image" src={{product.photoUrl}} alt="" />
-                <div class="caption">
-                    <h4 class="group inner list-group-item-heading">
+<div id="products" class="row list-group">
+    <div class="item  col-xs-4 col-lg-4" ng-repeat="product in products">
+        <div class="thumbnail">
+            <img class="group list-group-image" src={{product.photoUrl}} alt="" />
+            <div class="caption">
+                <h4 class="group inner list-group-item-heading">
                         {{product.name}}</h4>
-                    <p class="group inner list-group-item-text">
-                        {{product.description}}</p>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <p class="lead">
-                                ${{product.price}}</p>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
-                        </div>
+                <p class="group inner list-group-item-text">
+                    {{product.description}}</p>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <p class="lead">
+                            ${{product.price}}</p>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<!-- </div> -->
+</div>
