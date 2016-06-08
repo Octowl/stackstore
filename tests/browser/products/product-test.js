@@ -1,6 +1,6 @@
 describe("Product Factory", function () {
 
-    
+
     beforeEach(module('Cove'));
 
     var endpoint = '/api/products';
@@ -9,6 +9,11 @@ describe("Product Factory", function () {
         Product = _Product_;
         $httpBackend = _$httpBackend_;
     }));
+
+    beforeEach(function() {
+        $httpBackend.whenGET('*.html')
+        .respond(200);
+    })
 
     afterEach(function () {
         try {
@@ -37,8 +42,9 @@ describe("Product Factory", function () {
             $httpBackend.expectGET(endpoint)
                 .respond(200, productArray);
         });
-//don't you need a done since this is "async"
 
+
+        // TODO:  still have to fix this test
         it("gets all the products", function () {
             var products;
             // $httpBackend.expectGET(endpoint);
