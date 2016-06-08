@@ -5,6 +5,7 @@
 
 var db = require('../../../db');
 var Product = db.model('product');
+var Reviews = db.model('reviews');
 var router = require('express').Router();
 
 module.exports = router;
@@ -38,6 +39,17 @@ router.post('/', function (req, res, next) {
 router.get('/:id', function (req, res, next) {
     res.send(req.productInstance);
 });
+
+// router.post('/:id/review', function (req, res, next) {
+//     Reviews.create(req.body)
+//     .then(function(createdReview){
+//         return req.productInstance.addReviews(createdReview)
+//     })
+//     .then(function(product){
+//         console.log(product)
+//         res.sendStatus(201)
+//     })
+// });
 
 router.put('/:id', function (req, res, next) {
     req.productInstance.update(req.body)

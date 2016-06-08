@@ -19,7 +19,7 @@ function toPlainObject(instance) {
 
 describe('Reviews Route', function () {
 
-    var app, Reviews, review1, review2, agent;
+    var app, Reviews, review1, review2, agent, Product;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -30,6 +30,7 @@ describe('Reviews Route', function () {
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
         Reviews = db.model('reviews');
+        Product = db.model('product');
     });
 
 
@@ -79,8 +80,24 @@ describe('Reviews Route', function () {
 
     describe("POST one", function (done) {
 
+        var product1;
+
+        beforeEach('Create a product', function (done) {
+            return Product.create({
+                    name: 'cigarets',
+                    description: 'marlboro',
+                    price: 40,
+                    inventory: 50
+                })
+                .then(function (p) {
+                    product1 = p;
+                    done();
+                })
+                .catch(done);
+        });
+
         it("creates a new review", function (done) {
-            agent.post('/api/reviews')
+            agent.post('/api/reviews/' + product1.id)
             .send({
                 stars: 2,
                 comment: 'bad thing'
@@ -94,6 +111,25 @@ describe('Reviews Route', function () {
                 .then(function (p) {
                     expect(p).to.not.be.null;
                     expect(res.body.id).to.eql(toPlainObject(p).id);
+                    done();
+                })
+                .catch(done);
+            });
+        });
+
+        it("associates review with product", function (done) {
+            agent.post('/api/reviews/' + product1.id)
+            .send({
+                stars: 2,
+                comment: 'bad thing'
+            })
+            .expect(201)
+            .end(function (err, res) {
+                if (err) return done(err);
+                Reviews.findById(res.body.id)
+                .then(function (r) {
+                    expect(r).to.not.be.null;
+                    expect(r.productId).to.eql(product1.id);
                     done();
                 })
                 .catch(done);
