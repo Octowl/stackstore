@@ -1,6 +1,6 @@
 module.exports = {
   "DATABASE_URI": "postgres://localhost:5432/testing-cove",
-  "SESSION_SECRET": "Optimus Prime is my real dad",
+  "SESSION_SECRET": "Optimus Prime is my real mom :O",
   "TWITTER": {
     "consumerKey": "INSERT_TWITTER_CONSUMER_KEY_HERE",
     "consumerSecret": "INSERT_TWITTER_CONSUMER_SECRET_HERE",
