@@ -4,14 +4,16 @@ var db = require('../../db');
 var User = db.model('user');
 module.exports = router;
 
-router.get('/:id', function(req, res, next){
-	var id = Number(req.params.id);
-	// console.log("USER MODEL", User);
-	// 	console.log("THIS IS THE ID", id);
+router.param('id', function(req, res, next, id){
 	User.findById(id)
 	.then(function(user){
-		//console.log(user);
-		res.send(user);
+		req.user = user;
+		next(); 
 	})
 	.catch(next);
+})
+
+router.get('/:id', function(req, res, next){
+	if(req.user) res.send(req.user);
+	else res.sendStatus(404);
 })
