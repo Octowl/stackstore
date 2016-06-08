@@ -20,8 +20,38 @@ name in the environment files.
 var chalk = require('chalk');
 var db = require('./server/db');
 var User = db.model('user');
-var Prodcut = db.model('product');
+var Product = db.model('product');
 var Promise = require('sequelize').Promise;
+
+var seedProducts = function() {
+
+    var products = [
+        {
+            name : 'Marlboro Light',
+            description : 'cigarets',
+            price : 40,
+            inventory : 10
+        },
+        {
+            name : 'Shagel',
+            description : 'Shower Gel',
+            price : 5,
+            inventory : 100
+        },
+        {
+            name : 'Perfume 1',
+            description : 'Musc',
+            price : 40,
+            inventory : 10
+        }
+    ];
+
+    var creatingProducts = products.map(function(productObj){
+        return Product.create(productObj);
+    })
+
+    return Promise.all(creatingProducts);
+}
 
 var seedUsers = function () {
 
@@ -47,6 +77,9 @@ var seedUsers = function () {
 db.sync({ force: true })
     .then(function () {
         return seedUsers();
+    })
+    .then(function(){
+        return seedProducts();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));

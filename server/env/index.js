@@ -5,8 +5,8 @@ var testingConfigPath = path.join(__dirname, './testing.js');
 
 if (process.env.NODE_ENV === 'production') {
     module.exports = require(productionConfigPath);
-} else if(process.env.NODE_ENV === 'development') {
-    module.exports = require(devConfigPath);
+} else if(process.env.NODE_ENV === 'testing') {
+    module.exports = require(testingConfigPath);
 } else {
-	module.exports = require(testingConfigPath);
+	module.exports = require(devConfigPath);
 }
