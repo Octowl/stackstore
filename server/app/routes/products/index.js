@@ -35,6 +35,13 @@ router.post('/', function(req, res, next){
 	.catch(next);
 })
 
+router.get('/:id/add', function(req, res, next){
+	req.cart.addProduct(req.productInstance)
+	.then(function(createdOrderItem){
+		res.send(createdOrderItem); 
+	})
+})
+
 router.get('/:id', function(req, res, next){
 	res.send(req.productInstance);
 })

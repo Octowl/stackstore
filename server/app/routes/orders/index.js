@@ -18,6 +18,15 @@ router.param('id', function(req, res, next, theId){
     .catch(next);
 })
 
+// router.param('productId', function(req, res, next, theProductId){
+// 	Product.findById(theProductId)
+// 	.then(function(foundProduct){
+// 		if(!foundProduct) res.sendStatus(404);
+// 		else req.productInstance = foundProduct;
+// 		next();
+// 	})
+// })
+
 router.get('/', function(req, res, next){
     Orders.findAll({})
     .then(function(orders){
@@ -30,6 +39,7 @@ router.get('/:id', function(req, res, next){
     res.send(req.orderInstance);
 })
 
+//Is this how orders are going to actually get created? 
 router.post('/', function(req, res, next){
 	Orders.create(req.body)
 	.then(function(createdOrder){
@@ -53,3 +63,4 @@ router.delete('/:id', function(req, res, next){
 	})
 	.catch(next);
 })
+
