@@ -11,7 +11,7 @@ app.config(function ($urlRouterProvider, $locationProvider) {
         window.location.reload();
     });
 
-    $urlRouterProvider.when('/', '/grid');
+    $urlRouterProvider.when('/', '/products/grid');
 });
 
 // This app.run is for controlling access to specific states.
