@@ -8,5 +8,5 @@ app.config(function ($stateProvider) {
                 return Product.getAll();
             }
         }
-    })
+    });
 });
