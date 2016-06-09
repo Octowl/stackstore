@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/* jshint node:true */
 'use strict';
 var db = require('./_db');
 module.exports = db;
@@ -9,7 +9,12 @@ require('./models/reviews')(db);
 require('./models/location')(db);
 require('./models/orders')(db);
 
+
+var Product = db.model('product');
+var Location = db.model('location');
 var Reviews = db.model('reviews')
-var Product = db.model('product')
+
+Product.belongsTo(Location);
+
 
 Product.hasMany(Reviews)
