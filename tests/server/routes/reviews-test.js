@@ -136,6 +136,18 @@ describe('Reviews Route', function () {
             });
         });
 
+        it("posts one that doesnt exist", function (done) {
+            agent.post('/api/reviews/123456')
+            .expect(404)
+            .end(done);
+        });
+
+        it("posts one with an invalid ID", function (done) {
+            agent.post('/api/reviews/hfdjkslhfiul')
+            .expect(500)
+            .end(done);
+        });
+
     });
 
     describe("GET one by ID", function (done) {
