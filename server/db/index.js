@@ -21,5 +21,7 @@ Orders.belongsToMany(Product, {through: OrderItem});
 Product.belongsToMany(Orders, {through: OrderItem});
 
 Product.belongsTo(Location);
-
 Product.hasMany(Reviews);
+
+Orders.belongsTo(User);
+User.hasMany(Orders);

@@ -16,7 +16,7 @@ function toPlainObject(instance) {
 
 describe('Orders Route', function () {
 
-    var app, Orders, order1, order2, agent;
+    var app, Orders, order1, order2, agent, User;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -27,6 +27,7 @@ describe('Orders Route', function () {
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
         Orders = db.model('orders');
+        User = db.model('user');
     });
 
     beforeEach('Create an order', function () {
@@ -98,8 +99,24 @@ describe('Orders Route', function () {
 
     describe('POST one order', function(done){
 
+        var user;
+
+        beforeEach('Create a user', function (done) {
+            return User.create({
+                    firstName: 'Matt',
+                    lastName : 'Landers',
+                    email : 'mattlanders@smartpeople.com',
+                    password : 'Jennaisthebestandsmartest'
+                })
+                .then(function (u) {
+                    user = u;
+                    done();
+                })
+                .catch(done);
+        });
+
         it('creates a new order', function(done){
-            agent.post('/api/orders')
+            agent.post('/api/orders/' + user.id)
             .send({
                 active : false
             })
@@ -107,6 +124,7 @@ describe('Orders Route', function () {
             .end(function(err,res){
                 if(err) return done(err);
                 expect(res.body.active).to.equal(false);
+                expect(res.body.userId).to.equal(1);
                 expect(res.body.id).to.exist;
                 Orders.findById(res.body.id)
                 .then(function(o){
