@@ -18,6 +18,7 @@ router.param('id', function(req, res, next, theId){
     .catch(next);
 })
 
+//Might need for adding items. 
 // router.param('productId', function(req, res, next, theProductId){
 // 	Product.findById(theProductId)
 // 	.then(function(foundProduct){

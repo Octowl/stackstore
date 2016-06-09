@@ -10,17 +10,22 @@ var router = require('express').Router();
 
 module.exports = router;
 
-//NOTE THE PRICE IS NOT SET HERE PURPOSEFULLY!
-//It is not set here because a price only becomes fixed when the order is placed.
-router.post('/:productId', function (req, res, next) {
-	var id = req.params.productId;
-	 
-	req.cart.addProduct(req.body)
-	.then(function(createdOrderItem){
-		res.send(createdOrderItem); 
+router.param('id', function(req, res, next, id){
+	OrderItem.findById(id)
+	.then(function(orderItem){
+		if(!orderItem) res.sendStatus(404);
+		else {
+			req.orderItem = orderItem; 
+			next();
+		} 
 	})
-  .catch(next);
-});
+	.catch(next);
+})
 
+router.get('/:id', function(req, res, next){
+	res.send(req.orderItem); 
+})
 
-
+router.put('/:id', function(req, res, next){
+	req.orderItem.update(req.body); 
+})

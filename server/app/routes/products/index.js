@@ -37,8 +37,15 @@ router.post('/', function(req, res, next){
 
 router.get('/:id/add', function(req, res, next){
 	req.cart.addProduct(req.productInstance)
-	.then(function(createdOrderItem){
-		res.send(createdOrderItem); 
+	.then(function(updatedCart){
+		res.send(updatedCart); 
+	})
+})
+
+router.get('/:id/remove', function(req, res, next){
+	req.cart.removeProduct(req.productInstance)
+	.then(function(updatedCart){
+		res.send(updatedCart); 
 	})
 })
 

@@ -5,9 +5,12 @@ var Sequelize = require('sequelize');
 module.exports = function(db) {
     db.define('orderItem', {
         price: {
-            type: Sequelize.FLOAT,
-            allowNull: false,
-            defaultValue: 0.00
+            type: Sequelize.FLOAT
+        },
+        quantity: {
+        	type: Sequelize.INTEGER,
+        	allowNull: false,
+        	defaultValue: 1
         }
     });
 };
