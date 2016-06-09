@@ -5,26 +5,27 @@
 
 var db = require('../../../db');
 var Product = db.model('product');
+var Reviews = db.model('reviews');
 var router = require('express').Router();
 
 module.exports = router;
 
-router.param('id', function(req, res, next, theId){
-	Product.findById(theId)
-	.then(function(foundProduct){
-		if(!foundProduct) res.sendStatus(404);
-		else req.productInstance = foundProduct;
-		next();
-	})
-	.catch(next);
+router.param('id', function (req, res, next, theId) {
+    Product.findById(theId)
+        .then(function (foundProduct) {
+            if (!foundProduct) res.sendStatus(404);
+            else req.productInstance = foundProduct;
+            next();
+        })
+        .catch(next);
 });
 
-router.get('/', function(req, res, next){
+router.get('/', function (req, res, next) {
     Product.findAll({})
-    .then(function(products){
-        res.send(products);
-    })
-    .catch(next);
+        .then(function (products) {
+            res.send(products);
+        })
+        .catch(next);
 });
 
 router.post('/', function(req, res, next){

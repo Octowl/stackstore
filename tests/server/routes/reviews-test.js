@@ -1,9 +1,9 @@
 /* jshint node: true, mocha: true */
 
 // Instantiate all models
+process.env.NODE_ENV = 'testing';
 var expect = require('chai').expect;
 var Sequelize = require('sequelize');
-process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
 var supertest = require('supertest');
 
@@ -13,9 +13,9 @@ function toPlainObject(instance) {
     });
 }
 
-describe('Products Route', function () {
+describe('Reviews Route', function () {
 
-    var app, Product, product1, product2, agent;
+    var app, Reviews, review1, review2, agent, Product;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -25,27 +25,25 @@ describe('Products Route', function () {
 
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
+        Reviews = db.model('reviews');
         Product = db.model('product');
     });
 
-    beforeEach('Create a product', function (done) {
-        return Product.create({
-                name: 'cigarets',
-                description: 'marlboro',
-                price: 40,
-                inventory: 50
+
+    beforeEach('Create a review', function (done) {
+        return Reviews.create({
+                stars: 1,
+                comment: 'horrible product'
             })
-            .then(function (p) {
-                product1 = p;
-                return Product.create({
-                    name: 'shagel',
-                    description: 'shagel vanilla',
-                    price: 5,
-                    inventory: 120
+            .then(function (r) {
+                review1 = r;
+                return Reviews.create({
+                    stars: 5,
+                    comment: 'cool'
                 });
             })
-            .then(function (p) {
-                product2 = p;
+            .then(function (r) {
+                review2 = r;
                 done();
             })
             .catch(done);
@@ -63,8 +61,8 @@ describe('Products Route', function () {
 
     describe("GET all", function () {
 
-        it('gets all products', function (done) {
-            agent.get('/api/products')
+        it('gets all reviews', function (done) {
+            agent.get('/api/reviews')
                 .expect(200)
                 .end(function (err, res) {
                     if (err) return done(err);
@@ -78,20 +76,34 @@ describe('Products Route', function () {
 
     describe("POST one", function (done) {
 
-        it("creates a new product", function (done) {
-            agent.post('/api/products')
+        var product;
+
+        beforeEach('Create a product', function (done) {
+            return Product.create({
+                    name: 'cigarets',
+                    description: 'marlboro',
+                    price: 40,
+                    inventory: 50
+                })
+                .then(function (p) {
+                    product = p;
+                    done();
+                })
+                .catch(done);
+        });
+
+        it("creates a new review", function (done) {
+            agent.post('/api/reviews/' + product.id)
             .send({
-                name: "Shagel",
-                description: "gel and things",
-                price: 4.5,
-                inventory: 8
+                stars: 2,
+                comment: 'bad thing'
             })
             .expect(201)
             .end(function (err, res) {
                 if (err) return done(err);
-                expect(res.body.description).to.equal("gel and things");
+                expect(res.body.comment).to.equal("bad thing");
                 expect(res.body.id).to.exist;
-                Product.findById(res.body.id)
+                Reviews.findById(res.body.id)
                 .then(function (p) {
                     expect(p).to.not.be.null;
                     expect(res.body.id).to.eql(toPlainObject(p).id);
@@ -101,28 +113,59 @@ describe('Products Route', function () {
             });
         });
 
+        it("associates review with product", function (done) {
+            agent.post('/api/reviews/' + product.id)
+            .send({
+                stars: 2,
+                comment: 'bad thing'
+            })
+            .expect(201)
+            .end(function (err, res) {
+                if (err) return done(err);
+                Reviews.findById(res.body.id)
+                .then(function (r) {
+                    expect(r).to.not.be.null;
+                    expect(r.productId).to.eql(product.id);
+                    done();
+                })
+                .catch(done);
+            });
+        });
+
+        it("posts one that doesnt exist", function (done) {
+            agent.post('/api/reviews/123456')
+            .expect(404)
+            .end(done);
+        });
+
+        it("posts one with an invalid ID", function (done) {
+            agent.post('/api/reviews/hfdjkslhfiul')
+            .expect(500)
+            .end(done);
+        });
+
     });
 
     describe("GET one by ID", function (done) {
 
-        it("gets one product by ID", function (done) {
-            agent.get('/api/products/' + product1.id)
+        it("gets one review by ID", function (done) {
+            agent.get('/api/reviews/' + review1.id)
             .expect(200)
             .end(function (err, res) {
                 if (err) return done(err);
-                expect(res.body.description).to.equal(product1.description);
+                expect(res.body.comment).to.equal(review1.comment);
                 done()
             });
         });
 
         it("gets one that doesnt exist", function (done) {
-            agent.get('/api/products/123456')
+            agent.get('/api/reviews/123456')
             .expect(404)
             .end(done);
         });
 
         it("gets one with an invalid ID", function (done) {
-            agent.get('/api/products/hfdjkslhfiul')
+            agent.get('/api/reviews/hfdjkslhfiul')
             .expect(500)
             .end(done);
         });
@@ -131,17 +174,17 @@ describe('Products Route', function () {
 
     describe("PUT one", function (done) {
 
-        it("updates one existing product", function (done) {
-            agent.put('/api/products/' + product1.id)
+        it("updates one existing review", function (done) {
+            agent.put('/api/reviews/' + review1.id)
             .send({
-                name : 'Shagel 2'
+                stars: 3
             })
             .expect(200)
             .end(function (err, res) {
                 if (err) return done(err);
-                expect(res.body.name).to.equal("Shagel 2");
+                expect(res.body.stars).to.equal(3);
                 expect(res.body.id).to.exist;
-                Product.findById(res.body.id)
+                Reviews.findById(res.body.id)
                 .then(function (p) {
                     expect(p).to.not.be.null;
                     expect(res.body.id).to.eql(toPlainObject(p).id);
@@ -152,18 +195,18 @@ describe('Products Route', function () {
         });
 
         it("updates one that doesnt exist", function (done) {
-            agent.put('/api/products/123456')
+            agent.put('/api/reviews/123456')
             .send({
-                name : 'Shagel 2'
+                stars: 1
             })
             .expect(404)
             .end(done);
         });
 
         it("updates one with an invalid ID", function (done) {
-            agent.put('/api/products/hfdjkslhfiul')
+            agent.put('/api/reviews/hfdjkslhfiul')
             .send({
-                name : 'Shagel 2'
+                stars: 1
             })
             .expect(500)
             .end(done);
@@ -174,14 +217,14 @@ describe('Products Route', function () {
 
     describe("DELETE one", function (done) {
 
-        it("deletes one existing product", function (done) {
-            agent.delete('/api/products/' + product1.id)
+        it("deletes one existing review", function (done) {
+            agent.delete('/api/reviews/' + review1.id)
             .expect(204)
             .end(function (err, res) {
                 if (err) return done(err);
-                Product.findById(product1.id)
-                .then(function (p) {
-                    expect(p).to.be.null;
+                Reviews.findById(review1.id)
+                .then(function (r) {
+                    expect(r).to.be.null;
                     done();
                 })
                 .catch(done);
@@ -189,13 +232,13 @@ describe('Products Route', function () {
         });
 
         it("deletes one that doesnt exist", function (done) {
-            agent.delete('/api/products/123456')
+            agent.delete('/api/reviews/123456')
             .expect(404)
             .end(done);
         });
 
         it("deletes one with an invalid ID", function (done) {
-            agent.delete('/api/products/hfdjkslhfiul')
+            agent.delete('/api/reviews/hfdjkslhfiul')
             .expect(500)
             .end(done);
         });

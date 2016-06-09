@@ -3,7 +3,7 @@
 
 var Sequelize = require('sequelize');
 
-var productPlaceholderImage = 'http://localhost:1337/Images/product_placeholder.jpg'
+var productPlaceholderImage = 'http://localhost:1337/Images/product_placeholder.jpg';
 
 module.exports = function(db) {
     db.define('product', {
@@ -30,7 +30,7 @@ module.exports = function(db) {
                 if(!this.getDataValue('photoUrl')) return productPlaceholderImage;
                 return this.getDataValue('photoUrl');
             }
-        } 
+        }
         /*,
         tags?
         */
