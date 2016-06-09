@@ -15,7 +15,7 @@ function toPlainObject(instance) {
 
 describe('Products Route', function () {
 
-    var app, Product, product1, product2, agent;
+    var app, User, Product, product1, product2, agent;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -26,6 +26,7 @@ describe('Products Route', function () {
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
         Product = db.model('product');
+        User = db.model('user');
     });
 
     beforeEach('Create a product', function (done) {
@@ -78,8 +79,24 @@ describe('Products Route', function () {
 
     describe("POST one", function (done) {
 
+        var user;
+
+        beforeEach('Create a user', function (done) {
+            return User.create({
+                    firstName: 'Matt',
+                    lastName : 'Landers',
+                    email : 'mattlanders@smartpeople.com',
+                    password : 'Jennaisthebestandsmartest'
+                })
+                .then(function (u) {
+                    user = u;
+                    done();
+                })
+                .catch(done);
+        });
+
         it("creates a new product", function (done) {
-            agent.post('/api/products')
+            agent.post('/api/products/'+ user.id)
             .send({
                 name: "Shagel",
                 description: "gel and things",
@@ -91,6 +108,7 @@ describe('Products Route', function () {
                 if (err) return done(err);
                 expect(res.body.description).to.equal("gel and things");
                 expect(res.body.id).to.exist;
+                expect(res.body.userId).to.equal(1);
                 Product.findById(res.body.id)
                 .then(function (p) {
                     expect(p).to.not.be.null;

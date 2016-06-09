@@ -6,6 +6,8 @@
 var db = require('../../../db');
 var Product = db.model('product');
 var Reviews = db.model('reviews');
+var User = db.model('user');
+
 var router = require('express').Router();
 
 module.exports = router;
@@ -20,6 +22,16 @@ router.param('id', function (req, res, next, theId) {
         .catch(next);
 });
 
+router.param('userId', function (req, res, next, theId) {
+    User.findById(theId)
+        .then(function (foundUser) {
+            if (!foundUser) res.sendStatus(404);
+            else req.userInstance = foundUser;
+            next();
+        })
+        .catch(next);
+});
+
 router.get('/', function (req, res, next) {
     Product.findAll({})
         .then(function (products) {
@@ -28,8 +40,11 @@ router.get('/', function (req, res, next) {
         .catch(next);
 });
 
-router.post('/', function(req, res, next){
+router.post('/:userId', function(req, res, next){
 	Product.create(req.body)
+	.then(function(createdProduct){	
+		return createdProduct.setUser(req.userInstance);
+	})
 	.then(function(createdProduct){
 		res.status(201).send(createdProduct);
 	})
