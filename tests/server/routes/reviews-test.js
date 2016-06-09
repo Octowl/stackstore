@@ -1,14 +1,10 @@
 /* jshint node: true, mocha: true */
 
 // Instantiate all models
-var expect = require('chai').expect;
-
-var Sequelize = require('sequelize');
-
 process.env.NODE_ENV = 'testing';
-
+var expect = require('chai').expect;
+var Sequelize = require('sequelize');
 var db = require('../../../server/db');
-
 var supertest = require('supertest');
 
 function toPlainObject(instance) {
@@ -80,7 +76,7 @@ describe('Reviews Route', function () {
 
     describe("POST one", function (done) {
 
-        var product1;
+        var product;
 
         beforeEach('Create a product', function (done) {
             return Product.create({
@@ -90,14 +86,14 @@ describe('Reviews Route', function () {
                     inventory: 50
                 })
                 .then(function (p) {
-                    product1 = p;
+                    product = p;
                     done();
                 })
                 .catch(done);
         });
 
         it("creates a new review", function (done) {
-            agent.post('/api/reviews/' + product1.id)
+            agent.post('/api/reviews/' + product.id)
             .send({
                 stars: 2,
                 comment: 'bad thing'
@@ -118,7 +114,7 @@ describe('Reviews Route', function () {
         });
 
         it("associates review with product", function (done) {
-            agent.post('/api/reviews/' + product1.id)
+            agent.post('/api/reviews/' + product.id)
             .send({
                 stars: 2,
                 comment: 'bad thing'
@@ -129,7 +125,7 @@ describe('Reviews Route', function () {
                 Reviews.findById(res.body.id)
                 .then(function (r) {
                     expect(r).to.not.be.null;
-                    expect(r.productId).to.eql(product1.id);
+                    expect(r.productId).to.eql(product.id);
                     done();
                 })
                 .catch(done);
