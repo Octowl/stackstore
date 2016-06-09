@@ -5,6 +5,7 @@
 
 var db = require('../../../db');
 var Product = db.model('product');
+var Reviews = db.model('reviews');
 var router = require('express').Router();
 
 module.exports = router;

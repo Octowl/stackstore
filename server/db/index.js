@@ -9,7 +9,12 @@ require('./models/reviews')(db);
 require('./models/location')(db);
 require('./models/orders')(db);
 
+
 var Product = db.model('product');
 var Location = db.model('location');
+var Reviews = db.model('reviews')
 
 Product.belongsTo(Location);
+
+
+Product.hasMany(Reviews)
