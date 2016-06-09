@@ -58,7 +58,7 @@ describe('Users Route', function () {
     beforeEach('Create guest agent', function () {
         agent = supertest.agent(app);
     });
-    
+
     afterEach('Sync DB', function () {
         return db.sync({
             force: true
@@ -135,7 +135,7 @@ describe('Users Route', function () {
 
     describe("PUT one", function (done) {
 
-        it("updates one existing product", function (done) {
+        it("updates one existing user", function (done) {
             agent.put('/api/users/' + user1.id)
             .send({
                 firstName : 'Shagel'
@@ -156,7 +156,7 @@ describe('Users Route', function () {
         });
 
         it("updates one that doesnt exist", function (done) {
-            agent.put('/api/products/123456')
+            agent.put('/api/users/123456')
             .send({
                 firstName : 'Shagel'
             })
@@ -165,7 +165,7 @@ describe('Users Route', function () {
         });
 
         it("updates one with an invalid ID", function (done) {
-            agent.put('/api/products/hfdjkslhfiul')
+            agent.put('/api/users/hfdjkslhfiul')
             .send({
                 firstName : 'Shagel'
             })

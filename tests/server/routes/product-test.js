@@ -79,21 +79,28 @@ describe('Products Route', function () {
 
     describe("POST one", function (done) {
 
-        var user;
+        var user, loggedInAgent;
+        var userInfo = {
+                firstName: 'Matt',
+                lastName : 'Landers',
+                email : 'mattlanders@smartpeople.com',
+                password : 'Jennaisthebestandsmartest'
+            };
 
         beforeEach('Create a user', function (done) {
-            return User.create({
-                    firstName: 'Matt',
-                    lastName : 'Landers',
-                    email : 'mattlanders@smartpeople.com',
-                    password : 'Jennaisthebestandsmartest'
-                })
+            return User.create(userInfo)
                 .then(function (u) {
-                    user = u;
                     done();
                 })
                 .catch(done);
         });
+
+        beforeEach('Log in user', function(){
+            loggedInAgent = supertest.agent(app);
+            loggedInAgent.post('/login').send(userInfo);
+        });
+
+        // TODO: FINISH THIS!!
 
         it("creates a new product", function (done) {
             agent.post('/api/products/'+ user.id)
