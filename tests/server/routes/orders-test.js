@@ -63,7 +63,7 @@ describe('Orders Route', function () {
                 .end(function (err, res) {
                     if (err) return done(err);
                     expect(res.body).to.be.instanceof(Array);
-                    expect(res.body).to.have.length(2);
+                    expect(res.body).to.have.length(3);
                     done();
                 });
         });

@@ -2,12 +2,8 @@
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-var dbURI = 'postgres://localhost:5432/testing-cove';
-var db = new Sequelize(dbURI, {
-    logging: false
-});
-require('../../../server/db/models/user')(db);
-
+process.env.NODE_ENV = 'testing';
+var db = require('../../../server/db');
 var supertest = require('supertest');
 
 describe('Members Route', function () {

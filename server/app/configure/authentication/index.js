@@ -58,7 +58,7 @@ module.exports = function (app, db) {
         if (req.user) {
             res.send({ user: req.user.sanitize() });
         } else {
-            res.status(401).send(req.session.cart);// + ' No authenticated user.');
+            res.sendStatus(401);
         }
     });
 
