@@ -17,7 +17,7 @@ router.param('id', function(req, res, next, theId){
 		next();
 	})
 	.catch(next);
-})
+});
 
 router.get('/', function(req, res, next){
     Product.findAll({})
@@ -33,25 +33,25 @@ router.post('/', function(req, res, next){
 		res.status(201).send(createdProduct);
 	})
 	.catch(next);
-})
+});
 
-router.get('/:id/add', function(req, res, next){
+router.get('/:id/addToCart', function(req, res, next){
 	req.cart.addProduct(req.productInstance)
 	.then(function(updatedCart){
-		res.send(updatedCart); 
-	})
-})
+		res.send(updatedCart);
+	});
+});
 
-router.get('/:id/remove', function(req, res, next){
+router.get('/:id/removeFromCart', function(req, res, next){
 	req.cart.removeProduct(req.productInstance)
 	.then(function(updatedCart){
-		res.send(updatedCart); 
-	})
-})
+		res.send(updatedCart);
+	});
+});
 
 router.get('/:id', function(req, res, next){
 	res.send(req.productInstance);
-})
+});
 
 router.put('/:id', function(req, res, next){
 	req.productInstance.update(req.body)
@@ -59,7 +59,7 @@ router.put('/:id', function(req, res, next){
 		res.send(updatedProduct);
 	})
 	.catch(next);
-})
+});
 
 router.delete('/:id', function(req, res, next){
 	req.productInstance.destroy()
@@ -67,4 +67,4 @@ router.delete('/:id', function(req, res, next){
 		res.sendStatus(204);
 	})
 	.catch(next);
-})
+});

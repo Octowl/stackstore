@@ -1,3 +1,5 @@
+/*jshint node: true*/
+
 'use strict';
 
 
@@ -16,17 +18,7 @@ router.param('id', function(req, res, next, theId){
         next();
     })
     .catch(next);
-})
-
-//Might need for adding items. 
-// router.param('productId', function(req, res, next, theProductId){
-// 	Product.findById(theProductId)
-// 	.then(function(foundProduct){
-// 		if(!foundProduct) res.sendStatus(404);
-// 		else req.productInstance = foundProduct;
-// 		next();
-// 	})
-// })
+});
 
 router.get('/', function(req, res, next){
     Orders.findAll({})
@@ -34,20 +26,20 @@ router.get('/', function(req, res, next){
         res.send(orders);
     })
     .catch(next);
-})
+});
 
 router.get('/:id', function(req, res, next){
     res.send(req.orderInstance);
-})
+});
 
-//Is this how orders are going to actually get created? 
+//Is this how orders are going to actually get created?
 router.post('/', function(req, res, next){
 	Orders.create(req.body)
 	.then(function(createdOrder){
-		res.status(201).send(createdOrder)
+		res.status(201).send(createdOrder);
 	})
 	.catch(next);
-})
+});
 
 router.put('/:id', function(req, res, next){
 	req.orderInstance.update(req.body)
@@ -55,7 +47,7 @@ router.put('/:id', function(req, res, next){
 		res.send(updatedOrder);
 	})
 	.catch(next);
-})
+});
 
 router.delete('/:id', function(req, res, next){
 	req.orderInstance.destroy()
@@ -63,5 +55,4 @@ router.delete('/:id', function(req, res, next){
 		res.sendStatus(204);
 	})
 	.catch(next);
-})
-
+});
