@@ -8,7 +8,7 @@ var db = require('../../../server/db');
 var supertest = require('supertest');
 
 describe('Cart Routes', function(done){
-	var app, agent1, agent2, Product, product1, product2, OrderItem
+	var app, agent1, agent2, Product, product1, product2, OrderItem;
 
 	beforeEach('Sync DB', function () {
         return db.sync({
@@ -45,7 +45,7 @@ describe('Cart Routes', function(done){
             .catch(done);
     });
 
-    beforeEach('Create guest agent', function () {
+    beforeEach('Create guest agents', function () {
         agent1 = supertest.agent(app);
         agent2 = supertest.agent(app);
     });
@@ -56,6 +56,17 @@ describe('Cart Routes', function(done){
         });
     });
 
+	function addProductToCart(agent, product) {
+		return agent.get('/api/products/' + product.id + '/addToCart')
+		.expect(200);
+	}
+
+	function removeProductFromCart(agent, product) {
+		console.log("WOAH");
+		return agent.get('/api/products/' + product.id + '/removeFromCart')
+		.expect(200);
+	}
+
     function getItemsFromCart(cart) {
     	return OrderItem.findAll({
     		where: {orderId: cart.id}
@@ -63,8 +74,7 @@ describe('Cart Routes', function(done){
     }
 
     it('adds item to cart', function(done){
-    	agent1.get('/api/products/' + product1.id +'/addToCart')
-    	.expect(200)
+    	addProductToCart(agent1, product1)
     	.end(function(err, res){
     		if(err) return done(err);
     		agent1.get('/cart')
@@ -83,12 +93,10 @@ describe('Cart Routes', function(done){
     });
 
    it('adds multiple items to cart', function(done){
-    	agent1.get('/api/products/' + product1.id +'/addToCart')
-    	.expect(200)
+    	addProductToCart(agent1, product1)
     	.end(function(err, res){
     		if(err) return done(err);
-    		agent1.get('/api/products/' + product2.id +'/addToCart')
-    		.expect(200)
+    		addProductToCart(agent1, product2)
     		.end(function(err, res){
 	    		if(err) return done(err);
 	    		agent1.get('/cart')
@@ -108,12 +116,10 @@ describe('Cart Routes', function(done){
     });
 
    it('can remove an item from the cart', function(done){
-    	agent1.get('/api/products/' + product1.id +'/addToCart')
-    	.expect(200)
+    	addProductToCart(agent1, product2)
     	.end(function(err, res){
     		if(err) return done(err);
-    		agent1.get('/api/products/' + product1.id +'/removeFromCart')
-    		.expect(200)
+    		removeProductFromCart(agent1, product2)
     		.end(function(err, res){
 	    		if(err) return done(err);
 	    		agent1.get('/cart')
@@ -130,5 +136,80 @@ describe('Cart Routes', function(done){
 	    	});
     	});
     });
+
+	it("creates different carts for different agents", function (done) {
+		var cart1, cart2;
+		agent1.get('/cart')
+		.expect(200)
+		.end(function(err, res){
+			if(err) done(err);
+			cart1 = res.body;
+			agent2.get('/cart')
+			.expect(200)
+			.end(function(err, res){
+				if(err) done(err);
+				cart2 = res.body;
+				expect(cart1.id).to.not.equal(cart2.id);
+				done();
+			});
+		});
+	});
+
+	it("adds products to the right cart", function (done) {
+		addProductToCart(agent1, product1)
+    	.end(function(err, res){
+    		if(err) return done(err);
+    		addProductToCart(agent2, product2)
+    		.end(function(err, res){
+	    		if(err) return done(err);
+	    		agent1.get('/cart')
+	    		.expect(200)
+	    		.end(function(err, res){
+	    			if(err) return done(err);
+	    			getItemsFromCart(res.body)
+	    			.then(function(items){
+	    				expect(items).to.have.length(1);
+	    				expect(items[0].productId).to.equal(product1.id);
+	    				done();
+	    			})
+	    			.catch(done);
+	    		});
+	    	});
+    	});
+	});
+
+	it("removes products from the right cart", function (done) {
+		addProductToCart(agent1, product1)
+    	.end(function(err, res){
+    		if(err) return done(err);
+    		addProductToCart(agent2, product2)
+    		.end(function(err, res){
+	    		if(err) return done(err);
+				removeProductFromCart(agent1, product1)
+				.end(function(err, res){
+					agent1.get('/cart')
+					.expect(200)
+					.end(function(err, res){
+						if(err) return done(err);
+						getItemsFromCart(res.body)
+						.then(function(items){
+							expect(items).to.have.length(0);
+						})
+						.catch(done);
+					});
+					agent2.get('/cart')
+					.expect(200)
+					.end(function(err, res){
+						if(err) return done(err);
+						getItemsFromCart(res.body)
+						.then(function(items){
+							expect(items).to.have.length(1);
+							done();
+						});
+					});
+				});
+	    	});
+    	});
+	});
 
 });

@@ -45,8 +45,8 @@ router.get('/:id/addToCart', function(req, res, next){
 
 router.get('/:id/removeFromCart', function(req, res, next){
 	req.cart.removeProduct(req.productInstance)
-	.then(function(updatedCart){
-		res.send(updatedCart);
+	.then(function(){
+		res.send(req.cart);
 	});
 });
 
