@@ -15,7 +15,7 @@ function toPlainObject(instance) {
 
 describe('Products Route', function () {
 
-    var app, Product, product1, product2, agent;
+    var app, Product, product1, product2, agent, Location;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -26,6 +26,7 @@ describe('Products Route', function () {
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
         Product = db.model('product');
+        Location = db.model('location');
     });
 
     beforeEach('Create a product', function (done) {
@@ -78,19 +79,38 @@ describe('Products Route', function () {
 
     describe("POST one", function (done) {
 
+        var location1;
+
+        beforeEach('Create a location', function (done) {
+            return Location.create({
+                    name: "Paris",
+                    latitude: 48.8566,
+                    longitude: 2.3522
+                })
+                .then(function (l) {
+                    location1 = l;
+                    done()
+                })
+                .catch(done);
+        });
+
         it("creates a new product", function (done) {
             agent.post('/api/products')
             .send({
-                name: "Shagel",
-                description: "gel and things",
-                price: 4.5,
-                inventory: 8
+                location : 'Paris',
+                productData : {
+                    name: "Shagel",
+                    description: "gel and things",
+                    price: 4.5,
+                    inventory: 8 
+                }
             })
             .expect(201)
             .end(function (err, res) {
                 if (err) return done(err);
                 expect(res.body.description).to.equal("gel and things");
                 expect(res.body.id).to.exist;
+                expect(res.body.locationId).to.equal(1);
                 Product.findById(res.body.id)
                 .then(function (p) {
                     expect(p).to.not.be.null;

@@ -6,6 +6,7 @@
 var db = require('../../../db');
 var Product = db.model('product');
 var Reviews = db.model('reviews');
+var Location = db.model('location');
 var router = require('express').Router();
 
 module.exports = router;
@@ -29,9 +30,23 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-	Product.create(req.body)
+	var myProduct;
+	Product.create(req.body.productData)
 	.then(function(createdProduct){
-		res.status(201).send(createdProduct);
+		myProduct = createdProduct;
+	})
+	.then(function(){
+		return Location.findOne({
+			where:{
+				name: req.body.location
+			}
+		})
+	})
+	.then(function(foundLocation){
+		return myProduct.setLocation(foundLocation)
+	})
+	.then(function(updatedProduct){
+		res.status(201).send(updatedProduct);		
 	})
 	.catch(next);
 });
