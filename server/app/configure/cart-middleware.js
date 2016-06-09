@@ -3,25 +3,25 @@ module.exports = function (app, db) {
   var Order = db.model('orders');
   app.use(function(req, res, next){
   	if(!req.session.cart){
-  		Order.create()
+  		Order.create() // JENNA
   		.then(function(cart){
-  			req.session.cart = cart.id; 
-  			next(); 
+  			req.session.cart = cart.id;
+  			next();
   		})
   		.catch(next);
   	}
   	else next();
   })
 
-  //deserialize cart 
+  //deserialize cart
   function deserializeCart(id){
-  	return Order.findById(id); 
+  	return Order.findById(id);
   }
 
   app.use(function(req, res, next){
   	deserializeCart(req.session.cart)
   	.then(function(cart){
-  		req.cart = cart; 
+  		req.cart = cart;
   		next()
   	})
   	.catch(next);
