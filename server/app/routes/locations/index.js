@@ -11,7 +11,7 @@ router.param('id', function (req, res, next, theId) {
     Location.findById(theId)
         .then(function (foundLocation) {
             if (!foundLocation) res.sendStatus(404);
-            else req.productInstance = foundLocation;
+            else req.productInstance = foundLocation; //next should be part of the else -FLOB
             next();
         })
         .catch(next);

@@ -11,7 +11,7 @@ router.param('id', function(req, res, next, id){
 		next(); 
 	})
 	.catch(next);
-})
+}) // put the 404 error handling here -FLOB
 
 router.get('/:id', function(req, res, next){
 	if(req.foundUser) res.send(req.foundUser);
@@ -31,7 +31,7 @@ router.put('/:id', function(req, res, next){
 
 router.delete('/:id', function(req, res, next){
 	if(req.foundUser) {
-		if(req.foundUser)
+		if(req.foundUser) //double if... really? come on -FLOB
 		req.foundUser.destroy();
 		res.sendStatus(204);
 	}

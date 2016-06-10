@@ -42,7 +42,7 @@ describe('Cart Routes', function(done){
                 product2 = p;
                 done();
             })
-            .catch(done);
+            .catch(done);	//FLOB
     });
 
     beforeEach('Create guest agents', function () {
@@ -62,7 +62,7 @@ describe('Cart Routes', function(done){
 	}
 
 	function removeProductFromCart(agent, product) {
-		console.log("WOAH");
+		console.log("WOAH");	//remove -FLOB
 		return agent.get('/api/products/' + product.id + '/removeFromCart')
 		.expect(200);
 	}
@@ -169,7 +169,7 @@ describe('Cart Routes', function(done){
 	    			getItemsFromCart(res.body)
 	    			.then(function(items){
 	    				expect(items).to.have.length(1);
-	    				expect(items[0].productId).to.equal(product1.id);
+	    				expect(items[0].productId).to.equal(product1.id); //chai-things might be helpful -FLOB
 	    				done();
 	    			})
 	    			.catch(done);

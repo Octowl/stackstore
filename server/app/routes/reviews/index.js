@@ -1,6 +1,6 @@
 /* jshint node:true*/
 'use strict';
-
+    // this whole thing can probably be mounted onto the product routes -FLOB
 var db = require('../../../db');
 var Reviews = db.model('reviews');
 var Product = db.model('product');
@@ -37,14 +37,12 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/:productId', function (req, res, next) {
-    var theReview;
     Reviews.create(req.body)
-        .then(function (createdReview) {
-            theReview = createdReview;
+        .tap(function (createdReview) {    //tap -FLOB
             return req.productInstance.addReviews(createdReview);
         })
-        .then(function () {
-            res.status(201).send(theReview);
+        .then(function (createdReview) {
+            res.status(201).send(createdReview);
         })
         .catch(next);
 });

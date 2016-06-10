@@ -2,7 +2,7 @@
 
 //This whole thing might go away...
 var db = require('../../../db');
-var OrderItem = db.model('orderitem');
+var OrderItem = db.model('orderitem'); //is this working?  its camelcase in the model -FLOB
 var Order = db.model('orders');
 var Product = db.model('product'); 
 
@@ -27,5 +27,5 @@ router.get('/:id', function(req, res, next){
 })
 
 router.put('/:id', function(req, res, next){
-	req.orderItem.update(req.body); 
+	req.orderItem.update(req.body); //not complete - FLOB
 })

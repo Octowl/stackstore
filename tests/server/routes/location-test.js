@@ -23,13 +23,13 @@ describe('Locations Route', function () {
         });
     });
 
-    beforeEach('Create app', function () {
+    beforeEach('Create app', function () {  
         app = require('../../../server/app')(db);
         Location = db.model('location');
     });
 
-    beforeEach('Create a location', function (done) {
-        return Location.create({
+    beforeEach('Create a location', function (done) { //bulk create -FLOB
+        return Location.create({        //don't need done with a return. -FLOB
                 name: "Paris",
                 latitude: 48.8566,
                 longitude: 2.3522
@@ -91,7 +91,7 @@ describe('Locations Route', function () {
                     Location.findById(res.body.id)
                         .then(function (p) {
                             expect(p).to.not.be.null;
-                            expect(res.body.id).to.eql(toPlainObject(p).id);
+                            expect(res.body.id).to.eql(toPlainObject(p).id);    //p.id - FLOB
                             done();
                         })
                         .catch(done);
@@ -112,13 +112,13 @@ describe('Locations Route', function () {
                 });
         });
 
-        it("gets one that doesnt exist", function (done) {
+        it("gets one that doesnt exist", function (done) {      //unneeded -FLOB
             agent.get('/api/locations/123456')
                 .expect(404)
                 .end(done);
         });
 
-        it("gets one with an invalid ID", function (done) {
+        it("gets one with an invalid ID", function (done) { 
             agent.get('/api/locations/hfdjkslhfiul')
                 .expect(500)
                 .end(done);

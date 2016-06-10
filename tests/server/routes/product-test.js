@@ -50,7 +50,7 @@ describe('Products Route', function () {
                 product2 = p;
                 done();
             })
-            .catch(done);
+            .catch(done);   //FLOB
     });
 
     beforeEach('Create guest agent', function () {

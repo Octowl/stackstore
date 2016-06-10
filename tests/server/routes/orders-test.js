@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
 
-process.env.NODE_ENV = 'testing';
+process.env.NODE_ENV = 'testing';   //not needed here if in Gulp -FLOB
 
 var db = require('../../../server/db');
 
@@ -42,7 +42,7 @@ describe('Orders Route', function () {
             .then(function (o) {
                 order2 = o;
             })
-            .catch(console.err);
+            .catch(console.err);    //drop this catch -FLOB
     });
 
     beforeEach('Create guest agent', function () {

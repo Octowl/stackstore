@@ -17,7 +17,7 @@ router.param('id', function (req, res, next, theId) {
     Product.findById(theId)
         .then(function (foundProduct) {
             if (!foundProduct) res.sendStatus(404);
-            else req.productInstance = foundProduct;
+            else req.productInstance = foundProduct; // next in else -FLOB
             next();
         })
         .catch(next);
@@ -32,7 +32,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    if(!req.user) res.sendStatus(401);
+    if(!req.user) res.sendStatus(401);		// could be more module, auth middleware -FLOB
     else {
         Product.create(req.body)
         .then(function(createdProduct){
@@ -45,14 +45,14 @@ router.post('/', function(req, res, next){
     }
 });
 
-function isItemInCart(cart, product) {
+function isItemInCart(cart, product) {  //should be an instance method of the order model -FLOB
 	return cart.getProducts()
 	.then(function(products){
 		return _.any(products,product);
 	})
 }
 
-router.get('/:id/addToCart', function(req, res, next){
+router.get('/:id/addToCart', function(req, res, next){	//why is this a get request?  -FLOB
 	isItemInCart(req.cart,req.productInstance)
 	.then(function(hasProduct){
 		if(hasProduct) {
@@ -64,7 +64,7 @@ router.get('/:id/addToCart', function(req, res, next){
 			})
 			.then(function(foundItem) {
 				return foundItem.update({
-					quantity : foundItem.quantity + 1 // turn this into an instance method
+					quantity : foundItem.quantity + 1 // turn this into an instance method -FLOB Agrees
 				})
 			})
 			.then(function(){
@@ -80,8 +80,8 @@ router.get('/:id/addToCart', function(req, res, next){
 	.catch(next);
 });
 
-router.get('/:id/removeFromCart', function(req, res, next){
-	req.cart.removeProduct(req.productInstance)
+router.get('/:id/removeFromCart', function(req, res, next){	//shouldn't be a get. -FLOB
+	req.cart.removeProduct(req.productInstance)		//why is a cart route here? - FLOB
 	.then(function(){
 		res.send(req.cart);
 	})

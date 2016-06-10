@@ -26,3 +26,4 @@ Product.hasMany(Reviews);
 
 Product.belongsTo(User);
 User.hasMany(Product);
+//Reviews belong to users who make them? -FLOB

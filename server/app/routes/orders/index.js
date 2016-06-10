@@ -14,7 +14,7 @@ router.param('id', function(req, res, next, theId){
     Orders.findById(theId)
     .then(function(foundOrder){
         if(!foundOrder) res.sendStatus(404);
-        else req.orderInstance = foundOrder;
+        else req.orderInstance = foundOrder; //next should be part of else - FLOB
         next();
     })
     .catch(next);
@@ -32,7 +32,7 @@ router.get('/:id', function(req, res, next){
     res.send(req.orderInstance);
 });
 
-//Is this how orders are going to actually get created?
+//Is this how orders are going to actually get created? - not FLOB // remove comments in master -FLOB
 router.post('/', function(req, res, next){
 	Orders.create(req.body)
 	.then(function(createdOrder){

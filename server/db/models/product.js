@@ -8,31 +8,31 @@ var productPlaceholderImage = 'http://localhost:1337/Images/product_placeholder.
 module.exports = function(db) {
     db.define('product', {
         name: {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.STRING, //not blank -FLOB
+            allowNull: false    //add a unique validator -FLOB
         },
         description: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING, //make into text - FLOB
             allowNull: false
         },
         price: {
-            type: Sequelize.FLOAT,
+            type: Sequelize.FLOAT,  //in cents -FLOB
             allowNull: false
         },
         inventory: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.INTEGER, //put a minimum -FLOB
             allowNull: false,
             defaultValue: 0
         },
         photoUrl: {
             type: Sequelize.STRING,
-            get: function() {
+            get: function() {   //maybe use a default? -FLOB
                 if(!this.getDataValue('photoUrl')) return productPlaceholderImage;
                 return this.getDataValue('photoUrl');
             }
         }
         /*,
-        tags?
+        tags?   -- DEAD CODE!???  -FLOB
         */
     });
 };

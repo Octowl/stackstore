@@ -15,7 +15,7 @@ module.exports = function (db) {
             allowNull: false
         },
         email: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING, //should be unique -FLOB
             allowNull: false,
             validate: {
                 isEmail: true
@@ -26,18 +26,18 @@ module.exports = function (db) {
             allowNull: false
         },
         address: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING, //use text because it can get long -FLOB
         },
         isAdmin: {
             type: Sequelize.BOOLEAN,
             defaultValue: false
         },
         image: {
-            type: Sequelize.STRING,
+            type: Sequelize.STRING, //url validator can be used - FLOB
             defaultValue: 'http://c.directlyrics.com/img/upload/taylor-swift-apple-music.jpg'
         },
         rating: {
-            type: Sequelize.FLOAT
+            type: Sequelize.FLOAT   //how would it be set properly? -FLOB
         },
         salt: {
             type: Sequelize.STRING

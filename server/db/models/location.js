@@ -10,6 +10,7 @@ module.exports = function(db) {
         name: {
             type: Sequelize.STRING,
             allowNull: false
+            //not empty, so empty string doesn't work. -FLOB
         },
         latitude: {
             type: Sequelize.FLOAT,
