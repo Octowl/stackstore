@@ -4,7 +4,7 @@ var Sequelize = require('sequelize');
 
 //maybe singularize the model name? -FLOB
 module.exports = function(db) {
-    db.define('orders', {
+    db.define('order', {
         active: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
@@ -12,4 +12,3 @@ module.exports = function(db) {
         }
     });
 };
-

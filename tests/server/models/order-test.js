@@ -7,9 +7,9 @@ var db = new Sequelize(dbURI, {
     logging: false
 });
 
-require('../../../server/db/models/orders')(db);
+require('../../../server/db/models/order')(db);
 
-var Product = db.model('orders');
+var Order = db.model('order');
 
 describe('Orders model', function () {
 

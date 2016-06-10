@@ -26,7 +26,7 @@ describe('Orders Route', function () {
 
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
-        Orders = db.model('orders');
+        Orders = db.model('order');
     });
 
     beforeEach('Create an order', function () {
@@ -48,7 +48,7 @@ describe('Orders Route', function () {
     beforeEach('Create guest agent', function () {
         agent = supertest.agent(app);
     });
-    
+
     afterEach('Sync DB', function () {
         return db.sync({
             force: true

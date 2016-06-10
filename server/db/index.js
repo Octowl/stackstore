@@ -7,12 +7,12 @@ require('./models/user')(db);
 require('./models/product')(db);
 require('./models/reviews')(db);
 require('./models/location')(db);
-require('./models/orders')(db);
+require('./models/order')(db);
 require('./models/orderItem')(db);
 
 var Product = db.model('product');
 var User = db.model('user');
-var Orders = db.model('orders');
+var Orders = db.model('order');
 var OrderItem = db.model('orderItem');
 var Location = db.model('location');
 var Reviews = db.model('reviews');
