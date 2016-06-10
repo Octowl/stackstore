@@ -15,7 +15,7 @@ function toPlainObject(instance) {
 
 describe('Products Route', function () {
 
-    var app, Product, product1, product2, agent;
+    var app, User, Product, product1, product2, agent;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -26,7 +26,9 @@ describe('Products Route', function () {
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
         Product = db.model('product');
+        User = db.model('user');
     });
+    
 
     beforeEach('Create a product', function (done) {
         return Product.create({
@@ -76,10 +78,36 @@ describe('Products Route', function () {
 
     });
 
+
     describe("POST one", function (done) {
 
+        var user, loggedInAgent;
+        var userInfo = {
+                firstName: 'Matt',
+                lastName : 'Landers',
+                email : 'mattlanders@smartpeople.com',
+                password : 'Jennaisthebestandsmartest'
+            };
+
+        beforeEach('Create a user', function (done) {
+            return User.create(userInfo)
+                .then(function (u) {
+                    user = u;
+                    done();
+                })
+                .catch(done);
+        });
+
+        beforeEach('Log in user', function(done){
+            loggedInAgent = supertest.agent(app);
+            return loggedInAgent.post('/login').send(userInfo)
+            .end(function(err, res){
+                done();
+            });
+        });
+
         it("creates a new product", function (done) {
-            agent.post('/api/products')
+            loggedInAgent.post('/api/products/')
             .send({
                 name: "Shagel",
                 description: "gel and things",
@@ -101,6 +129,38 @@ describe('Products Route', function () {
             });
         });
 
+        it("associates product with logged in user", function (done) {
+            loggedInAgent.post('/api/products/')
+            .send({
+                name: "Shagel",
+                description: "gel and things",
+                price: 4.5,
+                inventory: 8
+            })
+            .expect(201)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.userId).to.equal(user.id);
+                done();
+            });
+        });
+
+
+        it("only logged in users can create products", function (done) {
+            agent.post('/api/products/')
+            .send({
+                name: "Shagel",
+                description: "gel and things",
+                price: 4.5,
+                inventory: 8
+            })
+            .expect(401)
+            .end(function (err, res) {
+                if (err) return done(err);
+                done();
+            });
+        });
+
     });
 
     describe("GET one by ID", function (done) {
@@ -111,7 +171,7 @@ describe('Products Route', function () {
             .end(function (err, res) {
                 if (err) return done(err);
                 expect(res.body.description).to.equal(product1.description);
-                done()
+                done();
             });
         });
 

@@ -32,11 +32,17 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-	Product.create(req.body)
-	.then(function(createdProduct){
-		res.status(201).send(createdProduct);
-	})
-	.catch(next);
+    if(!req.user) res.sendStatus(401);
+    else {
+        Product.create(req.body)
+        .then(function(createdProduct){
+            return createdProduct.setUser(req.user);
+        })
+        .then(function(createdProduct){
+            res.status(201).send(createdProduct);
+        })
+        .catch(next);
+    }
 });
 
 function isItemInCart(cart, product) {
@@ -65,7 +71,7 @@ router.get('/:id/addToCart', function(req, res, next){
 				return req.cart;
 			})
 		} else {
-			return req.cart.addProduct(req.productInstance)	
+			return req.cart.addProduct(req.productInstance)
 		}
 	})
 	.then(function(updatedCart){
