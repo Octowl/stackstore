@@ -25,16 +25,21 @@ router.get('/', function (req, res, next) {
         .catch(next);
 });
 
+router.get('/:id', function (req, res, next) {
+    res.send(req.productInstance);
+});
+
+router.use(function(req, res, next){
+    if(req.user && req.user.isAdmin()) next();
+    else res.sendStatus(401);
+})
+
 router.post('/', function (req, res, next) {
     Location.create(req.body)
         .then(function (createdLocation) {
             res.status(201).send(createdLocation);
         })
         .catch(next);
-});
-
-router.get('/:id', function (req, res, next) {
-    res.send(req.productInstance);
 });
 
 router.put('/:id', function (req, res, next) {
