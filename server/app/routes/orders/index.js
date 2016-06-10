@@ -11,23 +11,8 @@ var router = require('express').Router();
 module.exports = router;
 
 router.get('/checkout', function(req, res, next){
-	var orderItems, productsInOrder;
-	req.cart.update({active: false})
-	.then(function(checkedOutCart){
-		return OrderItem.findAll({where: {orderId: checkedOutCart.id}})
-	}).then(function(allItemsInPurchase){
-		orderItems = allItemsInPurchase;
-		return Promise.all(allItemsInPurchase.map(function(elem){
-			return Product.findById(elem.productId)
-		}))
-	}).then(function(allProductsInOrder){
-		productsInOrder = allProductsInOrder;
-		return Promise.all(orderItems.map(function(elem, index){
-			var currentProduct = allProductsInOrder[index];
-			var price = currentProduct.price;
-			return elem.update({price: currentProduct.price})
-		}))
-	}).then(function(checkOutCompletedCart){
+	req.cart.checkout()
+	.then(function(checkOutCompletedCart){
 		req.session.cart = null;
 		console.log('ORDER COMPLETE:');
 		console.log('DETAILS', checkOutCompletedCart); 
