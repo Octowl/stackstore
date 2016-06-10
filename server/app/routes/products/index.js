@@ -92,6 +92,11 @@ router.get('/:id', function(req, res, next){
 	res.send(req.productInstance);
 });
 
+router.use('/:id', function(req, res, next){ 
+	if(req.user && req.user.isAuthorized(req.productInstance)) next();
+	else res.sendStatus(401); 
+})
+
 router.put('/:id', function(req, res, next){
 	req.productInstance.update(req.body)
 	.then(function(updatedProduct){

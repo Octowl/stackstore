@@ -58,6 +58,9 @@ module.exports = function (db) {
             },
             correctPassword: function (candidatePassword) {
                 return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
+            },
+            isAuthorized: function(instance) {
+                return this.isAdmin || instance.userId === this.id; 
             }
         },
         classMethods: {

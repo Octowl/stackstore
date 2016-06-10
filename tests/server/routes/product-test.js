@@ -57,6 +57,50 @@ describe('Products Route', function () {
         agent = supertest.agent(app);
     });
 
+    var user, user2, loggedInAgent;
+        var userInfo = {
+                firstName: 'Matt',
+                lastName : 'Landers',
+                email : 'mattlanders@smartpeople.com',
+                password : 'Jennaisthebestandsmartest'
+            };
+
+        beforeEach('Create a user', function (done) {
+            return User.create(userInfo)
+                .then(function (u) {
+                    user = u;
+                    done();
+                })
+                .catch(done);
+        });
+
+        beforeEach('Log in user', function(done){
+            loggedInAgent = supertest.agent(app);
+            return loggedInAgent.post('/login').send(userInfo)
+            .end(function(err, res){
+                done();
+            });
+        });
+
+        var user, loggedInAgent;
+        var userInfo2 = {
+                firstName: 'Some',
+                lastName : 'Otherguy',
+                email : 'otherperson@notsosmartpeople.com',
+                password : 'schmooples'
+            };
+
+        beforeEach('Create a second user', function (done) {
+            return User.create(userInfo2)
+                .then(function (u2) {
+                    user2 = u2;
+                    done();
+                })
+                .catch(done);
+        });
+
+
+
     afterEach('Sync DB', function () {
         return db.sync({
             force: true
@@ -81,30 +125,7 @@ describe('Products Route', function () {
 
     describe("POST one", function (done) {
 
-        var user, loggedInAgent;
-        var userInfo = {
-                firstName: 'Matt',
-                lastName : 'Landers',
-                email : 'mattlanders@smartpeople.com',
-                password : 'Jennaisthebestandsmartest'
-            };
-
-        beforeEach('Create a user', function (done) {
-            return User.create(userInfo)
-                .then(function (u) {
-                    user = u;
-                    done();
-                })
-                .catch(done);
-        });
-
-        beforeEach('Log in user', function(done){
-            loggedInAgent = supertest.agent(app);
-            return loggedInAgent.post('/login').send(userInfo)
-            .end(function(err, res){
-                done();
-            });
-        });
+        
 
         it("creates a new product", function (done) {
             loggedInAgent.post('/api/products/')
@@ -191,25 +212,56 @@ describe('Products Route', function () {
 
     describe("PUT one", function (done) {
 
-        it("updates one existing product", function (done) {
+        it("does not allow a non logged in user to update an existing product", function (done) {
             agent.put('/api/products/' + product1.id)
             .send({
                 name : 'Shagel 2'
             })
-            .expect(200)
+            .expect(401)
             .end(function (err, res) {
                 if (err) return done(err);
-                expect(res.body.name).to.equal("Shagel 2");
-                expect(res.body.id).to.exist;
-                Product.findById(res.body.id)
-                .then(function (p) {
-                    expect(p).to.not.be.null;
-                    expect(res.body.id).to.eql(toPlainObject(p).id);
-                    done();
-                })
-                .catch(done);
+                else done();
             });
         });
+
+        it("does not allow a logged in user who did not create the product to modify it", function (done) {
+            product1.update({userId: user2.id})
+            .then(function(updatedProduct){
+                loggedInAgent.put('/api/products/' + updatedProduct.id)
+                .send({
+                    name : 'Shagel 2'
+                })
+                .expect(401)
+                .end(function(err, res){
+                    if(err) done(err);
+                    else done();
+                })
+            }).catch(done);
+        });
+
+        it("it allows a logged in user who created the product to modify it", function (done) {
+            product1.update({userId: user.id})
+            .then(function(updatedProduct){
+                loggedInAgent.put('/api/products/' + product1.id)
+                .send({
+                    name : 'Shagel 2'
+                })
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    expect(res.body.name).to.equal("Shagel 2");
+                    expect(res.body.id).to.exist;
+                    Product.findById(res.body.id)
+                    .then(function (p) {
+                        expect(p).to.not.be.null;
+                        expect(res.body.id).to.eql(toPlainObject(p).id);
+                        done();
+                    })
+                    .catch(done);
+                });
+            })
+        });
+
 
         it("updates one that doesnt exist", function (done) {
             agent.put('/api/products/123456')
@@ -233,19 +285,37 @@ describe('Products Route', function () {
 
 
     describe("DELETE one", function (done) {
-
-        it("deletes one existing product", function (done) {
+     it("does not allow a non logged in user to delete an existing product", function (done) {
             agent.delete('/api/products/' + product1.id)
-            .expect(204)
+            .expect(401)
             .end(function (err, res) {
                 if (err) return done(err);
-                Product.findById(product1.id)
-                .then(function (p) {
-                    expect(p).to.be.null;
-                    done();
-                })
-                .catch(done);
+                else done();
             });
+        });
+
+        it("does not allow a logged in user who did not create the product to delete it", function (done) {
+            product1.update({userId: user2.id})
+            .then(function(updatedProduct){
+                loggedInAgent.delete('/api/products/' + product1.id)
+                .expect(401)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    else done();
+                })
+            }).catch(done);
+        });
+
+        it("it allows a logged in user who created the product to delete it", function (done) {
+            product1.update({userId: user.id})
+            .then(function(updatedProduct){
+                loggedInAgent.delete('/api/products/' + product1.id)
+                    .expect(204)
+                    .end(function (err, res) {
+                        if (err) return done(err);
+                        else done();
+                    })
+            }).catch(done);
         });
 
         it("deletes one that doesnt exist", function (done) {
