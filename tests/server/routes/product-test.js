@@ -28,6 +28,7 @@ describe('Products Route', function () {
         Product = db.model('product');
         User = db.model('user');
     });
+    
 
     beforeEach('Create a product', function (done) {
         return Product.create({
@@ -128,7 +129,7 @@ describe('Products Route', function () {
             });
         });
 
-        xit("associates product with logged in user", function (done) {
+        it("associates product with logged in user", function (done) {
             loggedInAgent.post('/api/products/')
             .send({
                 name: "Shagel",
@@ -145,7 +146,7 @@ describe('Products Route', function () {
         });
 
 
-        xit("only logged in users can create products", function (done) {
+        it("only logged in users can create products", function (done) {
             agent.post('/api/products/')
             .send({
                 name: "Shagel",
@@ -162,7 +163,7 @@ describe('Products Route', function () {
 
     });
 
-    xdescribe("GET one by ID", function (done) {
+    describe("GET one by ID", function (done) {
 
         it("gets one product by ID", function (done) {
             agent.get('/api/products/' + product1.id)
@@ -188,7 +189,7 @@ describe('Products Route', function () {
 
     });
 
-    xdescribe("PUT one", function (done) {
+    describe("PUT one", function (done) {
 
         it("updates one existing product", function (done) {
             agent.put('/api/products/' + product1.id)
@@ -231,7 +232,7 @@ describe('Products Route', function () {
     });
 
 
-    xdescribe("DELETE one", function (done) {
+    describe("DELETE one", function (done) {
 
         it("deletes one existing product", function (done) {
             agent.delete('/api/products/' + product1.id)
