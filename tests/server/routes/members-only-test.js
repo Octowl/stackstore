@@ -2,7 +2,6 @@
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-// TODO: FIX THIS
 process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
 var supertest = require('supertest');

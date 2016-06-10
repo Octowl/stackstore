@@ -6,9 +6,10 @@
 var db = require('../../../db');
 var Product = db.model('product');
 var Reviews = db.model('reviews');
-var User = db.model('user');
+var OrderItem = db.model('orderItem');
 
 var router = require('express').Router();
+var _ = require('lodash');
 
 module.exports = router;
 
@@ -35,30 +36,56 @@ router.post('/', function(req, res, next){
     else {
         Product.create(req.body)
         .then(function(createdProduct){
-            // console.log("USER", req.user);
             return createdProduct.setUser(req.user);
         })
         .then(function(createdProduct){
-            // console.log("GOT HERE", createdProduct);
             res.status(201).send(createdProduct);
         })
         .catch(next);
     }
 });
 
+function isItemInCart(cart, product) {
+	return cart.getProducts()
+	.then(function(products){
+		return _.any(products,product);
+	})
+}
 
 router.get('/:id/addToCart', function(req, res, next){
-	req.cart.addProduct(req.productInstance)
+	isItemInCart(req.cart,req.productInstance)
+	.then(function(hasProduct){
+		if(hasProduct) {
+			return OrderItem.findOne({
+				where : {
+					orderId : req.cart.id,
+					productId : req.productInstance.id
+				}
+			})
+			.then(function(foundItem) {
+				return foundItem.update({
+					quantity : foundItem.quantity + 1 // turn this into an instance method
+				})
+			})
+			.then(function(){
+				return req.cart;
+			})
+		} else {
+			return req.cart.addProduct(req.productInstance)
+		}
+	})
 	.then(function(updatedCart){
 		res.send(updatedCart);
-	});
+	})
+	.catch(next);
 });
 
 router.get('/:id/removeFromCart', function(req, res, next){
 	req.cart.removeProduct(req.productInstance)
-	.then(function(updatedCart){
-		res.send(updatedCart);
-	});
+	.then(function(){
+		res.send(req.cart);
+	})
+	.catch(next);
 });
 
 router.get('/:id', function(req, res, next){
