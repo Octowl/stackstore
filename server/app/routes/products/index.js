@@ -5,7 +5,7 @@
 
 var db = require('../../../db');
 var Product = db.model('product');
-var Reviews = db.model('reviews');
+var Reviews = db.model('review');
 var OrderItem = db.model('orderItem');
 
 var router = require('express').Router();
@@ -16,8 +16,8 @@ module.exports = router;
 router.param('id', function (req, res, next, theId) {
     Product.findById(theId)
         .then(function (foundProduct) {
-            if (!foundProduct) res.sendStatus(404);
-            else req.productInstance = foundProduct; // next in else -FLOB
+            if (!foundProduct) return res.sendStatus(404);
+            else req.productInstance = foundProduct;
             next();
         })
         .catch(next);
@@ -32,7 +32,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    if(!req.user) res.sendStatus(401);		// could be more module, auth middleware -FLOB
+    if(!req.user) res.sendStatus(401);
     else {
         Product.create(req.body)
         .then(function(createdProduct){

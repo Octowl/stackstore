@@ -5,7 +5,7 @@ module.exports = db;
 
 require('./models/user')(db);
 require('./models/product')(db);
-require('./models/reviews')(db);
+require('./models/review')(db);
 require('./models/location')(db);
 require('./models/order')(db);
 require('./models/orderItem')(db);
@@ -15,7 +15,7 @@ var User = db.model('user');
 var Orders = db.model('order');
 var OrderItem = db.model('orderItem');
 var Location = db.model('location');
-var Reviews = db.model('reviews');
+var Reviews = db.model('review');
 
 Orders.belongsToMany(Product, {through: OrderItem});
 Product.belongsToMany(Orders, {through: OrderItem});

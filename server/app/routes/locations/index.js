@@ -10,8 +10,8 @@ module.exports = router;
 router.param('id', function (req, res, next, theId) {
     Location.findById(theId)
         .then(function (foundLocation) {
-            if (!foundLocation) res.sendStatus(404);
-            else req.productInstance = foundLocation; //next should be part of the else -FLOB
+            if (!foundLocation) return res.sendStatus(404);
+            else req.productInstance = foundLocation;
             next();
         })
         .catch(next);

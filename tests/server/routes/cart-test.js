@@ -1,5 +1,7 @@
 /* jshint node: true, mocha: true */
 
+// TODO: Rewrite using superagent-as-promised
+
 // Instantiate all models
 var expect = require('chai').expect;
 var Sequelize = require('sequelize');
@@ -22,7 +24,7 @@ describe('Cart Routes', function(done){
         OrderItem = db.model('orderItem');
     });
 
-    beforeEach('Create a product', function (done) {
+    beforeEach('Create a product', function () {
         return Product.create({
                 name: 'cigarets',
                 description: 'marlboro',
@@ -41,8 +43,7 @@ describe('Cart Routes', function(done){
             .then(function (p) {
                 product2 = p;
                 done();
-            })
-            .catch(done);	//FLOB
+            });
     });
 
     beforeEach('Create guest agents', function () {
@@ -62,7 +63,6 @@ describe('Cart Routes', function(done){
 	}
 
 	function removeProductFromCart(agent, product) {
-		console.log("WOAH");	//remove -FLOB
 		return agent.get('/api/products/' + product.id + '/removeFromCart')
 		.expect(200);
 	}

@@ -6,6 +6,7 @@ var Sequelize = require('sequelize');
 process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
 var supertest = require('supertest');
+var Promise = require('bluebird');
 
 function toPlainObject(instance) {
     return instance.get({
@@ -23,30 +24,28 @@ describe('Locations Route', function () {
         });
     });
 
-    beforeEach('Create app', function () {  
+    beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
         Location = db.model('location');
     });
 
-    beforeEach('Create a location', function (done) { //bulk create -FLOB
-        return Location.create({        //don't need done with a return. -FLOB
-                name: "Paris",
-                latitude: 48.8566,
-                longitude: 2.3522
-            })
-            .then(function (l) {
-                location1 = l;
-                return Location.create({
+    beforeEach('Create a location', function () {
+        return Promise.all([
+                Location.create({
+                    name: "Paris",
+                    latitude: 48.8566,
+                    longitude: 2.3522
+                }),
+                Location.create({
                     name: "London",
                     latitude: 51.5074,
                     longitude: 0.1278
-                });
-            })
-            .then(function (l) {
-                location2 = l;
-                done();
-            })
-            .catch(done);
+                })
+            ])
+            .spread(function (_location1, _location2) {
+                location1 = _location1;
+                location2 = _location2;
+            });
     });
 
     beforeEach('Create guest agent', function () {
@@ -91,7 +90,7 @@ describe('Locations Route', function () {
                     Location.findById(res.body.id)
                         .then(function (p) {
                             expect(p).to.not.be.null;
-                            expect(res.body.id).to.eql(toPlainObject(p).id);    //p.id - FLOB
+                            expect(res.body.id).to.eql(p.id);
                             done();
                         })
                         .catch(done);
@@ -110,18 +109,6 @@ describe('Locations Route', function () {
                     expect(res.body.description).to.equal(location1.description);
                     done()
                 });
-        });
-
-        it("gets one that doesnt exist", function (done) {      //unneeded -FLOB
-            agent.get('/api/locations/123456')
-                .expect(404)
-                .end(done);
-        });
-
-        it("gets one with an invalid ID", function (done) { 
-            agent.get('/api/locations/hfdjkslhfiul')
-                .expect(500)
-                .end(done);
         });
 
     });
@@ -148,23 +135,6 @@ describe('Locations Route', function () {
                 });
         });
 
-        it("updates one that doesnt exist", function (done) {
-            agent.put('/api/locations/123456')
-                .send({
-                    name: 'Shageland'
-                })
-                .expect(404)
-                .end(done);
-        });
-
-        it("updates one with an invalid ID", function (done) {
-            agent.put('/api/locations/hfdjkslhfiul')
-                .send({
-                    name: 'Shageland'
-                })
-                .expect(500)
-                .end(done);
-        });
 
     });
 
@@ -183,18 +153,6 @@ describe('Locations Route', function () {
                         })
                         .catch(done);
                 });
-        });
-
-        it("deletes one that doesnt exist", function (done) {
-            agent.delete('/api/locations/123456')
-                .expect(404)
-                .end(done);
-        });
-
-        it("deletes one with an invalid ID", function (done) {
-            agent.delete('/api/locations/hfdjkslhfiul')
-                .expect(500)
-                .end(done);
         });
 
     });

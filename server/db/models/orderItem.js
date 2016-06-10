@@ -5,7 +5,6 @@
 var Sequelize = require('sequelize');
 
 module.exports = function(db) {
-    //validate that there are no negative price or quant - FLOB
     db.define('orderItem', {
         price: {
             type: Sequelize.INTEGER, //Price is in cents!

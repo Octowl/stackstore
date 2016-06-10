@@ -2,7 +2,7 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-process.env.NODE_ENV = 'testing';
+process.env.NODE_ENV = 'testing'; // TODO: move this to gulp
 var db = require('../../../server/db');
 var User = db.model('user');
 

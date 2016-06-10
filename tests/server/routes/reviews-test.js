@@ -25,7 +25,7 @@ describe('Reviews Route', function () {
 
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
-        Reviews = db.model('reviews');
+        Reviews = db.model('review');
         Product = db.model('product');
     });
 

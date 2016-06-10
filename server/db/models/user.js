@@ -15,8 +15,9 @@ module.exports = function (db) {
             allowNull: false
         },
         email: {
-            type: Sequelize.STRING, //should be unique -FLOB
+            type: Sequelize.STRING,
             allowNull: false,
+            unique: true,
             validate: {
                 isEmail: true
             }
@@ -26,15 +27,18 @@ module.exports = function (db) {
             allowNull: false
         },
         address: {
-            type: Sequelize.STRING, //use text because it can get long -FLOB
+            type: Sequelize.TEXT
         },
         isAdmin: {
             type: Sequelize.BOOLEAN,
             defaultValue: false
         },
         image: {
-            type: Sequelize.STRING, //url validator can be used - FLOB
-            defaultValue: 'http://c.directlyrics.com/img/upload/taylor-swift-apple-music.jpg'
+            type: Sequelize.STRING,
+            defaultValue: 'http://c.directlyrics.com/img/upload/taylor-swift-apple-music.jpg',
+            validate: {
+                isUrl: true
+            }
         },
         rating: {
             type: Sequelize.FLOAT   //how would it be set properly? -FLOB
@@ -84,4 +88,3 @@ module.exports = function (db) {
 
 
 };
-

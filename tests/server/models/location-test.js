@@ -21,13 +21,5 @@ describe('Location model', function () {
         };
        location = Location.build(locObj);
     });
-    //
-    // describe('coordinates virtual', function() {
-    //     it("returns a coordinate array", function () {
-    //         var coordinates = location.coordinates;
-    //         expect(coordinates).to.be.instanceof(Object);
-    //         expect(coordinates.)
-    //     });
-    // });
 
 });

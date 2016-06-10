@@ -2,7 +2,7 @@
 'use strict';
     // this whole thing can probably be mounted onto the product routes -FLOB
 var db = require('../../../db');
-var Reviews = db.model('reviews');
+var Reviews = db.model('review');
 var Product = db.model('product');
 var router = require('express').Router();
 
@@ -38,7 +38,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/:productId', function (req, res, next) {
     Reviews.create(req.body)
-        .tap(function (createdReview) {    //tap -FLOB
+        .tap(function (createdReview) {
             return req.productInstance.addReviews(createdReview);
         })
         .then(function (createdReview) {

@@ -2,7 +2,6 @@
 
 var Sequelize = require('sequelize');
 
-//maybe singularize the model name? -FLOB
 module.exports = function(db) {
     db.define('order', {
         active: {

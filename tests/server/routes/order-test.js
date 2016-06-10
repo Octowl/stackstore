@@ -2,11 +2,12 @@ var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
 
-process.env.NODE_ENV = 'testing';   //not needed here if in Gulp -FLOB
+process.env.NODE_ENV = 'testing'; //not needed here if in Gulp -FLOB
 
 var db = require('../../../server/db');
 
 var supertest = require('supertest');
+var Promise = require('bluebird');
 
 function toPlainObject(instance) {
     return instance.get({
@@ -30,19 +31,18 @@ describe('Orders Route', function () {
     });
 
     beforeEach('Create an order', function () {
-        return Orders.create({
-                active : true
+        return Promise.all([
+            Orders.create({
+                active: true
+            }),
+            Orders.create({
+                active: false
             })
-            .then(function (o) {
-                order1 = o;
-                return Orders.create({
-                    active : false
-                });
-            })
-            .then(function (o) {
-                order2 = o;
-            })
-            .catch(console.err);    //drop this catch -FLOB
+        ])
+        .spread(function(_order1, _order2){
+            order1 = _order1;
+            order2 = _order2;
+        });
     });
 
     beforeEach('Create guest agent', function () {
@@ -82,40 +82,28 @@ describe('Orders Route', function () {
                 });
         });
 
-        it("gets one that doesnt exist", function (done) {
-            agent.get('/api/orders/9123456')
-            .expect(404)
-            .end(done);
-        });
-
-        it("gets one with an invalid ID", function (done) {
-            agent.get('/api/orders/hfdjkslhfiul')
-            .expect(500)
-            .end(done);
-        });
-
     });
 
-    describe('POST one order', function(done){
+    describe('POST one order', function (done) {
 
-        it('creates a new order', function(done){
+        it('creates a new order', function (done) {
             agent.post('/api/orders')
-            .send({
-                active : false
-            })
-            .expect(201)
-            .end(function(err,res){
-                if(err) return done(err);
-                expect(res.body.active).to.equal(false);
-                expect(res.body.id).to.exist;
-                Orders.findById(res.body.id)
-                .then(function(o){
-                    expect(o).to.not.be.null;
-                    expect(res.body.id).to.eql(toPlainObject(o).id);
-                    done();
+                .send({
+                    active: false
                 })
-                .catch(done);
-            })
+                .expect(201)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    expect(res.body.active).to.equal(false);
+                    expect(res.body.id).to.exist;
+                    Orders.findById(res.body.id)
+                        .then(function (o) {
+                            expect(o).to.not.be.null;
+                            expect(res.body.id).to.eql(toPlainObject(o).id);
+                            done();
+                        })
+                        .catch(done);
+                })
         })
 
     })
@@ -124,40 +112,22 @@ describe('Orders Route', function () {
 
         it("updates one existing order", function (done) {
             agent.put('/api/orders/' + order1.id)
-            .send({
-                active : false
-            })
-            .expect(200)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.active).to.equal(false);
-                expect(res.body.id).to.exist;
-                Orders.findById(res.body.id)
-                .then(function (o) {
-                    expect(o).to.not.be.null;
-                    expect(res.body.id).to.eql(toPlainObject(o).id);
-                    done();
+                .send({
+                    active: false
                 })
-                .catch(done);
-            });
-        });
-
-        it("updates one that doesnt exist", function (done) {
-            agent.put('/api/orders/123456')
-            .send({
-                active : false
-            })
-            .expect(404)
-            .end(done);
-        });
-
-        it("updates one with an invalid ID", function (done) {
-            agent.put('/api/orders/hfdjkslhfiul')
-            .send({
-                active : false
-            })
-            .expect(500)
-            .end(done);
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    expect(res.body.active).to.equal(false);
+                    expect(res.body.id).to.exist;
+                    Orders.findById(res.body.id)
+                        .then(function (o) {
+                            expect(o).to.not.be.null;
+                            expect(res.body.id).to.eql(toPlainObject(o).id);
+                            done();
+                        })
+                        .catch(done);
+                });
         });
 
     });
@@ -166,28 +136,16 @@ describe('Orders Route', function () {
 
         it("deletes one existing order", function (done) {
             agent.delete('/api/orders/' + order1.id)
-            .expect(204)
-            .end(function (err, res) {
-                if (err) return done(err);
-                Orders.findById(order1.id)
-                .then(function (o) {
-                    expect(o).to.be.null;
-                    done();
-                })
-                .catch(done);
-            });
-        });
-
-        it("deletes one that doesnt exist", function (done) {
-            agent.delete('/api/orders/9123456')
-            .expect(404)
-            .end(done);
-        });
-
-        it("deletes one with an invalid ID", function (done) {
-            agent.delete('/api/orders/hfdjkslhfiul')
-            .expect(500)
-            .end(done);
+                .expect(204)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    Orders.findById(order1.id)
+                        .then(function (o) {
+                            expect(o).to.be.null;
+                            done();
+                        })
+                        .catch(done);
+                });
         });
 
     });

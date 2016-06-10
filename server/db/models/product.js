@@ -8,31 +8,41 @@ var productPlaceholderImage = 'http://localhost:1337/Images/product_placeholder.
 module.exports = function(db) {
     db.define('product', {
         name: {
-            type: Sequelize.STRING, //not blank -FLOB
-            allowNull: false    //add a unique validator -FLOB
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                notEmpty: true
+            }
         },
         description: {
-            type: Sequelize.STRING, //make into text - FLOB
+            type: Sequelize.TEXT,
             allowNull: false
         },
         price: {
-            type: Sequelize.FLOAT,  //in cents -FLOB
-            allowNull: false
+            type: Sequelize.INTEGER,  //in cents
+            allowNull: false,
+            validate: {
+                min: 0
+            }
         },
         inventory: {
-            type: Sequelize.INTEGER, //put a minimum -FLOB
+            type: Sequelize.INTEGER,
             allowNull: false,
-            defaultValue: 0
+            defaultValue: 0,
+            validate: {
+                min: 0
+            }
         },
         photoUrl: {
             type: Sequelize.STRING,
-            get: function() {   //maybe use a default? -FLOB
-                if(!this.getDataValue('photoUrl')) return productPlaceholderImage;
-                return this.getDataValue('photoUrl');
+            defaultValue: productPlaceholderImage,
+            validate: {
+                isUrl: true
             }
         }
         /*,
-        tags?   -- DEAD CODE!???  -FLOB
+        TODO: tags?
         */
     });
 };
