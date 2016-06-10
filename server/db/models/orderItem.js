@@ -21,12 +21,12 @@ module.exports = function(db) {
                 var self = this;
                 return Product.findById(self.productId)
                 .then(function(product){
-                    return self.update({
-                        price: product.price
-                    })
-
-                })
+                    return Promise.all([
+                        product.decreaseQuantity(self.quantity),
+                        self.update({ price: product.price})
+                ])})
             }
         }
-    });
+    }
+    );
 };

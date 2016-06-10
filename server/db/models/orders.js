@@ -28,7 +28,7 @@ module.exports = function(db) {
     					return item.lockPrice();
     				}));
     			})
-    			.then(function(items){
+    			.then(function(){
     				return self.update({
     					active: false
     				})
