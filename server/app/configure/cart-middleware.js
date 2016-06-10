@@ -28,6 +28,7 @@ module.exports = function (app, db) {
   })
 
   app.get('/cart', function(req, res, next){
+    console.log('this was called');
   	res.send(req.cart);
   })
 }
