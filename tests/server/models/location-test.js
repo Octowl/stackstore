@@ -2,7 +2,6 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
 var Location = db.model('location');
 
@@ -21,13 +20,5 @@ describe('Location model', function () {
         };
        location = Location.build(locObj);
     });
-    //
-    // describe('coordinates virtual', function() {
-    //     it("returns a coordinate array", function () {
-    //         var coordinates = location.coordinates;
-    //         expect(coordinates).to.be.instanceof(Object);
-    //         expect(coordinates.)
-    //     });
-    // });
 
 });

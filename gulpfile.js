@@ -54,6 +54,7 @@ gulp.task('buildJS', ['lintJS'], function () {
 });
 
 gulp.task('testServerJS', function () {
+    process.env.NODE_ENV = 'testing';
     require('babel-register');
 	return gulp.src('./tests/server/**/*.js', {
 		read: false

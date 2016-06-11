@@ -43,8 +43,16 @@ var seedProducts = function () {
         inventory: 10
     }];
 
-    var creatingProducts = products.map(function (productObj) {
-        return Product.create(productObj);
+    var creatingProducts = products.map(function (productObj, idx) {
+        var product;
+        return Product.create(productObj)
+        .then(function(_product){
+            product = _product;
+            return Location.findById(idx+1);
+        })
+        .then(function(location){
+            return product.setLocation(location);
+        });
     });
 
     return Promise.all(creatingProducts);
@@ -52,15 +60,15 @@ var seedProducts = function () {
 
 var seedLocations = function () {
     var locations = [{
-        name: "Paris",
+        name: "Egypt",
         latitude: 48.8566,
         longitude: 2.3522
     }, {
-        name: "London",
+        name: "France",
         latitude: 51.5074,
         longitude: 0.1278
     }, {
-        name: "New York",
+        name: "Dubaï",
         latitude: 40.7128,
         longitude: 74.0059
     }];
@@ -102,11 +110,11 @@ db.sync({
     .then(function () {
         return seedUsers();
     })
-    .then(function () {
-        return seedProducts();
-    })
     .then(function(){
         return seedLocations();
+    })
+    .then(function () {
+        return seedProducts();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));

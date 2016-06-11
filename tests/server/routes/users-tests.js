@@ -2,14 +2,10 @@
 
 // Instantiate all models
 var expect = require('chai').expect;
-
 var Sequelize = require('sequelize');
-
-process.env.NODE_ENV = 'testing';
-
 var db = require('../../../server/db');
-
 var supertest = require('supertest');
+var Promise = require('bluebird');
 
 function toPlainObject(instance) {
     return instance.get({
@@ -32,33 +28,31 @@ describe('Users Route', function () {
         User = db.model('user');
     });
 
-    beforeEach('Create a User', function (done) {
-        return User.create({
+    beforeEach('Create a User', function () {
+
+        return Promise.all([
+            User.create({
                 firstName: 'Lemon',
                 lastName: 'Squeeze',
                 email: 'thesqueeze@gmail.com',
                 password: 'lemonade'
+            }),
+            User.create({
+                firstName: 'Orange',
+                lastName: 'YouGlad',
+                email: 'thatididnt@gmail.com',
+                password: 'saylemon'
             })
-            .then(function (u) {
-                user1 = u;
-                return User.create({
-                    firstName: 'Orange',
-                	lastName: 'YouGlad',
-                	email: 'thatididnt@gmail.com',
-                	password: 'saylemon'
-                });
-            })
-            .then(function (u) {
-                user2 = u;
-                done();
-            })
-            .catch(done);
+        ]).spread(function (_user1, _user2) {
+            user1 = _user1;
+            user2 = _user2;
+        })
     });
 
     beforeEach('Create guest agent', function () {
         agent = supertest.agent(app);
     });
-    
+
     afterEach('Sync DB', function () {
         return db.sync({
             force: true
@@ -111,66 +105,36 @@ describe('Users Route', function () {
 
         it("gets one user by ID", function (done) {
             agent.get('/api/users/' + user1.id)
-            .expect(200)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.firstName).to.equal(user1.firstName);
-                done()
-            });
-        });
-
-        it("gets one that doesnt exist", function (done) {
-            agent.get('/api/users/123456')
-            .expect(404)
-            .end(done);
-        });
-
-        it("gets one with an invalid ID", function (done) {
-            agent.get('/api/users/mamainsqueezethelemon')
-            .expect(500)
-            .end(done);
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    expect(res.body.firstName).to.equal(user1.firstName);
+                    done()
+                });
         });
 
     });
 
     describe("PUT one", function (done) {
 
-        it("updates one existing product", function (done) {
+        it("updates one existing user", function (done) {
             agent.put('/api/users/' + user1.id)
-            .send({
-                firstName : 'Shagel'
-            })
-            .expect(200)
-            .end(function (err, res) {
-                if (err) return done(err);
-                expect(res.body.firstName).to.equal("Shagel");
-                expect(res.body.id).to.exist;
-                User.findById(res.body.id)
-                .then(function (u) {
-                    expect(u).to.not.be.null;
-                    expect(res.body.id).to.eql(toPlainObject(u).id);
-                    done();
+                .send({
+                    firstName: 'Shagel'
                 })
-                .catch(done);
-            });
-        });
-
-        it("updates one that doesnt exist", function (done) {
-            agent.put('/api/products/123456')
-            .send({
-                firstName : 'Shagel'
-            })
-            .expect(404)
-            .end(done);
-        });
-
-        it("updates one with an invalid ID", function (done) {
-            agent.put('/api/products/hfdjkslhfiul')
-            .send({
-                firstName : 'Shagel'
-            })
-            .expect(500)
-            .end(done);
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    expect(res.body.firstName).to.equal("Shagel");
+                    expect(res.body.id).to.exist;
+                    User.findById(res.body.id)
+                        .then(function (u) {
+                            expect(u).to.not.be.null;
+                            expect(res.body.id).to.eql(toPlainObject(u).id);
+                            done();
+                        })
+                        .catch(done);
+                });
         });
 
     });
@@ -180,28 +144,16 @@ describe('Users Route', function () {
 
         it("deletes one existing user", function (done) {
             agent.delete('/api/users/' + user1.id)
-            .expect(204)
-            .end(function (err, res) {
-                if (err) return done(err);
-                User.findById(user1.id)
-                .then(function (u) {
-                    expect(u).to.be.null;
-                    done();
-                })
-                .catch(done);
-            });
-        });
-
-        it("deletes one that doesnt exist", function (done) {
-            agent.delete('/api/users/123456')
-            .expect(404)
-            .end(done);
-        });
-
-        it("deletes one with an invalid ID", function (done) {
-            agent.delete('/api/users/hfdjkslhfiul')
-            .expect(500)
-            .end(done);
+                .expect(204)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    User.findById(user1.id)
+                        .then(function (u) {
+                            expect(u).to.be.null;
+                            done();
+                        })
+                        .catch(done);
+                });
         });
 
     });
