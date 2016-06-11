@@ -2,13 +2,13 @@
 'use strict';
 
 var db = require('../../db');
-var Reviews = db.model('review');
+var Review = db.model('review');
 var router = require('express').Router();
 
 module.exports = router;
 
 router.param('id', function (req, res, next, theId) {
-    Reviews.findById(theId)
+    Review.findById(theId)
         .then(function (foundReview) {
             if (!foundReview) res.sendStatus(404);
             else req.reviewInstance = foundReview;
@@ -18,7 +18,7 @@ router.param('id', function (req, res, next, theId) {
 });
 
 router.get('/', function (req, res, next) {
-    Reviews.findAll({})
+    Review.findAll({})
         .then(function (reviews) {
             res.send(reviews);
         })
@@ -26,7 +26,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-    Reviews.create(req.body)
+    Review.create(req.body)
         .tap(function (createdReview) {
             return req.productInstance.addReview(createdReview);
         })

@@ -22,6 +22,8 @@ var db = require('./server/db');
 var User = db.model('user');
 var Product = db.model('product');
 var Location = db.model('location');
+var Review = db.model('review');
+
 var Promise = require('sequelize').Promise;
 
 var seedProducts = function () {
@@ -80,6 +82,46 @@ var seedLocations = function () {
     return Promise.all(creatingLocations);
 };
 
+var seedReviews = function () {
+    var reviews = [{
+        stars : 5,
+        comment : 'Great Product',
+        userId : 3,
+        productId : 1
+    }, {
+        stars : 1,
+        comment : 'Terrible Product',
+        userId : 4,
+        productId : 2
+    }, {
+        stars : 4,
+        comment : 'Okay Product',
+        userId : 5,
+        productId : 3
+    },{
+        stars : 5,
+        comment : 'Really loved it',
+        userId : 3,
+        productId : 1
+    },{
+        stars : 1,
+        comment : 'Terrible',
+        userId : 3,
+        productId : 2
+    },{
+        stars : 3,
+        comment : 'AMAZING',
+        userId : 5,
+        productId : 2
+    }];
+
+    var creatingReviews = reviews.map(function (reviewObj) {
+        return Review.create(reviewObj);
+    });
+
+    return Promise.all(creatingReviews);
+};
+
 var seedUsers = function () {
 
     var users = [{
@@ -87,13 +129,37 @@ var seedUsers = function () {
         lastName: 'MaNizzle',
         email: 'shizzle@fsa.com',
         password: 'foshiz',
-        address: '17 Park Pl. Westbury, NY, 11213'
+        address: '17 Park Pl. Westbury, NY, 11213',
+        rating:3
     }, {
         firstName: 'Barry',
         lastName: 'O',
         email: 'obama@gmail.com',
         password: 'potus',
-        address: 'White House'
+        address: 'somewhere',
+        rating:3
+    }, {
+        firstName: 'Jenna',
+        lastName: 'Zenk',
+        email: 'zenkjenna@gmail.com',
+        password: 'jenna',
+        address: 'White House',
+        rating:5,
+        image: 'jennaprofilepicture.jpg'
+    }, {
+        firstName: 'Matt',
+        lastName: 'Landers',
+        email: 'mattlanders@gmail.com',
+        password: 'jennaisreallycool',
+        address: 'Los Angeles',
+        rating:1
+    },{
+        firstName: 'Aziz',
+        lastName: 'Alsaffar',
+        email: 'azizalsaffar@gmail.com',
+        password: 'jennaisreallycool',
+        address: 'London',
+        rating:5
     }];
 
     var creatingUsers = users.map(function (userObj) {
@@ -115,6 +181,9 @@ db.sync({
     })
     .then(function () {
         return seedProducts();
+    })
+    .then(function() {
+        return seedReviews();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));
