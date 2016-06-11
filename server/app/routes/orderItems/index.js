@@ -2,7 +2,7 @@
 
 //This whole thing might go away...
 var db = require('../../../db');
-var OrderItem = db.model('orderitem');
+var OrderItem = db.model('orderItem');
 var Order = db.model('orders');
 var Product = db.model('product'); 
 

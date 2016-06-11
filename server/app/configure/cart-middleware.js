@@ -3,7 +3,7 @@ module.exports = function (app, db) {
   var Order = db.model('orders');
   app.use(function(req, res, next){
   	if(!req.session.cart){
-  		Order.create() // JENNA
+  		Order.create()
   		.then(function(cart){
   			req.session.cart = cart.id;
   			next();

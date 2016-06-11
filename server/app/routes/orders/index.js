@@ -2,13 +2,21 @@
 
 'use strict';
 
-
 var db = require('../../../db');
 var Orders = db.model('orders');
+var Product = db.model('product');
+var OrderItem = db.model('orderItem');
 var router = require('express').Router();
 
 module.exports = router;
 
+router.get('/checkout', function(req, res, next){
+	req.cart.checkout()
+	.then(function(checkOutCompletedCart){
+		req.session.cart = null;
+		res.send(checkOutCompletedCart);
+	}).catch(next);
+});
 
 router.param('id', function(req, res, next, theId){
     Orders.findById(theId)

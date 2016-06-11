@@ -3,12 +3,12 @@
 var db = require('./_db');
 module.exports = db;
 
-require('./models/user')(db);
 require('./models/product')(db);
+require('./models/orderItem')(db);
+require('./models/user')(db);
 require('./models/reviews')(db);
 require('./models/location')(db);
 require('./models/orders')(db);
-require('./models/orderItem')(db);
 
 var Product = db.model('product');
 var User = db.model('user');
