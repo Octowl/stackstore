@@ -8,6 +8,7 @@ var Sequelize = require('sequelize');
 process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
 var supertest = require('supertest');
+var Promise = require('bluebird');
 
 describe('Cart Routes', function(done){
 	var app, agent1, agent2, Product, product1, product2, OrderItem;
@@ -25,25 +26,24 @@ describe('Cart Routes', function(done){
     });
 
     beforeEach('Create a product', function () {
-        return Product.create({
-                name: 'cigarets',
-                description: 'marlboro',
-                price: 40,
-                inventory: 50
-            })
-            .then(function (p) {
-                product1 = p;
-                return Product.create({
+		return Promise.all([
+			Product.create({
+	                name: 'cigarets',
+	                description: 'marlboro',
+	                price: 40,
+	                inventory: 50
+	            }),
+				Product.create({
                     name: 'shagel',
                     description: 'shagel vanilla',
                     price: 5,
                     inventory: 120
-                });
-            })
-            .then(function (p) {
-                product2 = p;
-                done();
-            });
+                })
+		])
+		.spread(function(_product1, _product2){
+			product1 = _product1;
+			product2 = _product2;
+		});
     });
 
     beforeEach('Create guest agents', function () {

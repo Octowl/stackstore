@@ -6,6 +6,7 @@ var expect = require('chai').expect;
 var Sequelize = require('sequelize');
 var db = require('../../../server/db');
 var supertest = require('supertest');
+var Promise = require('bluebird');
 
 function toPlainObject(instance) {
     return instance.get({
@@ -30,23 +31,21 @@ describe('Reviews Route', function () {
     });
 
 
-    beforeEach('Create a review', function (done) {
-        return Reviews.create({
-                stars: 1,
-                comment: 'horrible product'
+    beforeEach('Create a review', function () {
+        return Promise.all([
+            Reviews.create({
+                    stars: 1,
+                    comment: 'horrible product'
+                }),
+            Reviews.create({
+                stars: 5,
+                comment: 'cool'
             })
-            .then(function (r) {
-                review1 = r;
-                return Reviews.create({
-                    stars: 5,
-                    comment: 'cool'
-                });
-            })
-            .then(function (r) {
-                review2 = r;
-                done();
-            })
-            .catch(done);
+        ])
+        .spread(function(_review1, _review2){
+            review1 = _review1;
+            review2 = _review2;
+        });
     });
 
     beforeEach('Create guest agent', function () {
@@ -132,18 +131,6 @@ describe('Reviews Route', function () {
             });
         });
 
-        it("posts one that doesnt exist", function (done) {
-            agent.post('/api/reviews/123456')
-            .expect(404)
-            .end(done);
-        });
-
-        it("posts one with an invalid ID", function (done) {
-            agent.post('/api/reviews/hfdjkslhfiul')
-            .expect(500)
-            .end(done);
-        });
-
     });
 
     describe("GET one by ID", function (done) {
@@ -156,18 +143,6 @@ describe('Reviews Route', function () {
                 expect(res.body.comment).to.equal(review1.comment);
                 done()
             });
-        });
-
-        it("gets one that doesnt exist", function (done) {
-            agent.get('/api/reviews/123456')
-            .expect(404)
-            .end(done);
-        });
-
-        it("gets one with an invalid ID", function (done) {
-            agent.get('/api/reviews/hfdjkslhfiul')
-            .expect(500)
-            .end(done);
         });
 
     });
@@ -194,24 +169,6 @@ describe('Reviews Route', function () {
             });
         });
 
-        it("updates one that doesnt exist", function (done) {
-            agent.put('/api/reviews/123456')
-            .send({
-                stars: 1
-            })
-            .expect(404)
-            .end(done);
-        });
-
-        it("updates one with an invalid ID", function (done) {
-            agent.put('/api/reviews/hfdjkslhfiul')
-            .send({
-                stars: 1
-            })
-            .expect(500)
-            .end(done);
-        });
-
     });
 
 
@@ -229,18 +186,6 @@ describe('Reviews Route', function () {
                 })
                 .catch(done);
             });
-        });
-
-        it("deletes one that doesnt exist", function (done) {
-            agent.delete('/api/reviews/123456')
-            .expect(404)
-            .end(done);
-        });
-
-        it("deletes one with an invalid ID", function (done) {
-            agent.delete('/api/reviews/hfdjkslhfiul')
-            .expect(500)
-            .end(done);
         });
 
     });
