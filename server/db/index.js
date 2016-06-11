@@ -3,11 +3,11 @@
 var db = require('./_db');
 module.exports = db;
 
+require('./models/orderItem')(db);
+require('./models/review')(db);
 require('./models/user')(db);
 require('./models/product')(db);
-require('./models/review')(db);
 require('./models/location')(db);
-require('./models/orderItem')(db);
 require('./models/order')(db);
 
 var OrderItem = db.model('orderItem');

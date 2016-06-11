@@ -5,7 +5,6 @@
 
 var db = require('../../db');
 var Product = db.model('product');
-var Reviews = db.model('review');
 var OrderItem = db.model('orderItem');
 
 var router = require('express').Router();
@@ -43,6 +42,8 @@ router.post('/', function(req, res, next){
         .catch(next);
     }
 });
+
+router.use('/:id/reviews', require('./reviews'));
 
 router.get('/:id/addToCart', function(req, res, next){	//why is this a get request?  -FLOB
 	req.cart.changeProductQuantity(req.productInstance, 1)

@@ -1,9 +1,8 @@
 /* jshint node:true*/
 'use strict';
-    // this whole thing can probably be mounted onto the product routes -FLOB
+
 var db = require('../../db');
 var Reviews = db.model('review');
-var Product = db.model('product');
 var router = require('express').Router();
 
 module.exports = router;
@@ -18,16 +17,6 @@ router.param('id', function (req, res, next, theId) {
         .catch(next);
 });
 
-router.param('productId', function (req, res, next, theId) {
-    Product.findById(theId)
-        .then(function (foundProduct) {
-            if (!foundProduct) res.sendStatus(404);
-            else req.productInstance = foundProduct;
-            next();
-        })
-        .catch(next);
-});
-
 router.get('/', function (req, res, next) {
     Reviews.findAll({})
         .then(function (reviews) {
@@ -36,10 +25,10 @@ router.get('/', function (req, res, next) {
         .catch(next);
 });
 
-router.post('/:productId', function (req, res, next) {
+router.post('/', function (req, res, next) {
     Reviews.create(req.body)
         .tap(function (createdReview) {
-            return req.productInstance.addReviews(createdReview);
+            return req.productInstance.addReview(createdReview);
         })
         .then(function (createdReview) {
             res.status(201).send(createdReview);

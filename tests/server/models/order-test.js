@@ -2,13 +2,8 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-var dbURI = 'postgres://localhost:5432/testing-cove';
-var db = new Sequelize(dbURI, {
-    logging: false
-});
-
-require('../../../server/db/models/order')(db);
-
+process.env.NODE_ENV = 'testing';   //can be in the gulp task - FLOB
+var db = require('../../../server/db');
 var Order = db.model('order');
 
 describe('Orders model', function () {

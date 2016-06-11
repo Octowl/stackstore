@@ -14,9 +14,12 @@ function toPlainObject(instance) {
     });
 }
 
+var productsEndpoint = '/api/products/';
+var reviewsEndpoint = '/reviews/';
+
 describe('Reviews Route', function () {
 
-    var app, Reviews, review1, review2, agent, Product;
+    var app, Reviews, review1, review2, agent, Product, product1, product2;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -30,6 +33,28 @@ describe('Reviews Route', function () {
         Product = db.model('product');
     });
 
+    beforeEach('Create products', function () {
+
+        return Promise.all([
+                Product.create({
+                    name: 'cigarets',
+                    description: 'marlboro',
+                    price: 40,
+                    inventory: 50
+                }),
+                Product.create({
+                    name: 'shagel',
+                    description: 'shagel vanilla',
+                    price: 5,
+                    inventory: 120
+                })
+            ])
+            .spread(function (_product1, _product2) {
+                product1 = _product1;
+                product2 = _product2;
+            });
+
+    });
 
     beforeEach('Create a review', function () {
         return Promise.all([
@@ -60,8 +85,15 @@ describe('Reviews Route', function () {
 
     describe("GET all", function () {
 
-        it('gets all reviews', function (done) {
-            agent.get('/api/reviews')
+        beforeEach(function(){
+            return Promise.all([
+                product1.addReview(review1),
+                product1.addReview(review2)
+            ]);
+        });
+
+        it('gets all reviews for a product', function (done) {
+            agent.get(productsEndpoint + product1.id + reviewsEndpoint)
                 .expect(200)
                 .end(function (err, res) {
                     if (err) return done(err);
@@ -77,22 +109,8 @@ describe('Reviews Route', function () {
 
         var product;
 
-        beforeEach('Create a product', function (done) {
-            return Product.create({
-                    name: 'cigarets',
-                    description: 'marlboro',
-                    price: 40,
-                    inventory: 50
-                })
-                .then(function (p) {
-                    product = p;
-                    done();
-                })
-                .catch(done);
-        });
-
         it("creates a new review", function (done) {
-            agent.post('/api/reviews/' + product.id)
+            agent.post(productsEndpoint + product1.id + reviewsEndpoint)
             .send({
                 stars: 2,
                 comment: 'bad thing'
@@ -103,9 +121,9 @@ describe('Reviews Route', function () {
                 expect(res.body.comment).to.equal("bad thing");
                 expect(res.body.id).to.exist;
                 Reviews.findById(res.body.id)
-                .then(function (p) {
-                    expect(p).to.not.be.null;
-                    expect(res.body.id).to.eql(toPlainObject(p).id);
+                .then(function (r) {
+                    expect(r).to.not.be.null;
+                    expect(res.body.id).to.eql(r.id);
                     done();
                 })
                 .catch(done);
@@ -113,7 +131,7 @@ describe('Reviews Route', function () {
         });
 
         it("associates review with product", function (done) {
-            agent.post('/api/reviews/' + product.id)
+            agent.post(productsEndpoint + product1.id + reviewsEndpoint)
             .send({
                 stars: 2,
                 comment: 'bad thing'
@@ -124,7 +142,7 @@ describe('Reviews Route', function () {
                 Reviews.findById(res.body.id)
                 .then(function (r) {
                     expect(r).to.not.be.null;
-                    expect(r.productId).to.eql(product.id);
+                    expect(r.productId).to.eql(product1.id);
                     done();
                 })
                 .catch(done);
@@ -135,8 +153,15 @@ describe('Reviews Route', function () {
 
     describe("GET one by ID", function (done) {
 
+        beforeEach(function(){
+            return Promise.all([
+                product1.addReview(review1),
+                product1.addReview(review2)
+            ]);
+        });
+
         it("gets one review by ID", function (done) {
-            agent.get('/api/reviews/' + review1.id)
+            agent.get(productsEndpoint + product1.id + reviewsEndpoint + review1.id)
             .expect(200)
             .end(function (err, res) {
                 if (err) return done(err);
@@ -150,7 +175,7 @@ describe('Reviews Route', function () {
     describe("PUT one", function (done) {
 
         it("updates one existing review", function (done) {
-            agent.put('/api/reviews/' + review1.id)
+            agent.put(productsEndpoint + product1.id + reviewsEndpoint + review1.id)
             .send({
                 stars: 3
             })
@@ -175,7 +200,7 @@ describe('Reviews Route', function () {
     describe("DELETE one", function (done) {
 
         it("deletes one existing review", function (done) {
-            agent.delete('/api/reviews/' + review1.id)
+            agent.delete(productsEndpoint + product1.id + reviewsEndpoint + review1.id)
             .expect(204)
             .end(function (err, res) {
                 if (err) return done(err);
