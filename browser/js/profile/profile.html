@@ -8,20 +8,23 @@
       <h5 ng-show="user.address">{{user.address}}</h5>
       <h5 ng-hide="user.address"> Enter an Address</h5>
     </div>
-    <div class="col-sm-8">
-      <h1>{{user.firstName}}'s Reviews</h1>
-      <br>
-      <div class='alert alert-info'>
-      <h4>Shagel Vanilla from France</h4>
-      <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>
-      <h5>I really enjoyed being able to get a Shagel while in the States.</h5>
-      </div>
-      <div class='alert alert-info'>
-      <h4>Shagel Vanilla from France</h4>
-      <span class="glyphicon glyphicon-star"></span>
-      <h5>I really enjoyed being able to get a Shagel while in the States.</h5>
-      </div>
-    </div>
+   <div class="col-sm-8">
+      
+    <uib-accordion close-others="oneAtATime">
+    <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      <uib-accordion-heading><span class="glyphicon glyphicon-pencil"></span> {{user.firstName}}'s Reviews
+      </uib-accordion-heading>
+      <review ng-repeat="review in reviews"></review>
+    </uib-accordion-group>
+    <br>
+    <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      <uib-accordion-heading><span class="glyphicon glyphicon-list-alt"></span> {{user.firstName}}'s Order History
+      </uib-accordion-heading>
+      <!--here will go the order history-->    
+ </uib-accordion-group>
 
+</uib-accordion>
+    </div>
   </div>
 </div>
+

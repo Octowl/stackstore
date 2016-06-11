@@ -24,6 +24,8 @@ Product.belongsTo(Location);
 
 Product.hasMany(Review);
 User.hasMany(Review);
+Review.belongsTo(Product);
+Review.belongsTo(User);
 
 Product.belongsTo(User);
 User.hasMany(Product);

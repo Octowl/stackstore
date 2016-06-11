@@ -2,6 +2,10 @@
 var router = require('express').Router();
 var db = require('../../db');
 var User = db.model('user');
+var Review = db.model('review');
+var Product = db.model('product');
+
+
 module.exports = router;
 
 router.param('id', function (req, res, next, id) {
@@ -16,6 +20,20 @@ router.param('id', function (req, res, next, id) {
 
 router.get('/:id', function (req, res, next) {
     res.send(req.foundUser);
+})
+
+router.get('/:id/reviews', function (req, res, next) {
+    Review.findAll({
+        where : {
+            userId : req.foundUser.id
+        },
+        include: [{
+                model: Product
+        }]
+    })
+    .then(function(foundReviews){
+        res.send(foundReviews);
+    })
 })
 
 router.put('/:id', function (req, res, next) {

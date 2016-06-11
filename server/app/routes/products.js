@@ -7,6 +7,10 @@ var db = require('../../db');
 var Product = db.model('product');
 var OrderItem = db.model('orderItem');
 var Location = db.model('location');
+var Review = db.model('review');
+var User = db.model('user');
+
+
 
 var router = require('express').Router();
 
@@ -32,6 +36,20 @@ router.get('/', function (req, res, next) {
             res.send(products);
         })
         .catch(next);
+});
+
+router.get('/:id/reviews', function (req, res, next) {
+    Review.findAll({
+            where : {
+                productId : req.productInstance.id
+            },
+            include: [{
+                    model: User
+            }]
+        })
+        .then(function(foundReviews){
+            res.send(foundReviews);
+        })
 });
 
 router.post('/', function (req, res, next) {
@@ -69,6 +87,8 @@ router.get('/:id/removeFromCart', function(req, res, next){	//shouldn't be a get
 router.get('/:id', function (req, res, next) {
     res.send(req.productInstance);
 });
+
+
 
 router.put('/:id', function (req, res, next) {
     req.productInstance.update(req.body)
