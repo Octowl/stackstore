@@ -2,15 +2,12 @@
 
 'use strict';
 
-
 var db = require('../../db');
 var Product = db.model('product');
 var OrderItem = db.model('orderItem');
 var Location = db.model('location');
 var Review = db.model('review');
 var User = db.model('user');
-
-
 
 var router = require('express').Router();
 
@@ -55,9 +52,17 @@ router.get('/:id/reviews', function (req, res, next) {
 router.post('/', function (req, res, next) {
     if (!req.user) res.sendStatus(401);
     else {
-        Product.create(req.body)
-            .then(function (createdProduct) {
-                return createdProduct.setUser(req.user);
+        var myProduct;
+        Product.create(req.body.product)
+            .then(function(createdProduct){
+        		myProduct = createdProduct;
+        		return Location.findById(req.body.location);
+        	})
+        	.then(function(foundLocation){
+        		return myProduct.setLocation(foundLocation);
+        	})
+            .tap(function(createdProduct){
+                return myProduct.setUser(req.user);
             })
             .then(function (createdProduct) {
                 res.status(201).send(createdProduct);

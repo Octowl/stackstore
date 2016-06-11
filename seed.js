@@ -108,6 +108,11 @@ var seedReviews = function () {
         comment : 'Terrible',
         userId : 3,
         productId : 2
+    },{
+        stars : 3,
+        comment : 'AMAZING',
+        userId : 5,
+        productId : 2
     }];
 
     var creatingReviews = reviews.map(function (reviewObj) {

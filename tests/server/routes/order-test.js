@@ -12,7 +12,7 @@ function toPlainObject(instance) {
 
 describe('Orders Route', function () {
 
-    var app, Orders, order1, order2, agent;
+    var app, Order, User, order1, order2, agent;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -22,22 +22,23 @@ describe('Orders Route', function () {
 
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
-        Orders = db.model('order');
+        Order = db.model('order');
+        User = db.model('user');
     });
 
     beforeEach('Create an order', function () {
         return Promise.all([
-            Orders.create({
-                active: true
-            }),
-            Orders.create({
-                active: false
-            })
-        ])
-        .spread(function(_order1, _order2){
-            order1 = _order1;
-            order2 = _order2;
-        });
+                Order.create({
+                    active: true
+                }),
+                Order.create({
+                    active: false
+                })
+            ])
+            .spread(function (_order1, _order2) {
+                order1 = _order1;
+                order2 = _order2;
+            });
     });
 
     beforeEach('Create guest agent', function () {
@@ -81,6 +82,29 @@ describe('Orders Route', function () {
 
     describe('POST one order', function (done) {
 
+        var user, loggedInAgent;
+        var userInfo = {
+            firstName: 'Matt',
+            lastName: 'Landers',
+            email: 'mattlanders@smartpeople.com',
+            password: 'Jennaisthebestandsmartest'
+        };
+
+        beforeEach('Create a user', function () {
+            return User.create(userInfo)
+                .then(function (u) {
+                    user = u;
+                });
+        });
+
+        beforeEach('Log in user', function (done) {
+            loggedInAgent = supertest.agent(app);
+            return loggedInAgent.post('/login').send(userInfo)
+                .end(function (err, res) {
+                    done();
+                });
+        });
+
         it('creates a new order', function (done) {
             agent.post('/api/orders')
                 .send({
@@ -91,15 +115,15 @@ describe('Orders Route', function () {
                     if (err) return done(err);
                     expect(res.body.active).to.equal(false);
                     expect(res.body.id).to.exist;
-                    Orders.findById(res.body.id)
+                    Order.findById(res.body.id)
                         .then(function (o) {
                             expect(o).to.not.be.null;
-                            expect(res.body.id).to.eql(toPlainObject(o).id);
+                            expect(res.body.id).to.eql(o.id);
                             done();
                         })
                         .catch(done);
-                })
-        })
+                });
+        });
 
     })
 
@@ -115,7 +139,7 @@ describe('Orders Route', function () {
                     if (err) return done(err);
                     expect(res.body.active).to.equal(false);
                     expect(res.body.id).to.exist;
-                    Orders.findById(res.body.id)
+                    Order.findById(res.body.id)
                         .then(function (o) {
                             expect(o).to.not.be.null;
                             expect(res.body.id).to.eql(toPlainObject(o).id);
@@ -134,7 +158,7 @@ describe('Orders Route', function () {
                 .expect(204)
                 .end(function (err, res) {
                     if (err) return done(err);
-                    Orders.findById(order1.id)
+                    Order.findById(order1.id)
                         .then(function (o) {
                             expect(o).to.be.null;
                             done();

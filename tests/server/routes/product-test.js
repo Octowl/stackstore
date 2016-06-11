@@ -15,7 +15,7 @@ function toPlainObject(instance) {
 
 describe('Products Route', function () {
 
-    var app, User, Product, product1, product2, agent;
+    var app, Product, product1, product2, agent, Location, User;
 
     beforeEach('Sync DB', function () {
         return db.sync({
@@ -26,6 +26,7 @@ describe('Products Route', function () {
     beforeEach('Create app', function () {
         app = require('../../../server/app')(db);
         Product = db.model('product');
+        Location = db.model('location');
         User = db.model('user');
     });
 
@@ -81,7 +82,7 @@ describe('Products Route', function () {
 
     describe("POST one", function (done) {
 
-        var user, loggedInAgent;
+        var location, user, loggedInAgent;
         var userInfo = {
             firstName: 'Matt',
             lastName: 'Landers',
@@ -89,13 +90,22 @@ describe('Products Route', function () {
             password: 'Jennaisthebestandsmartest'
         };
 
-        beforeEach('Create a user', function (done) {
+        beforeEach('Create a location', function () {
+            return Location.create({
+                    name: "Paris",
+                    latitude: 48.8566,
+                    longitude: 2.3522
+                })
+                .then(function (l) {
+                    location = l;
+                });
+        });
+
+        beforeEach('Create a user', function () {
             return User.create(userInfo)
                 .then(function (u) {
                     user = u;
-                    done();
-                })
-                .catch(done);
+                });
         });
 
         beforeEach('Log in user', function (done) {
@@ -109,10 +119,13 @@ describe('Products Route', function () {
         it("creates a new product", function (done) {
             loggedInAgent.post('/api/products/')
                 .send({
-                    name: "Shagel",
-                    description: "gel and things",
-                    price: 4.5,
-                    inventory: 8
+                    product: {
+                        name: "Shagel",
+                        description: "gel and things",
+                        price: 4.5,
+                        inventory: 8
+                    },
+                    location: location.id
                 })
                 .expect(201)
                 .end(function (err, res) {
@@ -132,10 +145,13 @@ describe('Products Route', function () {
         it("associates product with logged in user", function (done) {
             loggedInAgent.post('/api/products/')
                 .send({
-                    name: "Shagel",
-                    description: "gel and things",
-                    price: 4.5,
-                    inventory: 8
+                    product: {
+                        name: "Shagel",
+                        description: "gel and things",
+                        price: 4.5,
+                        inventory: 8
+                    },
+                    location: location.id
                 })
                 .expect(201)
                 .end(function (err, res) {
@@ -145,14 +161,36 @@ describe('Products Route', function () {
                 });
         });
 
-
-        it("only logged in users can create products", function (done) {
-            agent.post('/api/products/')
-                .send({
+        it("associates the product with a location", function () {
+            loggedInAgent.post('/api/products')
+            .send({
+                product: {
                     name: "Shagel",
                     description: "gel and things",
                     price: 4.5,
                     inventory: 8
+                },
+                location: location.id
+            })
+            .expect(201)
+            .end(function (err, res) {
+                if (err) return done(err);
+                expect(res.body.locationId).to.equal(location.id);
+                done();
+            });
+        });
+
+
+        it("only logged in users can create products", function (done) {
+            agent.post('/api/products/')
+                .send({
+                    product: {
+                        name: "Shagel",
+                        description: "gel and things",
+                        price: 4.5,
+                        inventory: 8
+                    },
+                    location: location.id
                 })
                 .expect(401)
                 .end(function (err, res) {

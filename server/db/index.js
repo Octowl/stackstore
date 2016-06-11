@@ -17,15 +17,18 @@ var Order = db.model('order');
 var Location = db.model('location');
 var Review = db.model('review');
 
+Order.belongsTo(User);
 Order.belongsToMany(Product, {through: OrderItem});
+
 Product.belongsToMany(Order, {through: OrderItem});
-
 Product.belongsTo(Location);
-
 Product.hasMany(Review);
-User.hasMany(Review);
+
 Review.belongsTo(Product);
 Review.belongsTo(User);
 
 Product.belongsTo(User);
+
+User.hasMany(Order);
+User.hasMany(Review);
 User.hasMany(Product);
