@@ -14,9 +14,7 @@ router.get('/checkout', function(req, res, next){
 	req.cart.checkout()
 	.then(function(checkOutCompletedCart){
 		req.session.cart = null;
-		console.log('ORDER COMPLETE:');
-		console.log('DETAILS', checkOutCompletedCart); 
-		res.send("Congrats on your order: " + checkOutCompletedCart);
+		res.send(checkOutCompletedCart);
 	}).catch(next);
 });
 

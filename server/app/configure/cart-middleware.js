@@ -3,7 +3,7 @@ module.exports = function (app, db) {
   var Order = db.model('orders');
   app.use(function(req, res, next){
   	if(!req.session.cart){
-  		Order.create() // JENNA
+  		Order.create()
   		.then(function(cart){
   			req.session.cart = cart.id;
   			next();
@@ -28,7 +28,6 @@ module.exports = function (app, db) {
   })
 
   app.get('/cart', function(req, res, next){
-    console.log('this was called');
   	res.send(req.cart);
   })
 }
