@@ -17,4 +17,3 @@ router.use('/orders', require('./orders'));
 router.use(function (req, res) {
     res.status(404).end();
 });
-//you don't need to put all the routes in a folder -FLOB

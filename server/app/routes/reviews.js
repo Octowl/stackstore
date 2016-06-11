@@ -1,7 +1,7 @@
 /* jshint node:true*/
 'use strict';
     // this whole thing can probably be mounted onto the product routes -FLOB
-var db = require('../../../db');
+var db = require('../../db');
 var Reviews = db.model('review');
 var Product = db.model('product');
 var router = require('express').Router();

@@ -3,7 +3,7 @@
 'use strict';
 
 
-var db = require('../../../db');
+var db = require('../../db');
 var Orders = db.model('order');
 var router = require('express').Router();
 

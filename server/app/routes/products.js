@@ -3,7 +3,7 @@
 'use strict';
 
 
-var db = require('../../../db');
+var db = require('../../db');
 var Product = db.model('product');
 var Reviews = db.model('review');
 var OrderItem = db.model('orderItem');

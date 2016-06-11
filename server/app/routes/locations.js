@@ -1,7 +1,7 @@
 /* jshint node:true*/
 'use strict';
 
-var db = require('../../../db');
+var db = require('../../db');
 var Location = db.model('location');
 var router = require('express').Router();
 
