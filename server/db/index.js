@@ -19,6 +19,7 @@ var Review = db.model('review');
 
 Order.belongsTo(User);
 Order.belongsToMany(Product, {through: OrderItem});
+Order.hasMany(OrderItem);
 
 Product.belongsToMany(Order, {through: OrderItem});
 Product.belongsTo(Location);

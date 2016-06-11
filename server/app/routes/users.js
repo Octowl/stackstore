@@ -4,6 +4,8 @@ var db = require('../../db');
 var User = db.model('user');
 var Review = db.model('review');
 var Product = db.model('product');
+var Order = db.model('order');
+var OrderItem = db.model('orderItem');
 
 
 module.exports = router;
@@ -24,24 +26,39 @@ router.get('/:id', function (req, res, next) {
 
 router.get('/:id/reviews', function (req, res, next) {
     Review.findAll({
-        where : {
-            userId : req.foundUser.id
-        },
-        include: [{
+            where: {
+                userId: req.foundUser.id
+            },
+            include: [{
                 model: Product
-        }]
-    })
-    .then(function(foundReviews){
-        res.send(foundReviews);
-    })
-})
+            }]
+        })
+        .then(function (foundReviews) {
+            res.send(foundReviews);
+        }).catch(next);
+});
+
+router.get('/:id/orders', function (req, res, next) {
+    Order.findAll({
+            where: {
+                userId: req.foundUser.id
+            },
+            include: [{
+                model: Product
+            },{
+                model: OrderItem
+            }]
+        })
+        .then(function (foundOrders) {
+            res.send(foundOrders);
+        }).catch(next);
+});
 
 router.put('/:id', function (req, res, next) {
-	console.log(req.body);
     req.foundUser.update(req.body)
-        .then(function(updatedUser){
-			res.send(updatedUser);
-		})
+        .then(function (updatedUser) {
+            res.send(updatedUser);
+        })
         .catch(next);
 });
 

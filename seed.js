@@ -23,6 +23,7 @@ var User = db.model('user');
 var Product = db.model('product');
 var Location = db.model('location');
 var Review = db.model('review');
+var Order = db.model('order');
 
 var Promise = require('sequelize').Promise;
 
@@ -81,6 +82,33 @@ var seedLocations = function () {
 
     return Promise.all(creatingLocations);
 };
+
+var seedOrders = function() {
+    var orders = [{
+        active: true,
+        userId: 1
+    },{
+        active: false,
+        userId: 2
+    },{
+        active: false,
+        userId: 5
+    },{
+        active: false,
+        userId: 3
+    },{
+        active: false,
+        userId: 4
+    }];
+
+    var creatingOrders = orders.map(function (orderObj) {
+        return Order.create(orderObj);
+    });
+
+    return Promise.all(creatingOrders);
+};
+
+
 
 var seedReviews = function () {
     var reviews = [{
@@ -184,6 +212,9 @@ db.sync({
     })
     .then(function() {
         return seedReviews();
+    })
+    .then(function(){
+        return seedOrders();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));

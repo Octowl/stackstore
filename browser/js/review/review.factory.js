@@ -14,6 +14,6 @@ app.factory('ReviewFactory', function ($http) {
         return $http.get('/api/products/' + id + '/reviews')
         .then(resToData);
     };
-    
+
     return ReviewFactory;
 });
