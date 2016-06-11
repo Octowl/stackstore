@@ -19,6 +19,13 @@ body {
   margin: 0 auto;
 }
 
+.searchbar {
+	border-width : 0 0 5px 0;
+	font-size: 50px;
+	height : 60px;
+	background: #fdfdfd;
+}
+
 @import 'directives/main';
 @import 'home/main';
 @import 'about/main';

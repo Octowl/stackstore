@@ -52,15 +52,15 @@ var seedProducts = function () {
 
 var seedLocations = function () {
     var locations = [{
-        name: "Paris",
+        name: "Egypt",
         latitude: 48.8566,
         longitude: 2.3522
     }, {
-        name: "London",
+        name: "France",
         latitude: 51.5074,
         longitude: 0.1278
     }, {
-        name: "New York",
+        name: "Dubaï",
         latitude: 40.7128,
         longitude: 74.0059
     }];

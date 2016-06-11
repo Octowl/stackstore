@@ -7,6 +7,7 @@ var db = require('../../../db');
 var Product = db.model('product');
 var Reviews = db.model('reviews');
 var OrderItem = db.model('orderItem');
+var Location = db.model('location');
 
 var router = require('express').Router();
 var _ = require('lodash');
@@ -24,7 +25,9 @@ router.param('id', function (req, res, next, theId) {
 });
 
 router.get('/', function (req, res, next) {
-    Product.findAll({})
+    Product.findAll({include : [
+       {model : Location}]
+    })
         .then(function (products) {
             res.send(products);
         })
