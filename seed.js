@@ -93,7 +93,25 @@ var seedUsers = function () {
         lastName: 'O',
         email: 'obama@gmail.com',
         password: 'potus',
+        address: 'somewhere'
+    }, {
+        firstName: 'Jenna',
+        lastName: 'Zenk',
+        email: 'zenkjenna@gmail.com',
+        password: 'jenna',
         address: 'White House'
+    }, {
+        firstName: 'Matt',
+        lastName: 'Landers',
+        email: 'mattlanders@gmail.com',
+        password: 'jennaisreallycool',
+        address: 'Los Angeles'
+    },{
+        firstName: 'Aziz',
+        lastName: 'Alsaffar',
+        email: 'azizalsaffar@gmail.com',
+        password: 'jennaisreallycool',
+        address: 'London'
     }];
 
     var creatingUsers = users.map(function (userObj) {

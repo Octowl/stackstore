@@ -4,12 +4,24 @@
       <img id="profilePic" src="{{user.image}}">
       <h3><span>{{user.firstName}}</span><span>{{" " + user.lastName}} </span></h3>
       <h5>{{user.email}}</h5>
-      <h5>{{user.rating}}</h5>
+      <span ng-class="{'glyphicon-star': $index < user.rating, 'glyphicon-star-empty' : $index >= user.rating}" class="glyphicon" ng-repeat="i in stars track by $index"></span>
       <h5 ng-show="user.address">{{user.address}}</h5>
       <h5 ng-hide="user.address"> Enter an Address</h5>
     </div>
     <div class="col-sm-8">
-      There will be a table of comments here.
+      <h1>{{user.firstName}}'s Reviews</h1>
+      <br>
+      <div class='alert alert-info'>
+      <h4>Shagel Vanilla from France</h4>
+      <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>
+      <h5>I really enjoyed being able to get a Shagel while in the States.</h5>
+      </div>
+      <div class='alert alert-info'>
+      <h4>Shagel Vanilla from France</h4>
+      <span class="glyphicon glyphicon-star"></span>
+      <h5>I really enjoyed being able to get a Shagel while in the States.</h5>
+      </div>
     </div>
+
   </div>
 </div>
