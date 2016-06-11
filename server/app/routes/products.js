@@ -9,7 +9,6 @@ var Reviews = db.model('review');
 var OrderItem = db.model('orderItem');
 
 var router = require('express').Router();
-var _ = require('lodash');
 
 module.exports = router;
 
@@ -45,35 +44,8 @@ router.post('/', function(req, res, next){
     }
 });
 
-function isItemInCart(cart, product) {  //should be an instance method of the order model -FLOB
-	return cart.getProducts()
-	.then(function(products){
-		return _.any(products,product);
-	})
-}
-
 router.get('/:id/addToCart', function(req, res, next){	//why is this a get request?  -FLOB
-	isItemInCart(req.cart,req.productInstance)
-	.then(function(hasProduct){
-		if(hasProduct) {
-			return OrderItem.findOne({
-				where : {
-					orderId : req.cart.id,
-					productId : req.productInstance.id
-				}
-			})
-			.then(function(foundItem) {
-				return foundItem.update({
-					quantity : foundItem.quantity + 1 // turn this into an instance method -FLOB Agrees
-				})
-			})
-			.then(function(){
-				return req.cart;
-			})
-		} else {
-			return req.cart.addProduct(req.productInstance)
-		}
-	})
+	req.cart.changeProductQuantity(req.productInstance, 1)
 	.then(function(updatedCart){
 		res.send(updatedCart);
 	})
@@ -81,9 +53,9 @@ router.get('/:id/addToCart', function(req, res, next){	//why is this a get reque
 });
 
 router.get('/:id/removeFromCart', function(req, res, next){	//shouldn't be a get. -FLOB
-	req.cart.removeProduct(req.productInstance)		//why is a cart route here? - FLOB
-	.then(function(){
-		res.send(req.cart);
+	req.cart.changeProductQuantity(req.productInstance, -1)		//why is a cart route here? - FLOB
+	.then(function(updatedCart){
+		res.send(updatedCart);
 	})
 	.catch(next);
 });

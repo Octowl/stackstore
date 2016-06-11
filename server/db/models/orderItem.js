@@ -20,5 +20,13 @@ module.exports = function(db) {
                 min: 0
             }
         }
+    },{
+        instanceMethods: {
+            changeQuantity: function(num) {
+                return this.update({
+                    quantity: this.quantity + num
+                });
+            }
+        }
     });
 };

@@ -7,22 +7,22 @@ require('./models/user')(db);
 require('./models/product')(db);
 require('./models/review')(db);
 require('./models/location')(db);
-require('./models/order')(db);
 require('./models/orderItem')(db);
+require('./models/order')(db);
 
+var OrderItem = db.model('orderItem');
 var Product = db.model('product');
 var User = db.model('user');
-var Orders = db.model('order');
-var OrderItem = db.model('orderItem');
+var Order = db.model('order');
 var Location = db.model('location');
-var Reviews = db.model('review');
+var Review = db.model('review');
 
-Orders.belongsToMany(Product, {through: OrderItem});
-Product.belongsToMany(Orders, {through: OrderItem});
+Order.belongsToMany(Product, {through: OrderItem});
+Product.belongsToMany(Order, {through: OrderItem});
 
 Product.belongsTo(Location);
 
-Product.hasMany(Reviews);
+Product.hasMany(Review);
 
 Product.belongsTo(User);
 User.hasMany(Product);
