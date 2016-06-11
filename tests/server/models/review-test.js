@@ -2,14 +2,9 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-var dbURI = 'postgres://localhost:5432/testing-cove';
-var db = new Sequelize(dbURI, {
-    logging: false
-});
+var db = require('../../../server/db');
 
-require('../../../server/db/models/reviews')(db);
-
-var Product = db.model('reviews');
+var Review = db.model('review');
 
 describe('Reviews model', function () {
 

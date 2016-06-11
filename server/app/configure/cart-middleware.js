@@ -1,6 +1,6 @@
 module.exports = function (app, db) {
 
-  var Order = db.model('orders');
+  var Order = db.model('order');
   app.use(function(req, res, next){
   	if(!req.session.cart){
   		Order.create()
