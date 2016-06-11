@@ -3,21 +3,19 @@
 'use strict';
 
 
-var db = require('../../../db');
+var db = require('../../db');
 var Product = db.model('product');
-var Reviews = db.model('reviews');
 var OrderItem = db.model('orderItem');
 var Location = db.model('location');
 
 var router = require('express').Router();
-var _ = require('lodash');
 
 module.exports = router;
 
 router.param('id', function (req, res, next, theId) {
     Product.findById(theId)
         .then(function (foundProduct) {
-            if (!foundProduct) res.sendStatus(404);
+            if (!foundProduct) return res.sendStatus(404);
             else req.productInstance = foundProduct;
             next();
         })
@@ -50,47 +48,22 @@ router.post('/', function (req, res, next) {
     }
 });
 
-function isItemInCart(cart, product) {
-    return cart.getProducts()
-        .then(function (products) {
-            return _.any(products, product);
-        })
-}
+router.use('/:id/reviews', require('./reviews'));
 
-router.get('/:id/addToCart', function (req, res, next) {
-    isItemInCart(req.cart, req.productInstance)
-        .then(function (hasProduct) {
-            if (hasProduct) {
-                return OrderItem.findOne({
-                        where: {
-                            orderId: req.cart.id,
-                            productId: req.productInstance.id
-                        }
-                    })
-                    .then(function (foundItem) {
-                        return foundItem.update({
-                            quantity: foundItem.quantity + 1 // turn this into an instance method
-                        })
-                    })
-                    .then(function () {
-                        return req.cart;
-                    })
-            } else {
-                return req.cart.addProduct(req.productInstance)
-            }
-        })
-        .then(function (updatedCart) {
-            res.send(updatedCart);
-        })
-        .catch(next);
+router.get('/:id/addToCart', function(req, res, next){	//why is this a get request?  -FLOB
+	req.cart.changeProductQuantity(req.productInstance, 1)
+	.then(function(updatedCart){
+		res.send(updatedCart);
+	})
+	.catch(next);
 });
 
-router.get('/:id/removeFromCart', function (req, res, next) {
-    req.cart.removeProduct(req.productInstance)
-        .then(function () {
-            res.send(req.cart);
-        })
-        .catch(next);
+router.get('/:id/removeFromCart', function(req, res, next){	//shouldn't be a get. -FLOB
+	req.cart.changeProductQuantity(req.productInstance, -1)		//why is a cart route here? - FLOB
+	.then(function(updatedCart){
+		res.send(updatedCart);
+	})
+	.catch(next);
 });
 
 router.get('/:id', function (req, res, next) {

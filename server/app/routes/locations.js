@@ -1,7 +1,7 @@
 /* jshint node:true*/
 'use strict';
 
-var db = require('../../../db');
+var db = require('../../db');
 var Location = db.model('location');
 var router = require('express').Router();
 
@@ -10,7 +10,7 @@ module.exports = router;
 router.param('id', function (req, res, next, theId) {
     Location.findById(theId)
         .then(function (foundLocation) {
-            if (!foundLocation) res.sendStatus(404);
+            if (!foundLocation) return res.sendStatus(404);
             else req.productInstance = foundLocation;
             next();
         })

@@ -9,30 +9,40 @@ module.exports = function(db) {
     db.define('product', {
         name: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true,
+            validate: {
+                notEmpty: true
+            }
         },
         description: {
-            type: Sequelize.STRING,
+            type: Sequelize.TEXT,
             allowNull: false
         },
         price: {
-            type: Sequelize.FLOAT,
-            allowNull: false
+            type: Sequelize.INTEGER,  //in cents
+            allowNull: false,
+            validate: {
+                min: 0
+            }
         },
         inventory: {
             type: Sequelize.INTEGER,
             allowNull: false,
-            defaultValue: 0
+            defaultValue: 0,
+            validate: {
+                min: 0
+            }
         },
         photoUrl: {
             type: Sequelize.STRING,
-            get: function() {
-                if(!this.getDataValue('photoUrl')) return productPlaceholderImage;
-                return this.getDataValue('photoUrl');
+            defaultValue: productPlaceholderImage,
+            validate: {
+                isUrl: true
             }
         }
         /*,
-        tags?
+        TODO: tags?
         */
     }, {
         instanceMethods: {
