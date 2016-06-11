@@ -23,7 +23,7 @@ Product.belongsToMany(Order, {through: OrderItem});
 Product.belongsTo(Location);
 
 Product.hasMany(Review);
+User.hasMany(Review);
 
 Product.belongsTo(User);
 User.hasMany(Product);
-//Reviews belong to users who make them? -FLOB
