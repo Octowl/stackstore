@@ -43,8 +43,16 @@ var seedProducts = function () {
         inventory: 10
     }];
 
-    var creatingProducts = products.map(function (productObj) {
-        return Product.create(productObj);
+    var creatingProducts = products.map(function (productObj, idx) {
+        var product;
+        return Product.create(productObj)
+        .then(function(_product){
+            product = _product;
+            return Location.findById(idx+1);
+        })
+        .then(function(location){
+            return product.setLocation(location);
+        });
     });
 
     return Promise.all(creatingProducts);
@@ -102,11 +110,11 @@ db.sync({
     .then(function () {
         return seedUsers();
     })
-    .then(function () {
-        return seedProducts();
-    })
     .then(function(){
         return seedLocations();
+    })
+    .then(function () {
+        return seedProducts();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));
