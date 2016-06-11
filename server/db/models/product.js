@@ -44,5 +44,11 @@ module.exports = function(db) {
         /*,
         TODO: tags?
         */
+    }, {
+        instanceMethods: {
+            decreaseQuantity: function(num){
+                return this.update({inventory: this.inventory - num})
+            }
+        }
     });
 };

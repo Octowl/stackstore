@@ -2,6 +2,7 @@
 'use strict';
 
 var Sequelize = require('sequelize');
+var Promise = require('bluebird');
 var _ = require('lodash');
 
 module.exports = function(db) {
@@ -41,7 +42,26 @@ module.exports = function(db) {
             			return self.addProduct(product);
             		}
                 });
-            }
+            },
+            checkout: function() {
+    			var self = this;
+
+    			return OrderItem.findAll({
+    					where: {
+    						orderId: this.id
+    					}
+    				})
+    			.then(function(items){
+    				return Promise.all(items.map(function(item){
+    					return item.lockPrice();
+    				}));
+    			})
+    			.then(function(){
+    				return self.update({
+    					active: false
+    				});
+    			});
+    		}
         }
     });
 };

@@ -3,10 +3,10 @@
 var db = require('./_db');
 module.exports = db;
 
+require('./models/product')(db);
 require('./models/orderItem')(db);
 require('./models/review')(db);
 require('./models/user')(db);
-require('./models/product')(db);
 require('./models/location')(db);
 require('./models/order')(db);
 

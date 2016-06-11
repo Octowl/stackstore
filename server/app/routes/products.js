@@ -6,6 +6,7 @@
 var db = require('../../db');
 var Product = db.model('product');
 var OrderItem = db.model('orderItem');
+var Location = db.model('location');
 
 var router = require('express').Router();
 
@@ -22,24 +23,28 @@ router.param('id', function (req, res, next, theId) {
 });
 
 router.get('/', function (req, res, next) {
-    Product.findAll({})
+    Product.findAll({
+            include: [{
+                model: Location
+            }]
+        })
         .then(function (products) {
             res.send(products);
         })
         .catch(next);
 });
 
-router.post('/', function(req, res, next){
-    if(!req.user) res.sendStatus(401);
+router.post('/', function (req, res, next) {
+    if (!req.user) res.sendStatus(401);
     else {
         Product.create(req.body)
-        .then(function(createdProduct){
-            return createdProduct.setUser(req.user);
-        })
-        .then(function(createdProduct){
-            res.status(201).send(createdProduct);
-        })
-        .catch(next);
+            .then(function (createdProduct) {
+                return createdProduct.setUser(req.user);
+            })
+            .then(function (createdProduct) {
+                res.status(201).send(createdProduct);
+            })
+            .catch(next);
     }
 });
 
@@ -61,22 +66,22 @@ router.get('/:id/removeFromCart', function(req, res, next){	//shouldn't be a get
 	.catch(next);
 });
 
-router.get('/:id', function(req, res, next){
-	res.send(req.productInstance);
+router.get('/:id', function (req, res, next) {
+    res.send(req.productInstance);
 });
 
-router.put('/:id', function(req, res, next){
-	req.productInstance.update(req.body)
-	.then(function(updatedProduct){
-		res.send(updatedProduct);
-	})
-	.catch(next);
+router.put('/:id', function (req, res, next) {
+    req.productInstance.update(req.body)
+        .then(function (updatedProduct) {
+            res.send(updatedProduct);
+        })
+        .catch(next);
 });
 
-router.delete('/:id', function(req, res, next){
-	req.productInstance.destroy()
-	.then(function(){
-		res.sendStatus(204);
-	})
-	.catch(next);
+router.delete('/:id', function (req, res, next) {
+    req.productInstance.destroy()
+        .then(function () {
+            res.sendStatus(204);
+        })
+        .catch(next);
 });

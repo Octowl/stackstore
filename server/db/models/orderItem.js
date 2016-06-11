@@ -5,6 +5,9 @@
 var Sequelize = require('sequelize');
 
 module.exports = function(db) {
+
+    var Product = db.model('product');
+
     db.define('orderItem', {
         price: {
             type: Sequelize.INTEGER, //Price is in cents!
@@ -28,5 +31,18 @@ module.exports = function(db) {
                 });
             }
         }
-    });
+    },{
+        instanceMethods: {
+            lockPrice: function(){
+                var self = this;
+                return Product.findById(self.productId)
+                .then(function(product){
+                    return Promise.all([
+                        product.decreaseQuantity(self.quantity),
+                        self.update({ price: product.price})
+                ])})
+            }
+        }
+    }
+    );
 };
