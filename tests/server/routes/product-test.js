@@ -3,7 +3,6 @@
 // Instantiate all models
 var expect = require('chai').expect;
 var Sequelize = require('sequelize');
-process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
 var supertest = require('supertest');
 var Promise = require('bluebird');

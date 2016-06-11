@@ -1,7 +1,6 @@
 /* jshint node: true, mocha: true */
 
 // Instantiate all models
-process.env.NODE_ENV = 'testing';
 var expect = require('chai').expect;
 var Sequelize = require('sequelize');
 var db = require('../../../server/db');

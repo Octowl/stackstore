@@ -1,11 +1,6 @@
 var expect = require('chai').expect;
-
 var Sequelize = require('sequelize');
-
-process.env.NODE_ENV = 'testing'; //not needed here if in Gulp -FLOB
-
 var db = require('../../../server/db');
-
 var supertest = require('supertest');
 var Promise = require('bluebird');
 
