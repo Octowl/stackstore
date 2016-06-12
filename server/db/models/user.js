@@ -40,14 +40,6 @@ module.exports = function (db) {
                 isUrl: true
             }
         },
-        rating: {
-            type: Sequelize.INTEGER,
-            defaultValue: 0,
-            validate: {
-                min: 0,
-                max: 5
-            }
-        }
         salt: {
             type: Sequelize.STRING
         },
