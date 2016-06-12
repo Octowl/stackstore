@@ -6,6 +6,8 @@
 var db = require('../../../db');
 var Product = db.model('product');
 var Reviews = db.model('reviews');
+var User = db.model('user');
+var Location = db.model('location')
 var OrderItem = db.model('orderItem');
 
 var router = require('express').Router();
@@ -89,7 +91,15 @@ router.get('/:id/removeFromCart', function(req, res, next){
 });
 
 router.get('/:id', function(req, res, next){
-	res.send(req.productInstance);
+	Product.findOne({
+		where: { id: req.params.id },
+		include: [{ model: User, required: true}, { model: Location, required: true}]
+	})
+    .then(function (foundProduct) {
+        if (!foundProduct) res.sendStatus(404);
+        else res.send(foundProduct);
+    })
+    .catch(next);
 });
 
 router.put('/:id', function(req, res, next){

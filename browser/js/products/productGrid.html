@@ -1,7 +1,7 @@
 <div id="products" class="row list-group">
     <div class="item  col-xs-4 col-lg-4" ng-repeat="product in products">
         <div class="thumbnail">
-            <img class="group list-group-image" src={{product.photoUrl}} alt="" />
+            <img ui-sref="productDetails({id: product.id})" class="group list-group-image" src={{product.photoUrl}} alt="" />
             <div class="caption">
                 <h4 class="group inner list-group-item-heading">
                         {{product.name}}</h4>
