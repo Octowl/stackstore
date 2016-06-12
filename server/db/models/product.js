@@ -40,7 +40,7 @@ module.exports = function(db) {
             validate: {
                 isUrl: true
             }
-        }
+        },
         /*,
         TODO: tags?
         */

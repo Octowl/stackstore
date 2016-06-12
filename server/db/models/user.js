@@ -40,9 +40,6 @@ module.exports = function (db) {
                 isUrl: true
             }
         },
-        rating: {
-            type: Sequelize.FLOAT   //how would it be set properly? -FLOB
-        },
         salt: {
             type: Sequelize.STRING
         },
