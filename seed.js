@@ -32,17 +32,20 @@ var seedProducts = function () {
         name: 'Marlboro Light',
         description: 'cigarets',
         price: 40,
-        inventory: 10
+        inventory: 0,
+        userId: 1
     }, {
         name: 'Shagel',
         description: 'Shower Gel',
         price: 5,
-        inventory: 100
+        inventory: 100,
+        userId: 2
     }, {
         name: 'Perfume 1',
         description: 'Musc',
         price: 40,
-        inventory: 10
+        inventory: 10,
+        userId: 3
     }];
 
     var creatingProducts = products.map(function (productObj, idx) {
