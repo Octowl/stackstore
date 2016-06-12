@@ -1,10 +1,10 @@
 app.config(function ($stateProvider) {
     $stateProvider.state('products', {
-        url : '/products',
-        templateUrl : 'js/products/products.html',
-        controller : 'ProductListCrtl',
+        url: '/products',
+        templateUrl: 'js/products/products.html',
+        controller: 'ProductListCtrl',
         resolve: {
-            products: function(ProductFactory) {
+            products: function (ProductFactory) {
                 return ProductFactory.getAll();
             },
 

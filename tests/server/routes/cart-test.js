@@ -1,11 +1,13 @@
 /* jshint node: true, mocha: true */
 
+// TODO: Rewrite using superagent-as-promised
+
 // Instantiate all models
 var expect = require('chai').expect;
 var Sequelize = require('sequelize');
-process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
 var supertest = require('supertest');
+var Promise = require('bluebird');
 
 describe('Cart Routes', function(done){
 	var app, agent1, agent2, Product, product1, product2, OrderItem;
@@ -22,27 +24,25 @@ describe('Cart Routes', function(done){
         OrderItem = db.model('orderItem');
     });
 
-    beforeEach('Create a product', function (done) {
-        return Product.create({
-                name: 'cigarets',
-                description: 'marlboro',
-                price: 40,
-                inventory: 50
-            })
-            .then(function (p) {
-                product1 = p;
-                return Product.create({
+    beforeEach('Create a product', function () {
+		return Promise.all([
+			Product.create({
+	                name: 'cigarets',
+	                description: 'marlboro',
+	                price: 40,
+	                inventory: 50
+	            }),
+				Product.create({
                     name: 'shagel',
                     description: 'shagel vanilla',
                     price: 5,
                     inventory: 120
-                });
-            })
-            .then(function (p) {
-                product2 = p;
-                done();
-            })
-            .catch(done);
+                })
+		])
+		.spread(function(_product1, _product2){
+			product1 = _product1;
+			product2 = _product2;
+		});
     });
 
     beforeEach('Create guest agents', function () {
@@ -62,7 +62,6 @@ describe('Cart Routes', function(done){
 	}
 
 	function removeProductFromCart(agent, product) {
-		console.log("WOAH");
 		return agent.get('/api/products/' + product.id + '/removeFromCart')
 		.expect(200);
 	}
@@ -169,7 +168,7 @@ describe('Cart Routes', function(done){
 	    			getItemsFromCart(res.body)
 	    			.then(function(items){
 	    				expect(items).to.have.length(1);
-	    				expect(items[0].productId).to.equal(product1.id);
+	    				expect(items[0].productId).to.equal(product1.id); //chai-things might be helpful -FLOB
 	    				done();
 	    			})
 	    			.catch(done);

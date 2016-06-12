@@ -2,10 +2,8 @@
 
 'use strict';
 
-var db = require('../../../db');
-var Orders = db.model('orders');
-var Product = db.model('product');
-var OrderItem = db.model('orderItem');
+var db = require('../../db');
+var Order = db.model('order');
 var router = require('express').Router();
 
 module.exports = router;
@@ -19,9 +17,9 @@ router.get('/checkout', function(req, res, next){
 });
 
 router.param('id', function(req, res, next, theId){
-    Orders.findById(theId)
+    Order.findById(theId)
     .then(function(foundOrder){
-        if(!foundOrder) res.sendStatus(404);
+        if(!foundOrder) return res.sendStatus(404);
         else req.orderInstance = foundOrder;
         next();
     })
@@ -29,7 +27,7 @@ router.param('id', function(req, res, next, theId){
 });
 
 router.get('/', function(req, res, next){
-    Orders.findAll({})
+    Order.findAll({})
     .then(function(orders){
         res.send(orders);
     })
@@ -40,9 +38,12 @@ router.get('/:id', function(req, res, next){
     res.send(req.orderInstance);
 });
 
-//Is this how orders are going to actually get created?
 router.post('/', function(req, res, next){
-	Orders.create(req.body)
+	Order.create(req.body)
+	.then(function(createdOrder){
+		if(res.user) return createdOrder.setUser(req.userInstance);
+		else return createdOrder;
+	})
 	.then(function(createdOrder){
 		res.status(201).send(createdOrder);
 	})

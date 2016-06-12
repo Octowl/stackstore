@@ -6,7 +6,10 @@ app.config(function($stateProvider){
         resolve: {
         	user: function($stateParams, UserFactory){
         		return UserFactory.getUser($stateParams.id)
-        	}
+        	},
+            reviews: function(ReviewFactory, $stateParams){
+                return ReviewFactory.getAllUserReviews($stateParams.id)
+            }
         }
     });
 })

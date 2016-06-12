@@ -2,9 +2,8 @@ var sinon = require('sinon');
 var expect = require('chai').expect;
 
 var Sequelize = require('sequelize');
-process.env.NODE_ENV = 'testing';
 var db = require('../../../server/db');
-var Product = db.model('orders');
+var Order = db.model('order');
 
 describe('Orders model', function () {
 

@@ -17,6 +17,7 @@ module.exports = function (db) {
         email: {
             type: Sequelize.STRING,
             allowNull: false,
+            unique: true,
             validate: {
                 isEmail: true
             }
@@ -26,7 +27,7 @@ module.exports = function (db) {
             allowNull: false
         },
         address: {
-            type: Sequelize.STRING,
+            type: Sequelize.TEXT
         },
         isAdmin: {
             type: Sequelize.BOOLEAN,
@@ -34,10 +35,10 @@ module.exports = function (db) {
         },
         image: {
             type: Sequelize.STRING,
-            defaultValue: 'http://c.directlyrics.com/img/upload/taylor-swift-apple-music.jpg'
-        },
-        rating: {
-            type: Sequelize.FLOAT
+            defaultValue: 'http://c.directlyrics.com/img/upload/taylor-swift-apple-music.jpg',
+            validate: {
+                isUrl: true
+            }
         },
         salt: {
             type: Sequelize.STRING
@@ -84,4 +85,3 @@ module.exports = function (db) {
 
 
 };
-
