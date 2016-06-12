@@ -6,13 +6,14 @@ app.config(function ($stateProvider) {
         resolve: {
             products: function (ProductFactory) {
                 return ProductFactory.getAll();
-            }
+            },
+
         }
     });
 
     $stateProvider.state('products.grid', {
-        url: '/grid',
-        templateUrl: 'js/products/productGrid.html',
+        url : '/grid',
+        templateUrl : 'js/products/productGrid.html'
     });
 
 });

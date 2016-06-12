@@ -15,5 +15,10 @@ app.factory('ProductFactory', function ($http) {
     	.then(resToData);
     }
 
+    ProductFactory.getOne = function(id) {
+        return $http.get('/api/products/' + id)
+        .then(resToData);
+    };
+
     return ProductFactory;
 });

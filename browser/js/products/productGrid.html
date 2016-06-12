@@ -3,7 +3,9 @@
     <div class="item  col-xs-4 col-lg-4" ng-repeat="product in products" ng-if="checkProductName(searchValue,product)">
 
         <div class="thumbnail">
-            <img class="group list-group-image" src={{product.photoUrl}} alt="{{product.name}}" />
+
+            <img ui-sref="productDetails({id: product.id})" class="group list-group-image" src={{product.photoUrl}} alt="">
+
             <div class="caption">
                 <h4 class="group inner list-group-item-heading">
                         {{product.name}}</h4>

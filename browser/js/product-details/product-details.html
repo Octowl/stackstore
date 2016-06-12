@@ -1,0 +1,49 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-4">
+			<img src="{{productForDetails.photoUrl}}">
+		</div>
+		<div class="col-md-6">
+			<h2>{{productForDetails.name}}</h2>
+			<h5>{{productForDetails.description}}</h5>
+			<div>from: {{productForDetails.location.name}}</div>
+			<div>by: <a ui-sref="myProfile({id: productForDetails.userId})">{{productForDetails.user.firstName}} {{productForDetails.user.lastName}}</a></div>
+			<div>the rating (in stars) will go here</div>
+			<h4>Price: {{productForDetails.price}}</h4>
+			<h4 class="green" ng-show="inStock(productForDetails.inventory)">In Stock</h4>
+			<h4 class="red" ng-hide="inStock(productForDetails.inventory)">Out Of Stock</h4>
+			<form id="quantity-selector" ng-submit="addToCart(productForDetails.id)">
+			    <div class="form-group">
+			      <select id="disabledSelect" class="form-control">
+			        <option>Quantity</option>
+			        <option ng-repeat="i in getNumber(productForDetails.inventory) track by $index"><span>{{$index+1}}</span></option>
+			      </select>
+			    </div>
+			    <button type="submit" class="btn btn-primary" ng-class="{ 'disabled': !inStock(productForDetails.inventory) }">Add to cart</button>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<div>
+				Average user rating: the rating (in stars) will go here
+			</div>
+			<div>
+				<form>
+				this is where the user can add star ratings
+				  <fieldset class="form-group">
+				    <label for="exampleTextarea">Add your review for {{productForDetails.name}}</label>
+				    <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+				  </fieldset>
+				  <button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+
+			add a review needs to go here: there needs to be a text field and there name needs to show up
+			the comments need to go here
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>
