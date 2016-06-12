@@ -8,7 +8,8 @@ var OrderItem = db.model('orderItem');
 var Location = db.model('location');
 var Review = db.model('review');
 var User = db.model('user');
-var Location = db.model('location')
+var Location = db.model('location');
+var UserRating = db.model('ratingOfUser');
 
 var router = require('express').Router();
 
@@ -93,7 +94,7 @@ router.get('/:id/removeFromCart', function(req, res, next){	//shouldn't be a get
 router.get('/:id', function(req, res, next){
     Product.findOne({
        where: { id: req.params.id },
-       include: [{ model: User, required: true}, { model: Location, required: true}]
+       include: [ { model: User }, { model: Location } ]
     })
     .then(function (foundProduct) {
         if (!foundProduct) res.sendStatus(404);
