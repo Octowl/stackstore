@@ -41,8 +41,13 @@ module.exports = function (db) {
             }
         },
         rating: {
-            type: Sequelize.FLOAT   //how would it be set properly? -FLOB
-        },
+            type: Sequelize.INTEGER,
+            defaultValue: 0,
+            validate: {
+                min: 0,
+                max: 5
+            }
+        }
         salt: {
             type: Sequelize.STRING
         },
