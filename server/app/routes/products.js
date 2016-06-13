@@ -93,7 +93,7 @@ router.get('/:id/removeFromCart', function(req, res, next){	//shouldn't be a get
 router.get('/:id', function(req, res, next){
     Product.findOne({
        where: { id: req.params.id },
-       include: [ { model: User }, { model: Location } ]
+       include: [ { model: User }, { model: Location }, { model: Review } ]
     })
     .then(function (foundProduct) {
         if (!foundProduct) res.sendStatus(404);

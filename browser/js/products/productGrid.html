@@ -1,7 +1,6 @@
 <div id="products" class="row list-group">
     <!-- TODO: move this into its own directive -->
     <div class="item  col-xs-4 col-lg-4" ng-repeat="product in products" ng-if="checkProductName(searchValue,product)">
-        {{product}}
         <div class="thumbnail">
 
             <img ui-sref="productDetails({id: product.id, userId: product.userId})" class="group list-group-image" src={{product.photoUrl}} alt="">

@@ -28,7 +28,7 @@ var seedProducts = function () {
         name: 'Marlboro Light',
         description: 'cigarets',
         price: 40,
-        inventory: 10,
+        inventory: 0,
         userId: 1
     }, {
         name: 'Shagel',
