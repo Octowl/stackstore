@@ -8,6 +8,7 @@ var OrderItem = db.model('orderItem');
 var Location = db.model('location');
 var Review = db.model('review');
 var User = db.model('user');
+var Location = db.model('location');
 
 var router = require('express').Router();
 
@@ -36,6 +37,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:id/reviews', function (req, res, next) {
+    console.log('made it to routes')
     Review.findAll({
             where : {
                 productId : req.productInstance.id
@@ -89,11 +91,17 @@ router.get('/:id/removeFromCart', function(req, res, next){	//shouldn't be a get
 	.catch(next);
 });
 
-router.get('/:id', function (req, res, next) {
-    res.send(req.productInstance);
+router.get('/:id', function(req, res, next){
+    Product.findOne({
+       where: { id: req.params.id },
+       include: [ { model: User }, { model: Location }, { model: Review } ]
+    })
+    .then(function (foundProduct) {
+        if (!foundProduct) res.sendStatus(404);
+        else res.send(foundProduct);
+    })
+    .catch(next);
 });
-
-
 
 router.put('/:id', function (req, res, next) {
     req.productInstance.update(req.body)

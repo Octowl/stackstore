@@ -17,7 +17,7 @@ var User = db.model('user');
 var Order = db.model('order');
 var Location = db.model('location');
 var Review = db.model('review');
-var RatingOfUser = db.model('ratingOfUser');
+var UserRating = db.model('userRating');
 
 Order.belongsTo(User);
 Order.belongsToMany(Product, {through: OrderItem});
@@ -34,4 +34,4 @@ Product.belongsTo(User);
 User.hasMany(Order);
 User.hasMany(Review);
 User.hasMany(Product);
-User.hasMany(RatingOfUser);
+User.hasMany(UserRating);

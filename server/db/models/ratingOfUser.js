@@ -4,7 +4,7 @@
 var Sequelize = require('sequelize');
 
 module.exports = function(db) {
-    db.define('ratingOfUser', {
+    db.define('userRating', {
         stars: {
             type: Sequelize.INTEGER,
             validate: {

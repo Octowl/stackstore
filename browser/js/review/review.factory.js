@@ -14,6 +14,11 @@ app.factory('ReviewFactory', function ($http) {
         return $http.get('/api/products/' + id + '/reviews')
         .then(resToData);
     };
+
+    ReviewFactory.submitReview = function(review){
+        return $http.post('api/reviews', review)
+        .then(resToData)
+    }
     
     return ReviewFactory;
 });

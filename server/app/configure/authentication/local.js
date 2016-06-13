@@ -30,7 +30,6 @@ module.exports = function (app, db) {
 
 
     app.post('/signup', function (req, res, next) {
-        console.log('were at signup'); 
         User.create(req.body)
         .then(function(){
             var authCb = function (err, user) {
