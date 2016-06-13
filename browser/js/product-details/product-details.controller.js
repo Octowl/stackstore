@@ -1,7 +1,8 @@
-app.controller('ProductDetailsCrtl', function($scope, productForDetails, ProductFactory, userForDetails, loggedInUser, ReviewFactory){
+app.controller('ProductDetailsCrtl', function($scope, productForDetails, ProductFactory, userForDetails, loggedInUser, ReviewFactory, reviewsForProduct){
     $scope.productForDetails = productForDetails;
     $scope.userForDetails = userForDetails;
     $scope.loggedInUser = loggedInUser;
+    $scope.reviewsForProduct = reviewsForProduct;
 
 	$scope.getNumber = function(num) {
 	    return new Array(num);   
@@ -24,6 +25,8 @@ app.controller('ProductDetailsCrtl', function($scope, productForDetails, Product
 		console.log('made it to controller')
 		ReviewFactory.submitReview(review)
 	}
+
+	$scope.stars = new Array(5)
 
 	$scope.addToCart = ProductFactory.addToCart;
 });

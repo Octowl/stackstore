@@ -12,6 +12,9 @@ app.config(function ($stateProvider) {
           },
           loggedInUser: function(AuthService){
             return AuthService.getLoggedInUser()
+          },
+          reviewsForProduct: function(ReviewFactory, $stateParams){
+            return ReviewFactory.getAllProductReviews($stateParams.id);
           }
         }
     });

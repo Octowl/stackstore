@@ -16,7 +16,6 @@ app.factory('ReviewFactory', function ($http) {
     };
 
     ReviewFactory.submitReview = function(review){
-        console.log('made it to factory')
         return $http.post('api/reviews', review)
         .then(resToData)
     }

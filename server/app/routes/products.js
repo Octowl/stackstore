@@ -37,6 +37,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:id/reviews', function (req, res, next) {
+    console.log('made it to routes')
     Review.findAll({
             where : {
                 productId : req.productInstance.id
