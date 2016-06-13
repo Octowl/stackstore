@@ -24,15 +24,15 @@ module.exports = function(db) {
             }
         }
     },{
+        defaultScope: {
+            include: [Product]
+        },
         instanceMethods: {
             changeQuantity: function(num) {
                 return this.update({
                     quantity: this.quantity + num
                 });
-            }
-        }
-    },{
-        instanceMethods: {
+            },
             lockPrice: function(){
                 var self = this;
                 return Product.findById(self.productId)

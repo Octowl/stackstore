@@ -21,6 +21,9 @@ var RatingOfUser = db.model('ratingOfUser');
 
 Order.belongsTo(User);
 Order.belongsToMany(Product, {through: OrderItem});
+Order.hasMany(OrderItem);
+
+OrderItem.belongsTo(Product);
 
 Product.belongsToMany(Order, {through: OrderItem});
 Product.belongsTo(Location);

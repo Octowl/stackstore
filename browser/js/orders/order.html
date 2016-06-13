@@ -1,0 +1,37 @@
+<!-- <pre>{{order | json}}</pre> -->
+<div class="container col-md-6">
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Item Total</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+	<tr ng-repeat="item in order.orderItems">
+	  <td class="otter"><img src={{item.product.photoUrl}}></td>
+	  <td>{{ item.product.name }}</td>
+	  <td>฿{{ item.product.price }}</td>
+	  <td>{{ item.quantity }}</td>
+	  <td>฿{{ item.quantity * item.product.price }}</td>
+	  <td>
+	    <button class="btn btn-default btn-xs" ng-click="removeItem()">
+	      <span class="glyphicon glyphicon-remove-circle"></span>
+	    </button>
+	  </td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td><strong>Cart Total</strong></td>
+		<td>฿{{getTotal()}}</td>
+		<td></td>
+	</tr>
+  </tbody>
+</table>
+</div>
