@@ -19,6 +19,10 @@ app.factory('OrderFactory', function ($http) {
 			return $http.delete('api/orders/' + cartId + '/products/' + productId)
 			.then(resToData);
 		},
+		changeItemQuantity: function(itemId, quantity){
+			return $http.put('api/orderitems/' + itemId, {quantity: quantity})
+			.then(resToData);
+		},
 		checkout: function(){
 			return $http.get('api/orders/checkout').then(resToData);
 		}

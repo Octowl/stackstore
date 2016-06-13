@@ -19,4 +19,7 @@ app.controller('CartCtrl', function($scope, $state, order, OrderFactory){
 			$scope.order = updatedCart;
 		})
 	}
+	$scope.updateQuantity = function(item) {
+		OrderFactory.changeItemQuantity(item.id, item.quantity)
+	}
 })

@@ -16,6 +16,13 @@ router.param('id', function (req, res, next, id) {
         .catch(next);
 });
 
+router.put('/:id', function(req, res, next){
+    req.foundItem.update(req.body)
+    .then(function(updatedItem){
+        res.status(201).send(updatedItem)
+    }).catch(next);
+})
+
 router.delete('/:id', function(req,res,next){
 	console.log('i was called');
 	req.foundItem.destroy()
