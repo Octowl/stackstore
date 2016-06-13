@@ -9,7 +9,10 @@ app.config(function($stateProvider){
         	},
             reviews: function(ReviewFactory, $stateParams){
                 return ReviewFactory.getAllUserReviews($stateParams.id)
-            }
+            },
+            loggedInUser: function(AuthService){
+            return AuthService.getLoggedInUser()
+          }
         }
     });
 })
