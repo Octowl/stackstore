@@ -170,44 +170,34 @@ var seedUsers = function () {
 };
 
 var seedUserRatings = function () {
-    var userRatings = [
-    {
+    var userRatings = [{
         stars : 3,
         userId : 1
-    },
-    {
-        stars : 1,
+    },{
+        stars : 4,
         userId : 1
-    },
-    {
-        stars : 2,
+    },{
+        stars : 5,
         userId : 1
-    },
-    {
+    },{
         stars : 5,
         userId : 2
-    },
-    {
+    },{
         stars : 5,
         userId : 2
-    },
-    {
+    },{
         stars : 4,
         userId : 2
-    },
-    {
+    },{
         stars : 1,
         userId : 3
-    },
-    {
+    },{
         stars : 2,
         userId : 3
-    },
-    {
+    },{
         stars : 3,
         userId : 3
-    }
-    ];
+    }];
 
     var creatingUserRatings = userRatings.map(function (ratingObj) {
         return userRating.create(ratingObj);

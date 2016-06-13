@@ -11,5 +11,13 @@ app.controller('ProductDetailsCrtl', function($scope, productForDetails, Product
 		else return false;
 	}
 
+	$scope.getStars = function(arr){
+		var sum = 0;
+		arr.forEach(function(item){
+			sum += item.stars
+		})
+		return sum/arr.length
+	}
+
 	$scope.addToCart = ProductFactory.addToCart;
 });
