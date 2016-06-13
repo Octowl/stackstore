@@ -189,13 +189,13 @@ var seedUserRatings = function () {
         stars : 4,
         userId : 2
     },{
-        stars : 1,
+        stars : 5,
         userId : 3
     },{
-        stars : 2,
+        stars : 4,
         userId : 3
     },{
-        stars : 3,
+        stars : 5,
         userId : 3
     }];
 
