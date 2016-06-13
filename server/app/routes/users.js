@@ -48,7 +48,6 @@ router.get('/:id/reviews', function (req, res, next) {
 })
 
 router.put('/:id', function (req, res, next) {
-	console.log(req.body);
     req.foundUser.update(req.body)
         .then(function(updatedUser){
 			res.send(updatedUser);

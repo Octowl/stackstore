@@ -3,11 +3,32 @@
         <div class="col-sm-4">
             <img id="profilePic" src="{{user.image}}">
             <h3><span>{{user.firstName}}</span><span>{{" " + user.lastName}} </span></h3>
-            <h5 ng-if="loggedInFilter(loggedInUser,user)">{{user.email}}</h5>
             <div>Average rating: <span ng-class="{'glyphicon-star': $index < getStars(user.userRatings), 'glyphicon-star-empty' : $index >= getStars(user.userRatings)}" class="glyphicon" ng-repeat="i in stars track by $index"></span></div>
+            <h5 ng-if="loggedInFilter(loggedInUser,user)">{{user.email}}</h5>
             
-            <h5 ng-if="loggedInFilter(loggedInUser,user)">{{user.address}}</h5>
-            <h5 ng-hide="user.address"> Enter an Address</h5>
+            <p ng-if="loggedInFilter(loggedInUser,user)" ng-model="address">{{user.address}}</p>
+            <uib-accordion ng-if="loggedInFilter(loggedInUser,user)" close-others="oneAtATime">
+                <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+                    <uib-accordion-heading><span class="glyphicon glyphicon-pencil"></span> Update my info
+                    </uib-accordion-heading>
+                    <form ng-model="updateInfo">
+                      <fieldset class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input ng-model="updateInfo.email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Update your email">
+                        <small class="text-muted">We'll never share your email with anyone else.</small>
+                      </fieldset>
+                      <fieldset class="form-group">
+                        <label for="exampleInputPassword1">Shipping address</label>
+                        <input ng-model="updateInfo.address" type="text" class="form-control" id="exampleInputPassword1" placeholder="Update your address">
+                      </fieldset>
+                      <fieldset class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input ng-model="updateInfo.password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Update your password">
+                      </fieldset>
+                      <button ng-click="updateUserInfo(user.id, updateInfo)" type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </uib-accordion-group>
+            </uib-accordion>
         </div>
         <div class="col-sm-8">
 

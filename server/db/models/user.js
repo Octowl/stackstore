@@ -27,7 +27,8 @@ module.exports = function (db) {
             allowNull: false
         },
         address: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            defaultValue: 'Please enter an address'
         },
         isAdmin: {
             type: Sequelize.BOOLEAN,

@@ -1,4 +1,4 @@
-app.controller('User', function($scope, user, reviews, loggedInUser){
+app.controller('User', function($scope, user, reviews, loggedInUser, ProfileFactory){
 
 	$scope.user = user;
 
@@ -19,5 +19,7 @@ app.controller('User', function($scope, user, reviews, loggedInUser){
 	$scope.loggedInFilter = function(loggedInUser,userOfPage) {
 		return loggedInUser.id === userOfPage.id || loggedInUser.isAdmin ===true
 	}
+
+	$scope.updateUserInfo = ProfileFactory.updateUser;
 })
 
