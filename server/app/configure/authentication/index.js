@@ -65,6 +65,7 @@ module.exports = function (app, db) {
     // Simple /logout route.
     app.get('/logout', function (req, res) {
         req.logout();
+        delete req.session.cart;
         res.status(200).end();
     });
 
