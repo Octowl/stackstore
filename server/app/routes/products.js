@@ -9,7 +9,6 @@ var Location = db.model('location');
 var Review = db.model('review');
 var User = db.model('user');
 var Location = db.model('location');
-var UserRating = db.model('ratingOfUser');
 
 var router = require('express').Router();
 
@@ -102,8 +101,6 @@ router.get('/:id', function(req, res, next){
     })
     .catch(next);
 });
-
-
 
 router.put('/:id', function (req, res, next) {
     req.productInstance.update(req.body)

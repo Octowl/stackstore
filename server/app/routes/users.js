@@ -4,7 +4,7 @@ var db = require('../../db');
 var User = db.model('user');
 var Review = db.model('review');
 var Product = db.model('product');
-
+var UserRating = db.model('userRating');
 
 module.exports = router;
 
@@ -17,6 +17,17 @@ router.param('id', function (req, res, next, id) {
         })
         .catch(next);
 });
+
+router.get('/user/:id', function (req, res, next) {
+    User.findOne({
+        where: { id: req.params.id },
+        include: [ { model: UserRating } ]
+    })
+    .then(function(user){
+        if (!user) return res.sendStatus(404);
+        res.send(user)
+    })
+})
 
 router.get('/:id', function (req, res, next) {
     res.send(req.foundUser);

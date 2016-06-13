@@ -18,6 +18,7 @@ var User = db.model('user');
 var Product = db.model('product');
 var Location = db.model('location');
 var Review = db.model('review');
+var userRating = db.model('userRating');
 
 var Promise = require('sequelize').Promise;
 
@@ -168,6 +169,53 @@ var seedUsers = function () {
 
 };
 
+var seedUserRatings = function () {
+    var userRatings = [
+    {
+        stars : 3,
+        userId : 1
+    },
+    {
+        stars : 1,
+        userId : 1
+    },
+    {
+        stars : 2,
+        userId : 1
+    },
+    {
+        stars : 5,
+        userId : 2
+    },
+    {
+        stars : 5,
+        userId : 2
+    },
+    {
+        stars : 4,
+        userId : 2
+    },
+    {
+        stars : 1,
+        userId : 3
+    },
+    {
+        stars : 2,
+        userId : 3
+    },
+    {
+        stars : 3,
+        userId : 3
+    }
+    ];
+
+    var creatingUserRatings = userRatings.map(function (ratingObj) {
+        return userRating.create(ratingObj);
+    });
+
+    return Promise.all(creatingUserRatings);
+};
+
 db.sync({
         force: true
     })
@@ -182,6 +230,9 @@ db.sync({
     })
     .then(function() {
         return seedReviews();
+    })
+    .then(function() {
+        return seedUserRatings();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));
