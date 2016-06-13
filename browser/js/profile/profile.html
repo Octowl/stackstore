@@ -11,7 +11,8 @@
                 <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
                     <uib-accordion-heading><span class="glyphicon glyphicon-pencil"></span> Update my info
                     </uib-accordion-heading>
-                    <form ng-model="updateInfo">
+                    <form ng-model="updateInfo" ng-submit="updateUserInfo(user.id, updateInfo)">
+
                       <fieldset class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
                         <input ng-model="updateInfo.email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Update your email">
@@ -25,8 +26,12 @@
                         <label for="exampleInputPassword1">Password</label>
                         <input ng-model="updateInfo.password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Update your password">
                       </fieldset>
-                      <button ng-click="updateUserInfo(user.id, updateInfo)" type="submit" class="btn btn-primary">Submit</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
+                    </br>
+                    <div class="alert alert-success" role="alert" ng-if="confirmation">
+                      <strong>Well done!</strong> Submitted successfully.
+                    </div>
                 </uib-accordion-group>
             </uib-accordion>
         </div>

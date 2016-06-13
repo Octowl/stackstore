@@ -42,7 +42,10 @@ module.exports = function (db) {
             }
         },
         salt: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            set: function(data){
+                console.log(data)
+            }
         },
         twitter_id: {
             type: Sequelize.STRING
@@ -76,8 +79,12 @@ module.exports = function (db) {
         hooks: {
             beforeValidate: function (user) {
                 if (user.changed('password')) {
-                    user.salt = user.Model.generateSalt();
-                    user.password = user.Model.encryptPassword(user.password, user.salt);
+                console.log(user.password)
+                    console.log('before salt', user.salt)
+                    user.setDataValue('salt', user.Model.generateSalt());
+                    console.log('after salt', user.salt)
+                    user.setDataValue('password', user.Model.encryptPassword(user.password, user.salt));
+                    console.log(user.password)
                 }
             }
         }

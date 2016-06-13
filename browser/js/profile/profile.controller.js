@@ -6,6 +6,8 @@ app.controller('User', function($scope, user, reviews, loggedInUser, ProfileFact
 
 	$scope.reviews = reviews;
 
+	$scope.confirmation = false;
+
 	$scope.getStars = function(arr){
 		var sum = 0;
 		arr.forEach(function(item){
@@ -20,6 +22,11 @@ app.controller('User', function($scope, user, reviews, loggedInUser, ProfileFact
 		return loggedInUser.id === userOfPage.id || loggedInUser.isAdmin ===true
 	}
 
-	$scope.updateUserInfo = ProfileFactory.updateUser;
+	$scope.updateUserInfo = function(id,data){
+		ProfileFactory.updateUser(id, data).
+		then(function(){
+			$scope.confirmation = true;
+		})
+	}
 })
 
