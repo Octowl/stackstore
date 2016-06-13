@@ -14,6 +14,13 @@ app.factory('OrderFactory', function ($http) {
 		},
 		getAllOrders: function(){
 			return $http.get('api/orders').then(resToData);
+		},
+		deleteProductFromCart: function(cartId, productId){
+			return $http.delete('api/orders/' + cartId + '/products/' + productId)
+			.then(resToData);
+		},
+		checkout: function(){
+			return $http.get('api/orders/checkout').then(resToData);
 		}
 	}
 })

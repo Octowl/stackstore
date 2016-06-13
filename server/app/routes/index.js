@@ -10,6 +10,7 @@ router.use('/products', require('./products'));
 router.use('/reviews', require('./reviews'));
 router.use('/locations', require('./locations'));
 router.use('/orders', require('./orders'));
+router.use('/orderitems', require('./orderItems'));
 
 
 // Make sure this is after all of

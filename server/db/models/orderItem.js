@@ -9,6 +9,11 @@ module.exports = function(db) {
     var Product = db.model('product');
 
     db.define('orderItem', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true, 
+            primaryKey: true
+        },
         price: {
             type: Sequelize.INTEGER, //Price is in cents!
             validate: {

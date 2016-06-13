@@ -19,7 +19,7 @@
 	  <td>{{ item.quantity }}</td>
 	  <td>฿{{ item.quantity * item.product.price }}</td>
 	  <td>
-	    <button class="btn btn-default btn-xs" ng-click="removeItem()">
+	    <button class="btn btn-default btn-xs" ng-click="removeItem(item.product.id)">
 	      <span class="glyphicon glyphicon-remove-circle"></span>
 	    </button>
 	  </td>
