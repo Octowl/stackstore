@@ -1,6 +1,7 @@
-app.controller('ProductDetailsCrtl', function($scope, productForDetails, ProductFactory, userForDetails){
+app.controller('ProductDetailsCrtl', function($scope, productForDetails, ProductFactory, userForDetails, loggedInUser, ReviewFactory){
     $scope.productForDetails = productForDetails;
     $scope.userForDetails = userForDetails;
+    $scope.loggedInUser = loggedInUser;
 
 	$scope.getNumber = function(num) {
 	    return new Array(num);   
@@ -16,7 +17,12 @@ app.controller('ProductDetailsCrtl', function($scope, productForDetails, Product
 		arr.forEach(function(item){
 			sum += item.stars
 		})
-		return sum/arr.length
+		return Math.round((sum/arr.length)*10)/10;
+	}
+
+	$scope.submitReview = function(review){
+		console.log('made it to controller')
+		ReviewFactory.submitReview(review)
 	}
 
 	$scope.addToCart = ProductFactory.addToCart;

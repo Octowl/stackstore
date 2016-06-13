@@ -27,14 +27,23 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     Review.create(req.body)
-        .tap(function (createdReview) {
-            return req.productInstance.addReview(createdReview);
-        })
         .then(function (createdReview) {
             res.status(201).send(createdReview);
         })
         .catch(next);
 });
+
+// Tap was breaking this for me
+// router.post('/', function (req, res, next) {
+//     Review.create(req.body)
+//         .tap(function (createdReview) {
+//             return req.productInstance.addReview(createdReview);
+//         })
+//         .then(function (createdReview) {
+//             res.status(201).send(createdReview);
+//         })
+//         .catch(next);
+// });
 
 router.get('/:id', function (req, res, next) {
     res.send(req.reviewInstance);

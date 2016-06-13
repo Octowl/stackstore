@@ -9,6 +9,9 @@ app.config(function ($stateProvider) {
           },
           userForDetails: function(UserFactory, $stateParams) {
             return UserFactory.getUser($stateParams.userId)
+          },
+          loggedInUser: function(AuthService){
+            return AuthService.getLoggedInUser()
           }
         }
     });
