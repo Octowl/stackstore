@@ -1,4 +1,3 @@
-	<pre>{{review | json}}</pre>
 	<div class='alert alert-info' >
 	<h4>{{review.product.name}}</h4>
 	<span class="glyphicon" ng-class="{'glyphicon-star': $index < review.stars, 'glyphicon-star-empty' : $index >= review.stars}" ng-repeat="i in stars track by $index"></span>
