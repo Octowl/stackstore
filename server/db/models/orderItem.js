@@ -29,10 +29,7 @@ module.exports = function(db) {
                 return this.update({
                     quantity: this.quantity + num
                 });
-            }
-        }
-    },{
-        instanceMethods: {
+            },
             lockPrice: function(){
                 var self = this;
                 return Product.findById(self.productId)

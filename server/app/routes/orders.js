@@ -7,7 +7,6 @@ var Order = db.model('order');
 var router = require('express').Router();
 
 module.exports = router;
-
 router.get('/checkout', function(req, res, next){
 	req.cart.checkout()
 	.then(function(checkOutCompletedCart){
@@ -15,6 +14,16 @@ router.get('/checkout', function(req, res, next){
 		res.send(checkOutCompletedCart);
 	}).catch(next);
 });
+
+// router.get('/cart', function(req, res, next){
+// 	Order.findById(req.cart.id, {
+// 		include: [{
+// 			model: Product
+// 		},{
+// 			model: OrderItem
+// 		}
+// 	}})
+// });
 
 router.param('id', function(req, res, next, theId){
     Order.findById(theId)

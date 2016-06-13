@@ -46,6 +46,12 @@ router.put('/:id', function (req, res, next) {
 });
 
 router.delete('/:id', function (req, res, next) {
-    req.foundUser.destroy();
-    res.sendStatus(204);
+    console.log("HELLO", req.cart);
+    if(req.user.id === req.foundUser.id || req.user.isAdmin){
+        req.foundUser.destroy();
+        res.sendStatus(204);
+    }
+    else {
+        res.sendStatus(401);
+    }
 });

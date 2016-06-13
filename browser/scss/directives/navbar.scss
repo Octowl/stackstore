@@ -45,6 +45,14 @@ navbar {
     }
   }
 
+  .cart-button {
+    float: right;
+    border: 1px solid black;
+    margin-top: 10px;
+    background: #DD3311;
+    outline: none !important;
+  }
+
   .login-button {
     float: right;
     border: 1px solid black;

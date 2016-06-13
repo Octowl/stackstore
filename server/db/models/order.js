@@ -7,6 +7,8 @@ var _ = require('lodash');
 
 module.exports = function(db) {
     var OrderItem = db.model('orderItem');
+    var Product = db.model('product');
+
     db.define('order', {
         active: {
             type: Sequelize.BOOLEAN,
@@ -14,6 +16,9 @@ module.exports = function(db) {
             defaultValue : true	//probably need more than true and false, maybe created, cancelled, complete -FLOB
         }
     },{
+        defaultScope: {
+            include: [{model: OrderItem}]
+        },
         instanceMethods: {
             hasProduct: function(product) {
                 return this.getProducts()
