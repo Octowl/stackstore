@@ -8,6 +8,7 @@
                 <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
             </li>
         </ul>
+        <button class="btn cart-button" ui-sref="cart">Cart</button>
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login/Signup</button>
         <div ng-show="user" class="welcome">
             <a ui-sref="myProfile({id: user.id})"><img id="navImage" src="{{ user.image }}"></a>

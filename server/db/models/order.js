@@ -14,6 +14,9 @@ module.exports = function(db) {
             defaultValue : true	//probably need more than true and false, maybe created, cancelled, complete -FLOB
         }
     },{
+        defaultScope: {
+            include: [OrderItem]
+        },
         instanceMethods: {
             hasProduct: function(product) {
                 return this.getProducts()
