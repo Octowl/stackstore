@@ -77,14 +77,18 @@ module.exports = function (db) {
             }
         },
         hooks: {
-            beforeValidate: function (user) {
+            beforeCreate: function (user) {
                 if (user.changed('password')) {
-                console.log(user.password)
-                    console.log('before salt', user.salt)
                     user.setDataValue('salt', user.Model.generateSalt());
-                    console.log('after salt', user.salt)
                     user.setDataValue('password', user.Model.encryptPassword(user.password, user.salt));
-                    console.log(user.password)
+
+                }
+            },
+            beforeUpdate: function (user) {
+                if (user.changed('password')) {
+                    user.setDataValue('salt', user.Model.generateSalt());
+                    user.setDataValue('password', user.Model.encryptPassword(user.password, user.salt));
+
                 }
             }
         }
