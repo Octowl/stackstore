@@ -15,5 +15,10 @@ app.factory('ReviewFactory', function ($http) {
         .then(resToData);
     };
 
+    ReviewFactory.submitReview = function(review){
+        return $http.post('api/reviews', review)
+        .then(resToData);
+    };
+
     return ReviewFactory;
 });

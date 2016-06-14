@@ -9,6 +9,11 @@ module.exports = function(db) {
     var Product = db.model('product');
 
     db.define('orderItem', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true, 
+            primaryKey: true
+        },
         price: {
             type: Sequelize.INTEGER, //Price is in cents!
             validate: {
@@ -24,15 +29,15 @@ module.exports = function(db) {
             }
         }
     },{
+        defaultScope: {
+            include: [Product]
+        },
         instanceMethods: {
             changeQuantity: function(num) {
                 return this.update({
                     quantity: this.quantity + num
                 });
-            }
-        }
-    },{
-        instanceMethods: {
+            },
             lockPrice: function(){
                 var self = this;
                 return Product.findById(self.productId)

@@ -4,6 +4,7 @@
 
 var db = require('../../db');
 var Order = db.model('order');
+var Product = db.model('product');
 var router = require('express').Router();
 
 module.exports = router;
@@ -21,6 +22,16 @@ router.param('id', function(req, res, next, theId){
     .then(function(foundOrder){
         if(!foundOrder) return res.sendStatus(404);
         else req.orderInstance = foundOrder;
+        next();
+    })
+    .catch(next);
+});
+
+router.param('productId', function(req, res, next, theId){
+    Product.findById(theId)
+    .then(function(foundProduct){
+        if(!foundProduct) return res.sendStatus(404);
+        else req.productInstance = foundProduct;
         next();
     })
     .catch(next);
@@ -60,6 +71,14 @@ router.put('/:id', function(req, res, next){
 
 router.delete('/:id', function(req, res, next){
 	req.orderInstance.destroy()
+	.then(function(){
+		res.sendStatus(204);
+	})
+	.catch(next);
+});
+
+router.delete('/:id/products/:productId', function(req, res, next){
+	req.orderInstance.removeProduct(req.productInstance)
 	.then(function(){
 		res.sendStatus(204);
 	})

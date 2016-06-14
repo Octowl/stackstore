@@ -1,0 +1,117 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-4">
+			<img src="{{productForDetails.photoUrl}}">
+		</div>
+		<div class="col-md-6">
+			<h2>{{productForDetails.name}}</h2>
+			<h5>{{productForDetails.description}}</h5>
+			<div>from: {{productForDetails.location.name}}</div>
+			<div>by: <a ui-sref="myProfile({id: productForDetails.userId})">{{productForDetails.user.firstName}} {{productForDetails.user.lastName}}</a></div>
+			<div>{{productForDetails.user.firstName}}'s average rating: {{getStars(userForDetails.userRatings)}}</div>
+			<h4>Price: ${{productForDetails.price}}.00</h4>
+			<h4 class="green" ng-show="inStock(productForDetails.inventory)">In Stock</h4>
+			<h4 class="red" ng-hide="inStock(productForDetails.inventory)">Out Of Stock</h4>
+			<form id="quantity-selector" ng-submit="addToCart(productForDetails.id)">
+			    <div class="form-group">
+			      <select id="disabledSelect" class="form-control">
+			        <option>Quantity</option>
+			        <option ng-repeat="i in getNumber(productForDetails.inventory) track by $index"><span>{{$index+1}}</span></option>
+			      </select>
+			    </div>
+			    <button type="submit" class="btn btn-primary" ng-class="{ 'disabled': !inStock(productForDetails.inventory) }">Add to cart</button>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<div>
+				<h5>Average rating for {{productForDetails.name}}'s: {{getStars(productForDetails.reviews)}}</h5>
+			</div>
+			<div>
+				<form ng-model="product" ng-show="{{!!loggedInUser}}" name="reviewForm" ng-submit="submitReview({stars: product.stars, comment: product.comment, productId: productForDetails.id, userId: loggedInUser.id})" novalidate>
+
+					    <!-- Star Rating -->
+					    <span>Your rating for {{productForDetails.name}}: </span>
+					    <label>
+					        <input class="radio-inline" type="radio" ng-model="product.stars" value="1">
+					        1
+					      </label>
+					      <label>
+					        <input class="radio-inline" type="radio" ng-model="product.stars" value="2">
+					        2
+					      </label>
+					      <label>
+					        <input class="radio-inline" type="radio" ng-model="product.stars" value="3">
+					        3
+					      </label>
+					      <label>
+					        <input class="radio-inline" type="radio" ng-model="product.stars" value="4">
+					        4
+					      </label>
+					      <label>
+					        <input class="radio-inline" type="radio" ng-model="product.stars" value="5">
+					        5
+					      </label>
+
+				        <!-- Review Text -->
+				        <div class="form-group" ng-class="{ 'has-error' : reviewForm.comment.$invalid && !reviewForm.comment.$pristine }">
+				            <label>Your review for {{productForDetails.name}}:</label>
+				            <textarea type="text" rows="3" name="comment" class="form-control" ng-model="product.comment" required></textarea>
+				            <p ng-show="reviewForm.comment.$invalid && !reviewForm.comment.$pristine" class="help-block">A review is required.</p>
+				        </div>
+			        
+				        <button type="submit" class="btn btn-primary" ng-disabled="reviewForm.$invalid">Submit</button>
+
+				        
+				</form>
+
+		        <!-- Not Logged In -->
+	            <div ng-show="{{!loggedInUser}}" class="alert alert-info" role="alert">
+	        		You must be logged in to submit a review... <a href="/login" class="alert-link">Login now?</a>
+	        	</div>
+
+			</div>
+			<br>
+			<h2>Review for {{productForDetails.name}}</h2>
+			</br>
+			<div ng-repeat="review in reviewsForProduct">
+				<div class='alert alert-info' >
+				<span class="glyphicon" ng-class="{'glyphicon-star': $index < review.stars, 'glyphicon-star-empty' : $index >= review.stars}" ng-repeat="i in stars track by $index"></span>
+							<div>by: <a ui-sref="myProfile({id: review.userId})">{{review.user.firstName}} {{review.user.lastName}}</a></div>
+				<h5>{{review.comment}}</h5>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

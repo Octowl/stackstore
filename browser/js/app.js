@@ -1,4 +1,6 @@
 'use strict';
+
+
 window.app = angular.module('Cove', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {

@@ -1,20 +1,15 @@
 /*
-
 This seed file is only a placeholder. It should be expanded and altered
 to fit the development of your application.
-
 It uses the same file the server uses to establish
 the database connection:
 --- server/db/index.js
-
 The name of the database used is set in your environment files:
 --- server/env/*
-
 This seed file has a safety check to see if you already have users
 in the database. If you are developing multiple applications with the
 fsg scaffolding, keep in mind that fsg always uses the same database
 name in the environment files.
-
 */
 
 var chalk = require('chalk');
@@ -24,6 +19,7 @@ var Product = db.model('product');
 var Location = db.model('location');
 var Review = db.model('review');
 var Order = db.model('order');
+var userRating = db.model('userRating');
 
 var Promise = require('sequelize').Promise;
 
@@ -33,17 +29,20 @@ var seedProducts = function () {
         name: 'Marlboro Light',
         description: 'cigarets',
         price: 40,
-        inventory: 10
+        inventory: 0,
+        userId: 1
     }, {
         name: 'Shagel',
         description: 'Shower Gel',
         price: 5,
-        inventory: 100
+        inventory: 100,
+        userId: 2
     }, {
         name: 'Perfume 1',
         description: 'Musc',
         price: 40,
-        inventory: 10
+        inventory: 10,
+        userId: 3
     }];
 
     var creatingProducts = products.map(function (productObj, idx) {
@@ -155,7 +154,7 @@ var seedUsers = function () {
     var users = [{
         firstName: 'Foshizzle',
         lastName: 'MaNizzle',
-        email: 'shizzle@fsa.com',
+        email: 'corey@fsa.com',
         password: 'foshiz',
         address: '17 Park Pl. Westbury, NY, 11213',
         rating:3
@@ -198,6 +197,43 @@ var seedUsers = function () {
 
 };
 
+var seedUserRatings = function () {
+    var userRatings = [{
+        stars : 3,
+        userId : 1
+    },{
+        stars : 4,
+        userId : 1
+    },{
+        stars : 5,
+        userId : 1
+    },{
+        stars : 5,
+        userId : 2
+    },{
+        stars : 5,
+        userId : 2
+    },{
+        stars : 4,
+        userId : 2
+    },{
+        stars : 5,
+        userId : 3
+    },{
+        stars : 4,
+        userId : 3
+    },{
+        stars : 5,
+        userId : 3
+    }];
+
+    var creatingUserRatings = userRatings.map(function (ratingObj) {
+        return userRating.create(ratingObj);
+    });
+
+    return Promise.all(creatingUserRatings);
+};
+
 db.sync({
         force: true
     })
@@ -215,6 +251,9 @@ db.sync({
     })
     .then(function(){
         return seedOrders();
+    })
+    .then(function() {
+        return seedUserRatings();
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));

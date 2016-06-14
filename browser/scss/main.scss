@@ -1,5 +1,29 @@
-* {
+.becentered {
+  display : inline-block;
+  width : 30%;
+  margin-left : 28%;
+  color : #24AE5F;
+  font-family : "Monaco";
+}
+
+  * {
   box-sizing: border-box;
+}
+
+#quantity-selector {
+  width: 100px;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+#map {
+  height: 300px;
 }
 
 body {
@@ -31,4 +55,5 @@ body {
 @import 'about/main';
 @import 'tutorial/main';
 @import 'login/main';
-@import 'profile/profile'
+@import 'profile/profile';
+@import 'order/main';
