@@ -1,0 +1,38 @@
+<div class="container col-md-6">
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Item Total</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+	<tr ng-repeat="item in order.orderItems">
+	  <td class="otter"><img src={{item.product.photoUrl}}></td>
+	  <td>{{ item.product.name }}</td>
+	  <td>฿{{ item.price }}</td>
+      <td ng-if="!isCart">{{item.quantity}}</td>
+	  <td ng-if="isCart"><input type="text" ng-model="item.quantity
+	  " value={{item.quantity}} ng-enter="updateQuantity(item)"></td>
+	  <td>฿{{ item.quantity * item.price }}</td>
+	  <td>
+	    <button class="btn btn-default btn-xs" ng-click="removeItem(item.product.id)" ng-if="isCart">
+	      <span class="glyphicon glyphicon-remove-circle"></span>
+	    </button>
+	  </td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td><strong>Cart Total</strong></td>
+		<td>฿{{getTotal()}}</td>
+		<td></td>
+	</tr>
+  </tbody>
+</table>
+</div>

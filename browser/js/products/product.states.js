@@ -16,4 +16,10 @@ app.config(function ($stateProvider) {
         templateUrl : 'js/products/productGrid.html'
     });
 
+    $stateProvider.state('products.map', {
+        url : '/map',
+        controller: 'MapCtrl',
+        templateUrl : 'js/products/productMap.html'
+    });
+
 });

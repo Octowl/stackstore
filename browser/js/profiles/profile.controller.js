@@ -1,10 +1,9 @@
 app.controller('User', function($scope, user, reviews, loggedInUser, ProfileFactory){
 
-	$scope.user = user;
-
 	$scope.stars= new Array(5);
-
+	$scope.user = user;
 	$scope.reviews = reviews;
+	$scope.orders = orders;
 
 	$scope.confirmation = false;
 

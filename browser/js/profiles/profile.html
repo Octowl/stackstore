@@ -4,6 +4,7 @@
             <img id="profilePic" src="{{user.image}}">
             <h3><span>{{user.firstName}}</span><span>{{" " + user.lastName}} </span></h3>
             <div>Average rating: <span ng-class="{'glyphicon-star': $index < getStars(user.userRatings), 'glyphicon-star-empty' : $index >= getStars(user.userRatings)}" class="glyphicon" ng-repeat="i in stars track by $index"></span></div>
+
             <h5 ng-if="loggedInFilter(loggedInUser,user)">{{user.email}}</h5>
             
             <p ng-if="loggedInFilter(loggedInUser,user)" ng-model="address">{{user.address}}</p>
@@ -34,6 +35,7 @@
                     </div>
                 </uib-accordion-group>
             </uib-accordion>
+
         </div>
         <div class="col-sm-8">
 
@@ -48,7 +50,10 @@
                 <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
                     <uib-accordion-heading><span class="glyphicon glyphicon-list-alt"></span> {{user.firstName}}'s Order History
                     </uib-accordion-heading>
-                    <!--here will go the order history-->
+                    <!-- <order ng-repeat="order in orders | filter:{$: false}"></order> -->
+                    <div ng-repeat="order in orders | filter:{$: false}">
+                        <a ui-sref="orderDetail({id: order.id})">{{order.id}} {{order.datePlaced}}</a>
+                    </div>
                 </uib-accordion-group>
             </uib-accordion>
         </div>
