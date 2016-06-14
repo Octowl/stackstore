@@ -56,6 +56,22 @@
 			    </fieldset>
 		    <button type="submit" class="btn btn-primary">Delete him</button>
 		    </form>
+
+		    <form ng-model="user" ng-submit="adminUser(user.id)">
+
+	        	<fieldset class="form-group">
+			    <label for="formGroupExampleInput2">Make user admin</label>	
+			      <select ng-model="user" ng-options="user as user.email for user in users track by user.id" id="disabledSelect" class="form-control">
+				</select>
+			    </fieldset>
+
+			    <div class="checkbox">
+				  <label><input type="checkbox" value="">Is admin ?</label>
+				</div>
+
+		    <button type="submit" class="btn btn-primary">Admin him</button>
+		    </form>
+
 		</uib-accordion-group>
 </uib-accordion>
 
