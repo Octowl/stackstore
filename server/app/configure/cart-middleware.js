@@ -17,10 +17,8 @@ module.exports = function (app, db) {
                 })
                 .then(function (orders) {
                     if(orders.length) {
-                        console.log('ARRAY', orders.length);
                         return orders[0].id;
                     } else {
-                        console.log('REQSESSIONCART', req.session.cart);
                         return req.session.cart;
                     }
                 })
