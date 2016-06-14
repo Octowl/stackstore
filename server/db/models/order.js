@@ -12,6 +12,9 @@ module.exports = function(db) {
             type: Sequelize.BOOLEAN,
             allowNull: false,
             defaultValue : true	//probably need more than true and false, maybe created, cancelled, complete -FLOB
+        },
+        datePlaced: {
+            type: Sequelize.DATE
         }
     },{
         defaultScope: {
@@ -61,7 +64,8 @@ module.exports = function(db) {
     			})
     			.then(function(){
     				return self.update({
-    					active: false
+    					active: false,
+                        datePlaced: new Date()
     				});
     			});
     		}

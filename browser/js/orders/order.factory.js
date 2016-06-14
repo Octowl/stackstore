@@ -1,5 +1,5 @@
 app.factory('OrderFactory', function ($http) {
-	
+
 	function resToData(res) {
         return res.data;
     }
@@ -15,6 +15,10 @@ app.factory('OrderFactory', function ($http) {
 		getAllOrders: function(){
 			return $http.get('api/orders').then(resToData);
 		},
+        getAllUserOrders: function(id) {
+            return $http.get('/api/users/' + id + '/orders')
+            .then(resToData);
+        },
 		deleteProductFromCart: function(cartId, productId){
 			return $http.delete('api/orders/' + cartId + '/products/' + productId)
 			.then(resToData);

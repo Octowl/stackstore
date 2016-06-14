@@ -18,6 +18,7 @@ var User = db.model('user');
 var Product = db.model('product');
 var Location = db.model('location');
 var Review = db.model('review');
+var Order = db.model('order');
 var userRating = db.model('userRating');
 
 var Promise = require('sequelize').Promise;
@@ -81,6 +82,33 @@ var seedLocations = function () {
     return Promise.all(creatingLocations);
 };
 
+var seedOrders = function() {
+    var orders = [{
+        active: true,
+        userId: 1
+    },{
+        active: false,
+        userId: 2
+    },{
+        active: false,
+        userId: 5
+    },{
+        active: false,
+        userId: 3
+    },{
+        active: false,
+        userId: 4
+    }];
+
+    var creatingOrders = orders.map(function (orderObj) {
+        return Order.create(orderObj);
+    });
+
+    return Promise.all(creatingOrders);
+};
+
+
+
 var seedReviews = function () {
     var reviews = [{
         stars : 5,
@@ -126,7 +154,7 @@ var seedUsers = function () {
     var users = [{
         firstName: 'Foshizzle',
         lastName: 'MaNizzle',
-        email: 'shizzle@fsa.com',
+        email: 'corey@fsa.com',
         password: 'foshiz',
         address: '17 Park Pl. Westbury, NY, 11213',
         rating:3
@@ -220,6 +248,9 @@ db.sync({
     })
     .then(function() {
         return seedReviews();
+    })
+    .then(function(){
+        return seedOrders();
     })
     .then(function() {
         return seedUserRatings();
