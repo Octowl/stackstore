@@ -20,6 +20,7 @@ var Location = db.model('location');
 var Review = db.model('review');
 var Order = db.model('order');
 var userRating = db.model('userRating');
+var newCountries = require('./countrieslist.js');
 
 var Promise = require('sequelize').Promise;
 
@@ -61,19 +62,29 @@ var seedProducts = function () {
 };
 
 var seedLocations = function () {
-    var locations = [{
-        name: "Egypt",
-        latitude: 48.8566,
-        longitude: 2.3522
-    }, {
-        name: "France",
-        latitude: 51.5074,
-        longitude: 0.1278
-    }, {
-        name: "Dubaï",
-        latitude: 40.7128,
-        longitude: 74.0059
-    }];
+    // var countries = newCountries;
+    var locations = newCountries;
+    // var locations = [{
+    //     name: "Egypt",
+    //     latitude: 48.8566,
+    //     longitude: 2.3522
+    // }, {
+    //     name: "France",
+    //     latitude: 51.5074,
+    //     longitude: 0.1278
+    // }, {
+    //     name: "Dubaï",
+    //     latitude: 40.7128,
+    //     longitude: 74.0059
+    // }, {
+    //     name: "Afghanistan",
+    //     latitude: 34.2800,
+    //     longitude: 69.1100
+    // }, {
+    //     name: "Bahamas",
+    //     latitude: 25.05,
+    //     longitude: 77.20
+    // }];
 
     var creatingLocations = locations.map(function (locationObj) {
         return Location.create(locationObj);
