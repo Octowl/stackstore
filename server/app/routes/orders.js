@@ -13,7 +13,6 @@ router.get('/checkout', function(req, res, next){
 	req.cart.checkout()
 	.then(function(checkOutCompletedCart){
 		req.session.cart = null;
-		//console.log('sending CHECKOUT');
 		res.send(checkOutCompletedCart);
 	}).catch(next);
 });

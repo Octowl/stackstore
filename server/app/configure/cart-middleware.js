@@ -1,7 +1,7 @@
 module.exports = function (app, db) {
 
     var Order = db.model('order');
-    app.use(function (req, res, next) { // TODO: this is broken
+    app.use(function (req, res, next) { 
         if (!req.session.cart) {
             Order.create()
                 .then(function (cart) {
@@ -38,8 +38,6 @@ module.exports = function (app, db) {
     app.use(function (req, res, next) {
         deserializeCart(req.session.cart)
             .then(function (cart) {
-                //console.log('CART', cart);
-                //console.log('REQ.CART', req.cart);
                 req.cart = cart;
                 if(req.user) return req.cart.setUser(req.user)
             })
