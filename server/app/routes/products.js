@@ -54,11 +54,12 @@ router.get('/:id/reviews', function (req, res, next) {
 router.post('/', function (req, res, next) {
     if (!req.user) res.sendStatus(401);
     else {
+        console.log(req.body);
         var myProduct;
-        Product.create(req.body.product)
+        Product.create(req.body)
             .then(function(createdProduct){
         		myProduct = createdProduct;
-        		return Location.findById(req.body.location);
+        		return Location.findById(req.body.location.id);
         	})
         	.then(function(foundLocation){
         		return myProduct.setLocation(foundLocation);

@@ -8,6 +8,9 @@ app.factory('UserFactory', function($http){
 		},
 		getAll: function(){
 			return $http.get('/api/users')
+			.then(function(res){
+				return res.data;
+			})
 		}
 	}
 })

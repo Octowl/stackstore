@@ -20,6 +20,14 @@ router.param('id', function (req, res, next, id) {
         .catch(next);
 });
 
+router.get('/', function (req, res, next) {
+    User.findAll({})
+    .then(function(users){
+        if (!users.length) return res.sendStatus(404);
+        res.send(users)
+    })
+})
+
 router.get('/user/:id', function (req, res, next) {
     User.findOne({
         where: { id: req.params.id },
@@ -30,6 +38,7 @@ router.get('/user/:id', function (req, res, next) {
         res.send(user)
     })
 })
+
 
 router.get('/:id', function (req, res, next) {
     res.send(req.foundUser);
