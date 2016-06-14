@@ -6,13 +6,13 @@ app.config(function ($stateProvider) {
         resolve: {
             locations: function(LocationFactory) {
                 return LocationFactory.getAll();
-            }
+            },
             // orders: function(OrderFactory){
             //     return OrderFactory.getAllOrders();
             // },
-            // users: function(UserFactory){
-            //     return UserFactory.getAll();
-            // }
+            users: function(UserFactory){
+                return UserFactory.getAll();
+            }
         }
     });
 }); 

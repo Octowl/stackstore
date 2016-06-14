@@ -1,4 +1,4 @@
-app.controller('AdminCtrl', function($scope, AdminFactory, locations){
+app.controller('AdminCtrl', function($scope, AdminFactory, locations, UserFactory, users){
     
     // $scope.orders = orders;
 
@@ -7,5 +7,9 @@ app.controller('AdminCtrl', function($scope, AdminFactory, locations){
     $scope.createProduct = AdminFactory.createProduct;
 
     $scope.locations = locations;
+
+    $scope.users = users;
+
+    $scope.deleteUser = UserFactory.deleteUser;
 
 });

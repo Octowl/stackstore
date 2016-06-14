@@ -32,9 +32,7 @@
 				<fieldset class="form-group">
 			    <label for="formGroupExampleInput2">Country</label>	
 			      <select ng-model="newProductData.location" ng-options="location as location.name for location in locations track by location.id" id="disabledSelect" class="form-control">
-			        <!-- <option>Locations</option> -->
-<!-- 			        <option><span>{{location.name}}</span></option>
- -->			  </select>
+ 			  </select>
 			    </fieldset>
 			  
 			  <button type="submit" class="btn btn-primary">Submit</button>
@@ -44,6 +42,22 @@
 		</uib-accordion-group>
 </uib-accordion>
 
+<uib-accordion close-others="oneAtATime">
+    <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+        <uib-accordion-heading><span class="glyphicon glyphicon-pencil"></span> User management
+        </uib-accordion-heading>
+
+			<form ng-model="user" ng-submit="deleteUser(user.id)">
+
+	        <fieldset class="form-group">
+			    <label for="formGroupExampleInput2">Delete a user</label>	
+			      <select ng-model="user" ng-options="user as user.email for user in users track by user.id" id="disabledSelect" class="form-control">
+				</select>
+			    </fieldset>
+		    <button type="submit" class="btn btn-primary">Delete him</button>
+		    </form>
+		</uib-accordion-group>
+</uib-accordion>
 
 </div>
 
