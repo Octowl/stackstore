@@ -9,6 +9,7 @@ var Location = db.model('location');
 var Review = db.model('review');
 var User = db.model('user');
 var Location = db.model('location');
+var Auth = require('./auth');
 
 var router = require('express').Router();
 
@@ -51,10 +52,7 @@ router.get('/:id/reviews', function (req, res, next) {
         })
 });
 
-router.post('/', function (req, res, next) {
-    if (!req.user) res.sendStatus(401);
-    else {
-        console.log(req.body);
+router.post('/', Auth.assertAuthenticated, function (req, res, next) {
         var myProduct;
         Product.create(req.body)
             .then(function(createdProduct){
@@ -71,7 +69,6 @@ router.post('/', function (req, res, next) {
                 res.status(201).send(createdProduct);
             })
             .catch(next);
-    }
 });
 
 router.use('/:id/reviews', require('./reviews'));
