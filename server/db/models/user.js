@@ -27,7 +27,8 @@ module.exports = function (db) {
             allowNull: false
         },
         address: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            defaultValue: 'Please enter an address'
         },
         isAdmin: {
             type: Sequelize.BOOLEAN,
@@ -41,7 +42,10 @@ module.exports = function (db) {
             }
         },
         salt: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            set: function(data){
+                console.log(data)
+            }
         },
         twitter_id: {
             type: Sequelize.STRING
@@ -73,10 +77,18 @@ module.exports = function (db) {
             }
         },
         hooks: {
-            beforeValidate: function (user) {
+            beforeCreate: function (user) {
                 if (user.changed('password')) {
-                    user.salt = user.Model.generateSalt();
-                    user.password = user.Model.encryptPassword(user.password, user.salt);
+                    user.setDataValue('salt', user.Model.generateSalt());
+                    user.setDataValue('password', user.Model.encryptPassword(user.password, user.salt));
+
+                }
+            },
+            beforeUpdate: function (user) {
+                if (user.changed('password')) {
+                    user.setDataValue('salt', user.Model.generateSalt());
+                    user.setDataValue('password', user.Model.encryptPassword(user.password, user.salt));
+
                 }
             }
         }
