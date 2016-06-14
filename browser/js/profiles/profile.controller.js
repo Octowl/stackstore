@@ -5,8 +5,6 @@ app.controller('User', function($scope, user, reviews, orders, loggedInUser){
 	$scope.reviews = reviews;
 	$scope.orders = orders;
 
-	console.log(orders);
-
 	$scope.getStars = function(arr){
 		var sum = 0;
 		arr.forEach(function(item){

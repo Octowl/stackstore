@@ -14,12 +14,13 @@
 	<tr ng-repeat="item in order.orderItems">
 	  <td class="otter"><img src={{item.product.photoUrl}}></td>
 	  <td>{{ item.product.name }}</td>
-	  <td>฿{{ item.product.price }}</td>
-	  <td><input type="text" ng-model="item.quantity
+	  <td>฿{{ item.price }}</td>
+      <td ng-if="!isCart">{{item.quantity}}</td>
+	  <td ng-if="isCart"><input type="text" ng-model="item.quantity
 	  " value={{item.quantity}} ng-enter="updateQuantity(item)"></td>
-	  <td>฿{{ item.quantity * item.product.price }}</td>
+	  <td>฿{{ item.quantity * item.price }}</td>
 	  <td>
-	    <button class="btn btn-default btn-xs" ng-click="removeItem(item.product.id)">
+	    <button class="btn btn-default btn-xs" ng-click="removeItem(item.product.id)" ng-if="isCart">
 	      <span class="glyphicon glyphicon-remove-circle"></span>
 	    </button>
 	  </td>
