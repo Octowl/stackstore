@@ -10,24 +10,30 @@ module.exports = function (app, db) {
     var googleConfig = app.getValue('env').GOOGLE;
 
     var googleCredentials = {
-        clientID: googleConfig.clientID,
-        clientSecret: googleConfig.clientSecret,
-        callbackURL: googleConfig.callbackURL
+        clientID: "302353899902-kt5vodm5avtfrl3qaoighp10553tdef7.apps.googleusercontent.com",
+        clientSecret: "zb2Uro-88AS08SGdJ_z3W6qN",
+        callbackURL: "/auth/google/callback"
     };
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
-
+        console.log(profile._json);
         User.findOne({
                 where: {
                     google_id: profile.id
                 }
             })
             .then(function (user) {
+                console.log(user);
                 if (user) {
                     return user;
                 } else {
+                    console.log('made it to create');
                     return User.create({
-                        google_id: profile.id
+                        google_id: profile.id,
+                        firstName: profile._json.given_name,
+                        lastName: profile._json.family_name,
+                        email: profile._json.email,
+                        image: profile._json.picture
                     });
                 }
             })
