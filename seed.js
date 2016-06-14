@@ -157,6 +157,7 @@ var seedUsers = function () {
         email: 'corey@fsa.com',
         password: 'foshiz',
         address: '17 Park Pl. Westbury, NY, 11213',
+        isAdmin: 'true',
         rating:3
     }, {
         firstName: 'Barry',
