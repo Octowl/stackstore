@@ -1,1 +1,50 @@
-<h1> ADMINS CAN'T DO SQUAT WHAT UPPPPPP </h1>
+<div class="container">
+
+<div class="row">
+
+<uib-accordion close-others="oneAtATime">
+    <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+        <uib-accordion-heading><span class="glyphicon glyphicon-pencil"></span> Product management
+        </uib-accordion-heading>
+			<form ng-model="newProductData" ng-submit="createProduct(newProductData)">
+			  <h4> Create a product </h4>
+			  <fieldset class="form-group">
+			    <label for="formGroupExampleInput">Product Name</label>
+			    <input ng-model="newProductData.name" type="text" class="form-control" id="formGroupExampleInput" placeholder="Enter the product name">
+			  </fieldset>
+			  
+			  <fieldset class="form-group">
+			    <label for="formGroupExampleInput2">Description of the product</label>
+			    <input ng-model="newProductData.description" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Enter the product description">
+			  </fieldset>
+
+			  <fieldset class="form-group">
+			    <label for="formGroupExampleInput2">Price</label>
+			    <input ng-model="newProductData.price" type="number" class="form-control" id="formGroupExampleInput2" placeholder="Enter the product price">
+			  </fieldset>
+
+			  <fieldset class="form-group">
+			    <label for="formGroupExampleInput2">Inventory</label>
+			    <input ng-model="newProductData.inventory" type="number" class="form-control" id="formGroupExampleInput2" placeholder="Enter the inventory for that product">
+			  </fieldset>
+
+
+				<fieldset class="form-group">
+			    <label for="formGroupExampleInput2">Country</label>	
+			      <select ng-model="newProductData.location" ng-options="location as location.name for location in locations track by location.id" id="disabledSelect" class="form-control">
+			        <!-- <option>Locations</option> -->
+<!-- 			        <option><span>{{location.name}}</span></option>
+ -->			  </select>
+			    </fieldset>
+			  
+			  <button type="submit" class="btn btn-primary">Submit</button>
+
+			</form>
+
+		</uib-accordion-group>
+</uib-accordion>
+
+
+</div>
+
+</div>

@@ -19,8 +19,8 @@ router.param('id', function (req, res, next, theId) {
 
 router.get('/', function (req, res, next) {
     Location.findAll({})
-        .then(function (products) {
-            res.send(products);
+        .then(function (locations) {
+            res.send(locations);
         })
         .catch(next);
 });

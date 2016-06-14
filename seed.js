@@ -173,6 +173,7 @@ var seedUsers = function () {
         password: 'jenna',
         address: 'White House',
         rating:5,
+        isAdmin : true,
         image: 'jennaprofilepicture.jpg'
     }, {
         firstName: 'Matt',
