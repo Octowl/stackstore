@@ -11,6 +11,7 @@ app.controller('CartCtrl', function($scope, $state, order, OrderFactory){
 		});
 	}
 	$scope.removeItem = function(id) {
+		console.log('Made it to the cart controller');
 		OrderFactory.deleteProductFromCart(order.id, id)
 		.then(function(){
 			return OrderFactory.getCart()

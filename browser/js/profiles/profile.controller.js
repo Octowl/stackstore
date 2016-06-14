@@ -1,4 +1,4 @@
-app.controller('User', function($scope, user, reviews, loggedInUser, ProfileFactory){
+app.controller('User', function($scope, user, reviews, loggedInUser, ProfileFactory, orders){
 
 	$scope.stars= new Array(5);
 	$scope.user = user;
