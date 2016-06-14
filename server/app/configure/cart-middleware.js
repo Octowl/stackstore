@@ -1,7 +1,7 @@
 module.exports = function (app, db) {
 
     var Order = db.model('order');
-    app.use(function (req, res, next) {
+    app.use(function (req, res, next) { // TODO: this is broken
         if (req.user) {
             req.user.getOrders({
                     where: {
@@ -10,8 +10,10 @@ module.exports = function (app, db) {
                 })
                 .then(function (orders) {
                     if(orders.length) {
+                        console.log('ARRAY', orders.length);
                         return orders[0].id;
                     } else {
+                        console.log('REQSESSIONCART', req.session.cart);
                         return req.session.cart;
                     }
                 })
@@ -38,6 +40,8 @@ module.exports = function (app, db) {
     app.use(function (req, res, next) {
         deserializeCart(req.session.cart)
             .then(function (cart) {
+                console.log('CART', cart);
+                console.log('REQ.CART', req.cart);
                 req.cart = cart;
                 if(req.user) return req.cart.setUser(req.user)
             })
