@@ -10,9 +10,5 @@ countries.forEach(function(country){
 			longitude : +country.CapitalLongitude
 		})
 	})
-console.log(newCountries);
 
 module.exports = newCountries;
-// function(new) {
-// 	return newCountries;
-// }
