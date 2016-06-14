@@ -2,7 +2,14 @@ module.exports = function (app, db) {
 
     var Order = db.model('order');
     app.use(function (req, res, next) { // TODO: this is broken
-        if (req.user) {
+        if (!req.session.cart) {
+            Order.create()
+                .then(function (cart) {
+                    req.session.cart = cart.id;
+                    next();
+                })
+                .catch(next);
+        } else if (req.user) {
             req.user.getOrders({
                     where: {
                         active: true
@@ -22,13 +29,6 @@ module.exports = function (app, db) {
                     next();
                 })
                 .catch(next);
-        } else if (!req.session.cart) {
-            Order.create()
-                .then(function (cart) {
-                    req.session.cart = cart.id;
-                    next();
-                })
-                .catch(next);
         } else next();
     })
 
@@ -40,8 +40,8 @@ module.exports = function (app, db) {
     app.use(function (req, res, next) {
         deserializeCart(req.session.cart)
             .then(function (cart) {
-                console.log('CART', cart);
-                console.log('REQ.CART', req.cart);
+                //console.log('CART', cart);
+                //console.log('REQ.CART', req.cart);
                 req.cart = cart;
                 if(req.user) return req.cart.setUser(req.user)
             })
