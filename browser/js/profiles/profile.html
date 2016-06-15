@@ -52,7 +52,9 @@
                     </uib-accordion-heading>
                     <!-- <order ng-repeat="order in orders | filter:{$: false}"></order> -->
                     <div ng-repeat="order in orders | filter:{$: false}">
-                        <a ui-sref="orderDetail({id: order.id})">{{order.id}} {{order.datePlaced}}</a>
+                        <li>
+                        <a ui-sref="orderDetail({id: order.id})"> Order #{{order.id}} {{order.datePlaced}}</a>
+                        </li>
                     </div>
                 </uib-accordion-group>
             </uib-accordion>

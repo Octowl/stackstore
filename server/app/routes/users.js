@@ -86,3 +86,5 @@ router.delete('/:id', function (req, res, next) {
     req.foundUser.destroy();
     res.sendStatus(204);
 });
+
+

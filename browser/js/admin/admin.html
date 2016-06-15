@@ -42,6 +42,7 @@
 		</uib-accordion-group>
 </uib-accordion>
 
+
 </div>
 
 
@@ -58,10 +59,41 @@
         		<div>Order ID: <a ui-sref="orderDetail({id: order.id})">{{order.id}} {{order.datePlaced}}</a></div>
         		<div>User Name: <a ui-sref="myProfile({id: order.user.id})">{{order.user.firstName}} {{order.user.lastName}}</a></div>
         		<div>User Email: {{order.user.email}}</div>
-        		<div>User Address: {{order.user.address}}</div>
-        		
-        		
+        		<div>User Address: {{order.user.address}}</div>	
         	</div>
+	</uib-accordion-group>
+</uib-accordion>	
+
+<uib-accordion close-others="oneAtATime">
+    <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+        <uib-accordion-heading><span class="glyphicon glyphicon-pencil"></span> User management
+        </uib-accordion-heading>
+
+			<form ng-model="user" ng-submit="deleteUser(user.id)">
+
+	        <fieldset class="form-group">
+			    <label for="formGroupExampleInput2">Delete a user</label>	
+			      <select ng-model="user" ng-options="user as user.email for user in users track by user.id" id="disabledSelect" class="form-control">
+				</select>
+			    </fieldset>
+		    <button type="submit" class="btn btn-primary">Delete him</button>
+		    </form>
+
+		    <form ng-model="person" ng-submit="adminUser(person)">
+
+	        	<fieldset class="form-group">
+			    <label for="formGroupExampleInput2">Make user admin</label>	
+			      <select ng-model="person.id" ng-options="user as user.email for user in users track by user.id" id="disabledSelect" class="form-control">
+				</select>
+			    </fieldset>
+
+			    <div class="checkbox">
+				  <label><input ng-model="person.isAdmin" type="checkbox" value="">Is admin ?</label>
+				</div>
+
+		    <button type="submit" class="btn btn-primary">Admin him</button>
+		    </form>
+
 		</uib-accordion-group>
 </uib-accordion>
 
