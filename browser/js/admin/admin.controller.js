@@ -1,4 +1,4 @@
-app.controller('AdminCtrl', function($scope, AdminFactory, locations, UserFactory, users){
+app.controller('AdminCtrl', function($scope, AdminFactory, locations, UserFactory, users, orders){
     
     $scope.orders = orders;
 
