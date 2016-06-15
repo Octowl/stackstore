@@ -32,9 +32,7 @@
 				<fieldset class="form-group">
 			    <label for="formGroupExampleInput2">Country</label>	
 			      <select ng-model="newProductData.location" ng-options="location as location.name for location in locations track by location.id" id="disabledSelect" class="form-control">
-			        <!-- <option>Locations</option> -->
-<!-- 			        <option><span>{{location.name}}</span></option>
- -->			  </select>
+				  </select>
 			    </fieldset>
 			  
 			  <button type="submit" class="btn btn-primary">Submit</button>
@@ -44,6 +42,28 @@
 		</uib-accordion-group>
 </uib-accordion>
 
+</div>
+
+
+
+
+<div class="row">
+<uib-accordion close-others="oneAtATime">
+    <uib-accordion-group is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+        <uib-accordion-heading><span class="glyphicon glyphicon-pencil"></span> Orders management
+        </uib-accordion-heading>
+        	<div class="alert alert-info" role="alert" ng-repeat="order in orders">
+
+
+        		<div>Order ID: <a ui-sref="orderDetail({id: order.id})">{{order.id}} {{order.datePlaced}}</a></div>
+        		<div>User Name: <a ui-sref="myProfile({id: order.user.id})">{{order.user.firstName}} {{order.user.lastName}}</a></div>
+        		<div>User Email: {{order.user.email}}</div>
+        		<div>User Address: {{order.user.address}}</div>
+        		
+        		
+        	</div>
+		</uib-accordion-group>
+</uib-accordion>
 
 </div>
 
