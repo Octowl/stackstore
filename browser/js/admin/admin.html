@@ -57,16 +57,16 @@
 		    <button type="submit" class="btn btn-primary">Delete him</button>
 		    </form>
 
-		    <form ng-model="user" ng-submit="adminUser(user.id)">
+		    <form ng-model="person" ng-submit="adminUser(person)">
 
 	        	<fieldset class="form-group">
 			    <label for="formGroupExampleInput2">Make user admin</label>	
-			      <select ng-model="user" ng-options="user as user.email for user in users track by user.id" id="disabledSelect" class="form-control">
+			      <select ng-model="person.id" ng-options="user as user.email for user in users track by user.id" id="disabledSelect" class="form-control">
 				</select>
 			    </fieldset>
 
 			    <div class="checkbox">
-				  <label><input type="checkbox" value="">Is admin ?</label>
+				  <label><input ng-model="person.isAdmin" type="checkbox" value="">Is admin ?</label>
 				</div>
 
 		    <button type="submit" class="btn btn-primary">Admin him</button>

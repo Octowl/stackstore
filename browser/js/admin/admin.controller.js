@@ -12,4 +12,6 @@ app.controller('AdminCtrl', function($scope, AdminFactory, locations, UserFactor
 
     $scope.deleteUser = UserFactory.deleteUser;
 
+    $scope.adminUser = UserFactory.adminUser;
+
 });
