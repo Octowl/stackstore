@@ -7,9 +7,9 @@ app.config(function ($stateProvider) {
             locations: function(LocationFactory) {
                 return LocationFactory.getAll();
             },
-            // orders: function(OrderFactory){
-            //     return OrderFactory.getAllOrders();
-            // },
+            orders: function(OrderFactory){
+                return OrderFactory.getAllOrders();
+             },
             users: function(UserFactory){
                 return UserFactory.getAll();
             }

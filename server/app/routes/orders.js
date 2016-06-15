@@ -5,6 +5,7 @@
 var db = require('../../db');
 var Order = db.model('order');
 var Product = db.model('product');
+var User = db.model('user');
 var router = require('express').Router();
 
 module.exports = router;
@@ -38,7 +39,11 @@ router.param('productId', function(req, res, next, theId){
 });
 
 router.get('/', function(req, res, next){
-    Order.findAll({})
+    Order.findAll({
+    	include: [
+    		{model: User}
+    	]
+    })
     .then(function(orders){
         res.send(orders);
     })

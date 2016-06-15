@@ -1,8 +1,6 @@
 app.controller('AdminCtrl', function($scope, AdminFactory, locations, UserFactory, users){
     
-    // $scope.orders = orders;
-
-    // $scope.users = users;
+    $scope.orders = orders;
 
     $scope.createProduct = AdminFactory.createProduct;
 
