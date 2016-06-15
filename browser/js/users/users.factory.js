@@ -11,6 +11,22 @@ app.factory('UserFactory', function($http){
 			.then(function(res){
 				return res.data;
 			})
+		},
+
+		deleteUser: function(id){
+			console.log(id);
+			return $http.delete('/api/users/' + id)
+			.then(function(res){
+				return res.data;
+			})
+		},
+
+		adminUser: function(person){
+			console.log(person);
+			return $http.put('/api/users/' + person.id.id, {isAdmin : person.isAdmin})
+			.then(function(res){
+				return res.data;
+			})
 		}
 	}
 })
