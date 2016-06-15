@@ -185,7 +185,7 @@ var seedUsers = function () {
         address: 'White House',
         rating:5,
         isAdmin : true,
-        image: 'Images/jennaprofilepicture.jpg'
+        image: 'jennaprofilepicture.jpg'
     }, {
         firstName: 'Matt',
         lastName: 'Landers',
