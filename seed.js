@@ -33,6 +33,7 @@ var seedProducts = function () {
         inventory: 0,
         userId: 1, 
         locationId : 12
+        photoUrl: 'http://www.cigarettesstoreonline.com/images/Marlboro-Lights/Online-Discount-Marlboro-Light-Cigarette-Store-10-Cartons.jpg'
     }, {
         name: 'Shagel',
         description: 'Shower Gel',
@@ -40,6 +41,7 @@ var seedProducts = function () {
         inventory: 100,
         userId: 2, 
         locationId : 29
+        photoUrl: 'http://www.beautyheaven.com.au/sites/default/files/product_images/35032-dove-purely-pampering-body-wash.jpg'
     }, {
         name: 'Perfume 1',
         description: 'Musc',
@@ -47,6 +49,7 @@ var seedProducts = function () {
         inventory: 10,
         userId: 3, 
         locationId : 56
+        photoUrl: 'http://boisdejasmin.com/images/old/6a00d8341c706153ef014e5f6f5a61970c-pi.jpg'
     }];
 
     var creatingProducts = products.map(function (productObj, idx) {
@@ -65,29 +68,7 @@ var seedProducts = function () {
 };
 
 var seedLocations = function () {
-    // var countries = newCountries;
     var locations = newCountries;
-    // var locations = [{
-    //     name: "Egypt",
-    //     latitude: 48.8566,
-    //     longitude: 2.3522
-    // }, {
-    //     name: "France",
-    //     latitude: 51.5074,
-    //     longitude: 0.1278
-    // }, {
-    //     name: "Dubaï",
-    //     latitude: 40.7128,
-    //     longitude: 74.0059
-    // }, {
-    //     name: "Afghanistan",
-    //     latitude: 34.2800,
-    //     longitude: 69.1100
-    // }, {
-    //     name: "Bahamas",
-    //     latitude: 25.05,
-    //     longitude: 77.20
-    // }];
 
     var creatingLocations = locations.map(function (locationObj) {
         return Location.create(locationObj);
@@ -190,7 +171,7 @@ var seedUsers = function () {
         password: 'jenna',
         address: 'White House'
         isAdmin : true,
-        image: 'jennaprofilepicture.jpg'
+        image: 'Images/jennaprofilepicture.jpg'
     }, {
         firstName: 'Matt',
         lastName: 'Landers',
@@ -203,14 +184,14 @@ var seedUsers = function () {
         email: 'azizalsaffar@gmail.com',
         password: 'jennaisreallycool',
         address: 'London'
-    }, { 
+    }, {
         firstName: 'Corey',
         lastName: 'Greenwaldo',
         email: 'thegreenone@gmail.com',
         isAdmin: true,
         password: 'green',
         address: 'Island of Great Length'
-    },    {
+    }, {
         firstName: 'FLOB',
         lastName: 'FLOB',
         email: 'flob@fsa.com',

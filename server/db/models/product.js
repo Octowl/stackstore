@@ -36,10 +36,10 @@ module.exports = function(db) {
         },
         photoUrl: {
             type: Sequelize.STRING,
-            defaultValue: productPlaceholderImage,
-            validate: {
-                isUrl: true
-            }
+            defaultValue: productPlaceholderImage
+            // validate: {
+            //     isUrl: true
+            // }
         },
         /*,
         TODO: tags?

@@ -36,10 +36,10 @@ module.exports = function (db) {
         },
         image: {
             type: Sequelize.STRING,
-            defaultValue: 'http://c.directlyrics.com/img/upload/taylor-swift-apple-music.jpg',
-            validate: {
-                isUrl: true
-            }
+            defaultValue: 'http://c.directlyrics.com/img/upload/taylor-swift-apple-music.jpg'
+            // validate: {
+            //     isUrl: true
+            // }
         },
         salt: {
             type: Sequelize.STRING,
