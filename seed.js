@@ -151,6 +151,11 @@ var seedReviews = function () {
         comment : 'AMAZING',
         userId : 5,
         productId : 2
+    }, {
+        stars : 5,
+        comment : 'Who thought of this!??!?',
+        userId : 6,
+        productId : 2
     }];
 
     var creatingReviews = reviews.map(function (reviewObj) {
@@ -200,6 +205,14 @@ var seedUsers = function () {
         password: 'jennaisreallycool',
         address: 'London',
         rating:5
+    }, { 
+        firstName: 'Corey',
+        lastName: 'Greenwaldo',
+        email: 'thegreenone@gmail.com',
+        isAdmin: true,
+        password: 'green',
+        address: 'Island of Great Length',
+        rating:4
     }];
 
     var creatingUsers = users.map(function (userObj) {
