@@ -32,7 +32,7 @@ var seedProducts = function () {
             price: 40,
             inventory: 0,
             userId: 1, 
-            locationId : 12,
+            locationId : 234,
             photoUrl: 'http://www.cigarettesstoreonline.com/images/Marlboro-Lights/Online-Discount-Marlboro-Light-Cigarette-Store-10-Cartons.jpg'
     }, 
     {
@@ -41,7 +41,7 @@ var seedProducts = function () {
             price: 5,
             inventory: 100,
             userId: 2, 
-            locationId : 29,
+            locationId : 1,
             photoUrl: 'http://www.beautyheaven.com.au/sites/default/files/product_images/35032-dove-purely-pampering-body-wash.jpg'
     }, 
     {
@@ -50,7 +50,7 @@ var seedProducts = function () {
             price: 40,
             inventory: 10,
             userId: 3, 
-            locationId : 56,
+            locationId : 146,
             photoUrl: 'http://boisdejasmin.com/images/old/6a00d8341c706153ef014e5f6f5a61970c-pi.jpg'
     },
     {
@@ -59,7 +59,7 @@ var seedProducts = function () {
             price: 20,
             inventory: 10,
             userId: 4,
-            locationId : 9,
+            locationId : 170,
             photoUrl : 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS9J_mzDpnzpQ1URt-v48iGt52DxmVZIDxr7pqzTxGBLF-DQe2Wsw'
     }, 
     {
@@ -68,6 +68,7 @@ var seedProducts = function () {
             price: 8,
             inventory: 20,
             userId: 3,
+            locationId: 202,
             photoUrl : 'http://www.medicalnewstoday.com/content/images/articles/266/266258/olive-oil-and-olives.jpg'
     }, 
     {
@@ -76,7 +77,7 @@ var seedProducts = function () {
             price: 10,
             inventory: 20,
             userId: 5,
-            locationId : 76,
+            locationId : 154,
             photoUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAcTC5PSc_qjiiJiw0gtoOQtxE2m2KwsFixTnql07M5lbjN3ldxA'
     },
     {
@@ -85,7 +86,7 @@ var seedProducts = function () {
             price: 60,
             inventory: 5,
             userId: 6,
-            locationId : 56,
+            locationId : 72,
             photoUrl : 'http://ak1.ostkcdn.com/images/products/6834344/Hemstitch-Embroidery-Egyptian-Cotton-800-Thread-Count-Sheet-Set-or-Pillowcase-Separates-P14362697.jpg'
     },
     {
@@ -94,25 +95,25 @@ var seedProducts = function () {
             price: 1500,
             inventory: 1,
             userId: 1,
-            locationId : 45,
+            locationId : 66,
             photoUrl : 'http://a.abcnews.com/images/Lifestyle/ABC_cat_dog_01_as_160425_4x3_992.jpg'
     },
     {
             name: 'Horses',
-            description: 'The most majestic horse that has ever lived. Beautiful. Fast. Strong.',
+            description: 'The most majestic horse that has ever lived.',
             price: 1024500,
             inventory: 1,
             userId: 4, 
-            locationId : 89,
+            locationId : 110,
             photoUrl: 'http://triggerpit.com/wp-content/uploads/2011/11/arabian-horses.jpg'
     },
     {
             name: 'Fluffy Cow',
-            description: 'The most underrated family pet that has ever lived. They are fluffy and they love people',
+            description: 'The most misunderstood family pet.',
             price: 40000,
             inventory: 19,
             userId: 2, 
-            locationId : 77,
+            locationId : 110,
             photoUrl: 'https://img.buzzfeed.com/buzzfeed-static/static/enhanced/webdr05/2013/6/10/9/enhanced-buzz-19386-1370872534-24.jpg'
     },
     {
@@ -121,7 +122,7 @@ var seedProducts = function () {
             price: 37589,
             inventory: 9900,
             userId: 4, 
-            locationId : 7,
+            locationId : 110,
             photoUrl: 'https://s-media-cache-ak0.pinimg.com/736x/21/19/c0/2119c01ef1edbffdf9052de5d438d1b6.jpg'
     },
     {
@@ -130,16 +131,16 @@ var seedProducts = function () {
             price: 37589,
             inventory: 370,
             userId: 1, 
-            locationId : 46,
+            locationId : 111,
             photoUrl: 'http://pngimg.com/upload/coffee_beans_PNG9276.png'
     },
     {
             name: 'Tiger stuffed animal',
-            description: 'Tigers are the coolest animals around. Get a fluffy (and safe) one for your home!',
+            description: 'Tigers are the coolest! Get a fluffy one!',
             price: 37589,
             inventory: 1000,
             userId: 6, 
-            locationId : 83,
+            locationId : 104,
             photoUrl: 'http://animalsneedsavingtoo.weebly.com/uploads/4/7/9/6/47962395/s124121091749439290_p1_i1_w500.jpeg'
     },{
             name: 'A cookie.',
@@ -147,7 +148,7 @@ var seedProducts = function () {
             price: 10000,
             inventory: 1,
             userId: 6, 
-            locationId : 39,
+            locationId : 188,
             photoUrl: 'http://3.bp.blogspot.com/-P87VGfPnOFo/Tsf86vgg4jI/AAAAAAAAAfM/1qy0e395Rww/s1600/Who+Took+the+Cookie+-+cookie.png'
     }
     ,{
@@ -156,7 +157,7 @@ var seedProducts = function () {
             price: 1,
             inventory: 1,
             userId: 4, 
-            locationId : 52,
+            locationId : 43,
             photoUrl: 'http://az616578.vo.msecnd.net/files/2016/03/04/6359273125106978461464139042_grandma.16.9.jpg'
     },
     {
@@ -165,15 +166,15 @@ var seedProducts = function () {
             price: 2,
             inventory: 1,
             userId: 6, 
-            locationId : 66,
+            locationId : 90,
             photoUrl: 'http://cdn2-www.momtastic.com/assets/uploads/2013/09/Chiobani.jpg'
     },{
             name: 'Matt Landers',
-            description: 'Spend one evening anywhere in the world, with the one and only.',
+            description: 'Spend one evening with the one and only.',
             price: 25,
             inventory: 1000,
             userId: 4, 
-            locationId : 4,
+            locationId : 143,
             photoUrl: 'https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAYgAAAAJDg1ZDU2ZmJjLTQyNGYtNDdmNi1iZGU0LWY4YjRkZTlmN2EzYQ.jpg'
     },{
             name: 'Key Chain',
@@ -181,7 +182,7 @@ var seedProducts = function () {
             price: 2,
             inventory: 2,
             userId: 6, 
-            locationId : 74,
+            locationId : 149,
             photoUrl: 'http://www.stupid.com/assets/images/plush_zombie_keychain_1.jpg'
     },
     {
@@ -190,16 +191,16 @@ var seedProducts = function () {
             price: 70,
             inventory: 50,
             userId: 6,
-            locationId: 45,
+            locationId: 179,
             photoUrl: 'http://i57.tinypic.com/2ypnqys.jpg'
     },
     {
             name: 'Chinese Lantern',
-            description: 'This is definitely from China. Not from China Town. I didn\'t steal this. Really.',
+            description: 'This is definitely from China. Not from China Town.',
             price: 2,
             inventory: 1,
             userId: 6,
-            locationId: 34,
+            locationId: 228,
             photoUrl: 'http://www.taiwanese-secrets.com/image-files/chinese-lantern-festival.002.jpg'
     },
     {
@@ -208,7 +209,7 @@ var seedProducts = function () {
             price: 500,
             inventory: 3,
             userId: 5,
-            locationId: 34,
+            locationId: 226,
             photoUrl: 'https://s-media-cache-ak0.pinimg.com/736x/5b/ae/f9/5baef990dcfadd06f8a5a9ee7c6d7fb4.jpg'
     },
     {
@@ -217,7 +218,7 @@ var seedProducts = function () {
             price: 300,
             inventory: 1,
             userId: 5,
-            locationId: 40,
+            locationId: 236,
             photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Oud_Azerba%C3%AFdjan.JPG'
     },
     {
@@ -226,7 +227,7 @@ var seedProducts = function () {
             price: 1,
             inventory: 100,
             userId: 5,
-            locationId: 56,
+            locationId: 72,
             photoUrl: 'http://cf.ltkcdn.net/crafts/images/std/137683-283x424-fanoos.jpg'
     }];
 
@@ -235,7 +236,7 @@ var seedProducts = function () {
         return Product.create(productObj)
         .then(function(_product){
             product = _product;
-            return Location.findById(idx+1);
+            return Location.findById(product.locationId);
         })
         .then(function(location){
             return product.setLocation(location);
