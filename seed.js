@@ -31,19 +31,22 @@ var seedProducts = function () {
         description: 'cigarets',
         price: 40,
         inventory: 0,
-        userId: 1
+        userId: 1, 
+        locationId : 12
     }, {
         name: 'Shagel',
         description: 'Shower Gel',
         price: 5,
         inventory: 100,
-        userId: 2
+        userId: 2, 
+        locationId : 29
     }, {
         name: 'Perfume 1',
         description: 'Musc',
         price: 40,
         inventory: 10,
-        userId: 3
+        userId: 3, 
+        locationId : 56
     }];
 
     var creatingProducts = products.map(function (productObj, idx) {
@@ -173,22 +176,19 @@ var seedUsers = function () {
         email: 'corey@fsa.com',
         password: 'foshiz',
         address: '17 Park Pl. Westbury, NY, 11213',
-        isAdmin: 'true',
-        rating:3
+        isAdmin: 'true'
     }, {
         firstName: 'Barry',
         lastName: 'O',
         email: 'obama@gmail.com',
         password: 'potus',
-        address: 'somewhere',
-        rating:3
+        address: 'somewhere'
     }, {
         firstName: 'Jenna',
         lastName: 'Zenk',
         email: 'zenkjenna@gmail.com',
         password: 'jenna',
-        address: 'White House',
-        rating:5,
+        address: 'White House'
         isAdmin : true,
         image: 'jennaprofilepicture.jpg'
     }, {
@@ -196,23 +196,26 @@ var seedUsers = function () {
         lastName: 'Landers',
         email: 'mattlanders@gmail.com',
         password: 'jennaisreallycool',
-        address: 'Los Angeles',
-        rating:1
+        address: 'Los Angeles'
     },{
         firstName: 'Aziz',
         lastName: 'Alsaffar',
         email: 'azizalsaffar@gmail.com',
         password: 'jennaisreallycool',
-        address: 'London',
-        rating:5
+        address: 'London'
     }, { 
         firstName: 'Corey',
         lastName: 'Greenwaldo',
         email: 'thegreenone@gmail.com',
         isAdmin: true,
         password: 'green',
-        address: 'Island of Great Length',
-        rating:4
+        address: 'Island of Great Length'
+    },    {
+        firstName: 'FLOB',
+        lastName: 'FLOB',
+        email: 'flob@fsa.com',
+        password: 'coveisreallycool',
+        address: '10 Hanover Square, New York'
     }];
 
     var creatingUsers = users.map(function (userObj) {
