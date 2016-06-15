@@ -15,7 +15,7 @@ router.param('id', function (req, res, next, id) {
     User.findById(id)
         .then(function (user) {
             if (!user) return res.sendStatus(404);
-            req.foundUser = user.sanitize();
+            req.foundUser = user;
             next();
         })
         .catch(next);
