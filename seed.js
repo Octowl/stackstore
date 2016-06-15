@@ -27,29 +27,207 @@ var Promise = require('sequelize').Promise;
 var seedProducts = function () {
 
     var products = [{
-        name: 'Marlboro Light',
-        description: 'cigarets',
-        price: 40,
-        inventory: 0,
-        userId: 1, 
-        locationId : 12
-        photoUrl: 'http://www.cigarettesstoreonline.com/images/Marlboro-Lights/Online-Discount-Marlboro-Light-Cigarette-Store-10-Cartons.jpg'
-    }, {
-        name: 'Shagel',
-        description: 'Shower Gel',
-        price: 5,
-        inventory: 100,
-        userId: 2, 
-        locationId : 29
-        photoUrl: 'http://www.beautyheaven.com.au/sites/default/files/product_images/35032-dove-purely-pampering-body-wash.jpg'
-    }, {
-        name: 'Perfume 1',
-        description: 'Musc',
-        price: 40,
-        inventory: 10,
-        userId: 3, 
-        locationId : 56
-        photoUrl: 'http://boisdejasmin.com/images/old/6a00d8341c706153ef014e5f6f5a61970c-pi.jpg'
+            name: 'Marlboro Light',
+            description: 'cigarets',
+            price: 40,
+            inventory: 0,
+            userId: 1, 
+            locationId : 12,
+            photoUrl: 'http://www.cigarettesstoreonline.com/images/Marlboro-Lights/Online-Discount-Marlboro-Light-Cigarette-Store-10-Cartons.jpg'
+    }, 
+    {
+            name: 'Shagel',
+            description: 'Shower Gel',
+            price: 5,
+            inventory: 100,
+            userId: 2, 
+            locationId : 29,
+            photoUrl: 'http://www.beautyheaven.com.au/sites/default/files/product_images/35032-dove-purely-pampering-body-wash.jpg'
+    }, 
+    {
+            name: 'Perfume 1',
+            description: 'Musc',
+            price: 40,
+            inventory: 10,
+            userId: 3, 
+            locationId : 56,
+            photoUrl: 'http://boisdejasmin.com/images/old/6a00d8341c706153ef014e5f6f5a61970c-pi.jpg'
+    },
+    {
+            name: 'Coffee',
+            description: 'Nice coffee',
+            price: 20,
+            inventory: 10,
+            userId: 4,
+            locationId : 9,
+            photoUrl : 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS9J_mzDpnzpQ1URt-v48iGt52DxmVZIDxr7pqzTxGBLF-DQe2Wsw'
+    }, 
+    {
+            name: 'Olive oil',
+            description: 'Very nice for cooking. Light olive oil. ',
+            price: 8,
+            inventory: 20,
+            userId: 3,
+            photoUrl : 'http://www.medicalnewstoday.com/content/images/articles/266/266258/olive-oil-and-olives.jpg'
+    }, 
+    {
+            name: 'Cheese',
+            description: 'This cheese is the best.',
+            price: 10,
+            inventory: 20,
+            userId: 5,
+            locationId : 76,
+            photoUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAcTC5PSc_qjiiJiw0gtoOQtxE2m2KwsFixTnql07M5lbjN3ldxA'
+    },
+    {
+            name: 'Sheets set',
+            description: 'Smooth and sweet.',
+            price: 60,
+            inventory: 5,
+            userId: 6,
+            locationId : 56,
+            photoUrl : 'http://ak1.ostkcdn.com/images/products/6834344/Hemstitch-Embroidery-Egyptian-Cotton-800-Thread-Count-Sheet-Set-or-Pillowcase-Separates-P14362697.jpg'
+    },
+    {
+            name: 'Orphan puppy',
+            description: 'He is so cute, just adopt him',
+            price: 1500,
+            inventory: 1,
+            userId: 1,
+            locationId : 45,
+            photoUrl : 'http://a.abcnews.com/images/Lifestyle/ABC_cat_dog_01_as_160425_4x3_992.jpg'
+    },
+    {
+            name: 'Horses',
+            description: 'The most majestic horse that has ever lived. Beautiful. Fast. Strong.',
+            price: 1024500,
+            inventory: 1,
+            userId: 4, 
+            locationId : 89,
+            photoUrl: 'http://triggerpit.com/wp-content/uploads/2011/11/arabian-horses.jpg'
+    },
+    {
+            name: 'Fluffy Cow',
+            description: 'The most underrated family pet that has ever lived. They are fluffy and they love people',
+            price: 40000,
+            inventory: 19,
+            userId: 2, 
+            locationId : 77,
+            photoUrl: 'https://img.buzzfeed.com/buzzfeed-static/static/enhanced/webdr05/2013/6/10/9/enhanced-buzz-19386-1370872534-24.jpg'
+    },
+    {
+            name: 'Fluffy Chicken',
+            description: 'Great family pet. They are also fun to look at!',
+            price: 37589,
+            inventory: 9900,
+            userId: 4, 
+            locationId : 7,
+            photoUrl: 'https://s-media-cache-ak0.pinimg.com/736x/21/19/c0/2119c01ef1edbffdf9052de5d438d1b6.jpg'
+    },
+    {
+            name: 'Coffee Beans',
+            description: 'A good cup of joe is good for the soul',
+            price: 37589,
+            inventory: 370,
+            userId: 1, 
+            locationId : 46,
+            photoUrl: 'http://pngimg.com/upload/coffee_beans_PNG9276.png'
+    },
+    {
+            name: 'Tiger stuffed animal',
+            description: 'Tigers are the coolest animals around. Get a fluffy (and safe) one for your home!',
+            price: 37589,
+            inventory: 1000,
+            userId: 6, 
+            locationId : 83,
+            photoUrl: 'http://animalsneedsavingtoo.weebly.com/uploads/4/7/9/6/47962395/s124121091749439290_p1_i1_w500.jpeg'
+    },{
+            name: 'A cookie.',
+            description: 'This cookie has been licked by the King.',
+            price: 10000,
+            inventory: 1,
+            userId: 6, 
+            locationId : 39,
+            photoUrl: 'http://3.bp.blogspot.com/-P87VGfPnOFo/Tsf86vgg4jI/AAAAAAAAAfM/1qy0e395Rww/s1600/Who+Took+the+Cookie+-+cookie.png'
+    }
+    ,{
+            name: 'My mother-in-law',
+            description: 'She makes amazing chicken parm',
+            price: 1,
+            inventory: 1,
+            userId: 4, 
+            locationId : 52,
+            photoUrl: 'http://az616578.vo.msecnd.net/files/2016/03/04/6359273125106978461464139042_grandma.16.9.jpg'
+    },
+    {
+            name: 'Chobani',
+            description: 'Yogurt',
+            price: 2,
+            inventory: 1,
+            userId: 6, 
+            locationId : 66,
+            photoUrl: 'http://cdn2-www.momtastic.com/assets/uploads/2013/09/Chiobani.jpg'
+    },{
+            name: 'Matt Landers',
+            description: 'Spend one evening anywhere in the world, with the one and only.',
+            price: 25,
+            inventory: 1000,
+            userId: 4, 
+            locationId : 4,
+            photoUrl: 'https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAYgAAAAJDg1ZDU2ZmJjLTQyNGYtNDdmNi1iZGU0LWY4YjRkZTlmN2EzYQ.jpg'
+    },{
+            name: 'Key Chain',
+            description: 'Good for keeping keys together',
+            price: 2,
+            inventory: 2,
+            userId: 6, 
+            locationId : 74,
+            photoUrl: 'http://www.stupid.com/assets/images/plush_zombie_keychain_1.jpg'
+    },
+    {
+            name: 'Shrunken Heads',
+            description: 'Great for your living room. I made these myself.',
+            price: 70,
+            inventory: 50,
+            userId: 6,
+            locationId: 45,
+            photoUrl: 'http://i57.tinypic.com/2ypnqys.jpg'
+    },
+    {
+            name: 'Chinese Lantern',
+            description: 'This is definitely from China. Not from China Town. I didn\'t steal this. Really.',
+            price: 2,
+            inventory: 1,
+            userId: 6,
+            locationId: 34,
+            photoUrl: 'http://www.taiwanese-secrets.com/image-files/chinese-lantern-festival.002.jpg'
+    },
+    {
+            name: 'Hipster Dishdasha',
+            description: 'For the trendy Arabian in everyone',
+            price: 500,
+            inventory: 3,
+            userId: 5,
+            locationId: 34,
+            photoUrl: 'https://s-media-cache-ak0.pinimg.com/736x/5b/ae/f9/5baef990dcfadd06f8a5a9ee7c6d7fb4.jpg'
+    },
+    {
+            name: 'Oud',
+            description: 'Arabian lute type thingy',
+            price: 300,
+            inventory: 1,
+            userId: 5,
+            locationId: 40,
+            photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Oud_Azerba%C3%AFdjan.JPG'
+    },
+    {
+            name: 'Fanoos',
+            description: 'Ramadan Kareem everyone :)',
+            price: 1,
+            inventory: 100,
+            userId: 5,
+            locationId: 56,
+            photoUrl: 'http://cf.ltkcdn.net/crafts/images/std/137683-283x424-fanoos.jpg'
     }];
 
     var creatingProducts = products.map(function (productObj, idx) {
@@ -157,7 +335,7 @@ var seedUsers = function () {
         email: 'corey@fsa.com',
         password: 'foshiz',
         address: '17 Park Pl. Westbury, NY, 11213',
-        isAdmin: 'true'
+        isAdmin: true
     }, {
         firstName: 'Barry',
         lastName: 'O',
@@ -169,7 +347,7 @@ var seedUsers = function () {
         lastName: 'Zenk',
         email: 'zenkjenna@gmail.com',
         password: 'jenna',
-        address: 'White House'
+        address: 'White House',
         isAdmin : true,
         image: 'Images/jennaprofilepicture.jpg'
     }, {
@@ -188,7 +366,7 @@ var seedUsers = function () {
         firstName: 'Corey',
         lastName: 'Greenwaldo',
         email: 'thegreenone@gmail.com',
-        isAdmin: true,
+        isAdmin: false,
         password: 'green',
         address: 'Island of Great Length'
     }, {

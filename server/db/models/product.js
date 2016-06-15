@@ -41,9 +41,6 @@ module.exports = function(db) {
             //     isUrl: true
             // }
         },
-        /*,
-        TODO: tags?
-        */
     }, {
         instanceMethods: {
             decreaseQuantity: function(num){
