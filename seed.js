@@ -31,19 +31,22 @@ var seedProducts = function () {
         description: 'cigarets',
         price: 40,
         inventory: 0,
-        userId: 1
+        userId: 1,
+        photoUrl: 'http://www.cigarettesstoreonline.com/images/Marlboro-Lights/Online-Discount-Marlboro-Light-Cigarette-Store-10-Cartons.jpg'
     }, {
         name: 'Shagel',
         description: 'Shower Gel',
         price: 5,
         inventory: 100,
-        userId: 2
+        userId: 2,
+        photoUrl: 'http://www.beautyheaven.com.au/sites/default/files/product_images/35032-dove-purely-pampering-body-wash.jpg'
     }, {
         name: 'Perfume 1',
         description: 'Musc',
         price: 40,
         inventory: 10,
-        userId: 3
+        userId: 3,
+        photoUrl: 'http://boisdejasmin.com/images/old/6a00d8341c706153ef014e5f6f5a61970c-pi.jpg'
     }];
 
     var creatingProducts = products.map(function (productObj, idx) {
@@ -190,7 +193,7 @@ var seedUsers = function () {
         address: 'White House',
         rating:5,
         isAdmin : true,
-        image: 'jennaprofilepicture.jpg'
+        image: 'Images/jennaprofilepicture.jpg'
     }, {
         firstName: 'Matt',
         lastName: 'Landers',
@@ -205,7 +208,7 @@ var seedUsers = function () {
         password: 'jennaisreallycool',
         address: 'London',
         rating:5
-    }, { 
+    }, {
         firstName: 'Corey',
         lastName: 'Greenwaldo',
         email: 'thegreenone@gmail.com',
