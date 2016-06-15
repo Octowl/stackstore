@@ -7,6 +7,7 @@ var Product = db.model('product');
 var Order = db.model('order');
 var OrderItem = db.model('orderItem');
 var UserRating = db.model('userRating');
+var Auth = require('./auth');
 
 module.exports = router;
 
@@ -14,7 +15,7 @@ router.param('id', function (req, res, next, id) {
     User.findById(id)
         .then(function (user) {
             if (!user) return res.sendStatus(404);
-            req.foundUser = user;
+            req.foundUser = user.sanitize();
             next();
         })
         .catch(next);
@@ -24,7 +25,9 @@ router.get('/', function (req, res, next) {
     User.findAll({})
     .then(function(users){
         if (!users.length) return res.sendStatus(404);
-        res.send(users)
+        res.send(users.map(function(user){
+            return user.sanitize();
+        }))
     })
 })
 
@@ -35,7 +38,7 @@ router.get('/user/:id', function (req, res, next) {
     })
     .then(function(user){
         if (!user) return res.sendStatus(404);
-        res.send(user)
+        res.send(user.sanitize());
     })
 })
 
@@ -58,7 +61,7 @@ router.get('/:id/reviews', function (req, res, next) {
         }).catch(next);
 });
 
-router.get('/:id/orders', function (req, res, next) {
+router.get('/:id/orders', Auth.assertAdminOrSelf, function (req, res, next) {
     Order.findAll({
             where: {
                 userId: req.foundUser.id
@@ -74,7 +77,7 @@ router.get('/:id/orders', function (req, res, next) {
         }).catch(next);
 });
 
-router.put('/:id', function (req, res, next) {
+router.put('/:id', Auth.assertAdminOrSelf, function (req, res, next) {
     req.foundUser.update(req.body)
         .then(function (updatedUser) {
             res.send(updatedUser);
@@ -82,9 +85,13 @@ router.put('/:id', function (req, res, next) {
         .catch(next);
 });
 
-router.delete('/:id', function (req, res, next) {
-    req.foundUser.destroy();
-    res.sendStatus(204);
+
+router.delete('/:id', Auth.assertAdminOrSelf, function (req, res, next) {
+    req.foundUser.destroy()
+    .then(function(){
+        res.sendStatus(204);    
+    })
+    .catch(next);
 });
 
 

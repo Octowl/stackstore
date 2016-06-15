@@ -59,7 +59,7 @@ module.exports = function (db) {
     }, {
         instanceMethods: {
             sanitize: function () {
-                return _.omit(this.toJSON(), ['password', 'salt']);
+                return _.omit(this.toJSON(), ['password', 'salt', 'address']);
             },
             correctPassword: function (candidatePassword) {
                 return this.Model.encryptPassword(candidatePassword, this.salt) === this.password;
